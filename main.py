@@ -1,6 +1,7 @@
-from flask import Flask, request, make_response
+from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
-from json import dumps
+import conversation
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -8,9 +9,11 @@ api = Api(app)
 parser = reqparse.RequestParser()
 parser.add_argument('user_key')
 
+
 class Keyboard(Resource):
     def get(self):
-        return {'type': 'buttons', 'buttons': ['예약 확인', '2', '3']}
+        resp = conversation.init
+        return {'type': resp.type, 'buttons': resp.keyboard_buttons}
 
 
 class Message(Resource):

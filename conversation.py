@@ -1,4 +1,4 @@
-
+from response import Response, Keyboard
 
 def find_reservation(user_key):
     return []
@@ -15,5 +15,7 @@ def reservation_confirm(user_key):
     return response
 
 
-init = [('text', '예약확인', reservation_confirm)]
+init = Keyboard(keyboard_buttons=['예약 확인'])
+init.set_function(0, reservation_confirm)
+
 fallback = {'message': '현재 대화 기능은 지원되지 않습니다. 다시 진행해주시기 바랍니다.'}
