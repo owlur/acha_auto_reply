@@ -13,7 +13,7 @@ def initial(user_key):
 def find_reservation(user_key, reservation_idx):
     message = reservation_idx
 
-    def wrapper_func():
+    def wrapper_func(user_key):
         resp = Response(message)
         return resp
     return wrapper_func
