@@ -24,12 +24,13 @@ class Keyboard(Resource):
 
 class Message(Resource):
     def post(self):
-        user_key = request.form['user_key']
         # 세션 구분
         # 다음 함수 호출
 
 
-        print(user_key)
+        print('test')
+
+        user_key = request.form['user_key']
         type = request.form['type']
         content = request.form['content']
 
