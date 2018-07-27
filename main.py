@@ -42,9 +42,7 @@ class Message(Resource):
             return sessions[user_key].receive_message(type, content)
         else:
             sessions[user_key] = Session(user_key)
-
-        return {'message' : content}
-
+            return sessions[user_key].receive_message(type, content)
 
 class Friend(Resource):
     def get(self):
