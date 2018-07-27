@@ -1,22 +1,23 @@
 import time
-import conversation
+from conversation import *
+from conversation import setting, initial
 
 
 class Session:
     def __init__(self, user_key):
         self.user_key = user_key
-        self.step= 1
+        self.step = 1
         self.history = []
         self.lastest = time.time()
-        self.next = conversation.init
+        self.next = initial.keyboard
 
-    def recieve_message(self, type, content):
+    def receive_message(self, type, content):
         self.step += 1
-        for i in self.next:
-            if i[:2] == (type, content):
-                callback = i[2]
-                break
+        if type == 'text':
+            for button_name in self.next.buttons:
+                if button_name == content and self.next.buttons[button_name]:
+                    self.next = self.next.buttons[button_name]()
+                    return self.next.get_response
         else:
-            self.next = conversation.init
-            return conversation.fallback
-
+            self.next = initial
+            return setting.fallback

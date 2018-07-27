@@ -1,7 +1,9 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
-import conversation
-
+from conversation import *
+from conversation import initial
+from session import Session
+from response import Response
 
 app = Flask(__name__)
 api = Api(app)
@@ -10,17 +12,32 @@ parser = reqparse.RequestParser()
 parser.add_argument('user_key')
 
 
+sessions = {}
+
+
 class Keyboard(Resource):
     def get(self):
-        resp = conversation.init
-        return {'type': resp.type, 'buttons': resp.keyboard_buttons}
+        resp = initial.keyboard
+        print(resp.buttons.keys())
+        return {'type': resp.type, 'buttons': list(resp.buttons.keys())}
 
 
 class Message(Resource):
     def post(self):
         user_key = request.form['user_key']
+        # 세션 구분
+        # 다음 함수 호출
+
+
+        print(user_key)
         type = request.form['type']
         content = request.form['content']
+
+        if sessions.get(user_key):
+            return sessions[user_key].receive_message(type, content)
+        else:
+            sessions[user_key] = Session(user_key)
+
         return {'message' : content}
 
 
@@ -42,6 +59,7 @@ class FriendDelete(Resource):
 class ChatRoom(Resource):
     def delete(self,user_key):
         return {'message': user_key}
+
 
 api.add_resource(Keyboard, '/keyboard')
 api.add_resource(Message, '/message')

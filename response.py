@@ -1,17 +1,18 @@
 class Keyboard:
     def __init__(self, keyboard_buttons=False):
+        self.buttons = {}
         if type(keyboard_buttons) == list:
             self.type = 'buttons'
-            self.keyboard_buttons = keyboard_buttons
-            self.function = [0 for i in range(len(keyboard_buttons))]
+            for button in keyboard_buttons:
+                self.buttons[button] = None
         else:
             self.type = 'text'
 
-    def set_function(self, button_idx, function):
-        self.function[button_idx] = function
+    def set_function(self, button, function):
+        self.buttons[button] = function
 
-    def get_function(self, button_idx):
-        return self.function[button_idx]
+    def get_function(self, button):
+        return self.buttons[button]
 
 
 class Response(Keyboard):
@@ -23,10 +24,27 @@ class Response(Keyboard):
         :param keyboard_buttons: list로 넘기면 keyboard type을 buttons로 전송
         """
 
-        super.__init__(self, keyboard_buttons)
+        super(Response, self).__init__(keyboard_buttons=keyboard_buttons)
         self.message = message
-
 
         # 예외 처리 작성할것
         self.photo = photo
         self.message_button = message_button
+
+    # 바로 전송할 수 있도록 만들것
+    def get_response(self):
+        resp = {'type': self.type}
+        if resp['type'] == 'buttons':
+            resp['buttons'] = list(self.buttons.keys())
+
+        resp['text'] = self.message
+        if self.photo:
+            resp['photo'] = {'url': self.photo[0], 'width': self.photo[1], 'height': self.photo[2]}
+
+        if self.message_button:
+            resp['message_button'] = {'label': self.message_button[0], 'url': self.message_button[1]}
+
+        return resp
+
+    def __str__(self):
+        return self.get_response()
