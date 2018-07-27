@@ -10,6 +10,8 @@ api = Api(app)
 
 parser = reqparse.RequestParser()
 parser.add_argument('user_key')
+parser.add_argument('type')
+parser.add_argument('content')
 
 
 sessions = {}
@@ -29,11 +31,12 @@ class Message(Resource):
 
 
         print('test')
+        args = parser.parse_args()
 
-        user_key = request.form['user_key']
+        user_key = args['user_key']
         print('test2')
-        type = request.form['type']
-        content = request.form['content']
+        type = args['type']
+        content = args['content']
 
         if sessions.get(user_key):
             return sessions[user_key].receive_message(type, content)
