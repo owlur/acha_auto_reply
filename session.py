@@ -17,7 +17,7 @@ class Session:
             for button_name in self.next.buttons:
                 if button_name == content and self.next.buttons[button_name]:
                     self.next = self.next.buttons[button_name](self.user_key)
-                    return self.next.get_response
+                    return self.next.get_response()
         else:
             self.next = initial.keyboard
-            return setting.fallback
+            return setting.fallback.get_response()
