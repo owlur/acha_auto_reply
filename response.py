@@ -33,16 +33,16 @@ class Response(Keyboard):
 
     # 바로 전송할 수 있도록 만들것
     def get_response(self):
-        resp = {'type': self.type}
-        if resp['type'] == 'buttons':
-            resp['buttons'] = list(self.buttons.keys())
+        resp = {'message': {'text': self.message}, 'keyboard': {'type': self.type}}
 
-        resp['text'] = self.message
+        if self.type == 'buttons':
+            resp['keyboard']['buttons'] = list(self.buttons.keys())
+
         if self.photo:
-            resp['photo'] = {'url': self.photo[0], 'width': self.photo[1], 'height': self.photo[2]}
+            resp['message']['photo'] = {'url': self.photo[0], 'width': self.photo[1], 'height': self.photo[2]}
 
         if self.message_button:
-            resp['message_button'] = {'label': self.message_button[0], 'url': self.message_button[1]}
+            resp['message']['message_button'] = {'label': self.message_button[0], 'url': self.message_button[1]}
 
         print(resp)
         print('\n\n')
