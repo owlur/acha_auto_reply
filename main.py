@@ -31,6 +31,7 @@ class Message(Resource):
         print('test')
 
         user_key = request.form['user_key']
+        print('test2')
         type = request.form['type']
         content = request.form['content']
 
