@@ -1,6 +1,8 @@
+import collections
+
 class Keyboard:
     def __init__(self, keyboard_buttons=False):
-        self.buttons = {}
+        self.buttons = collections.OrderedDict()
         if type(keyboard_buttons) == list:
             self.type = 'buttons'
             for button in keyboard_buttons:
