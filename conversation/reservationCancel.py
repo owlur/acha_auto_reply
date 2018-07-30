@@ -4,7 +4,7 @@ import DB
 
 def initial(user_key):
     reserv_list = DB.get_reservation_list(user_key)
-    button_list = [reserv['name'] for reserv in reserv_list]
+    button_list = list(reserv_list.items())
     resp = Response('아래의 예약 중 취소하고 싶은 예약을 선택하여 주십시오', keyboard_buttons=button_list)
     for button in button_list:
         resp.set_function(button, cancel(user_key, button))
