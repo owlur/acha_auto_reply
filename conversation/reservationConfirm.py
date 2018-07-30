@@ -9,7 +9,7 @@ def initial(user_key):
     button_list = reserv_list.items()
     resp = Response('아래의 예약 중 확인하고 싶은 예약을 선택하여 주십시오', keyboard_buttons=button_list)
     for reserv_id in reserv_list:
-        resp.set_function(reserv_list[reserv_id], find_reservation(user_key, reserv_list[reserv_id]))
+        resp.set_function(reserv_list[reserv_id], find_reservation(user_key, reserv_id))
     return resp
 
 
