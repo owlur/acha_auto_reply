@@ -1,2 +1,2 @@
 from response import Response, Keyboard
-__all__ = ['reservationConfirm']
+__all__ = ['reservationConfirm', 'reservationCancel']
