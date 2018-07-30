@@ -23,6 +23,7 @@ class Session:
                         self.next = initial.keyboard
                     return self.next.get_response()
             else:
+                self.next = initial.keyboard
                 return setting.fallback.get_response()
         else:
             self.next = initial.keyboard
