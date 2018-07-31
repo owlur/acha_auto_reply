@@ -20,6 +20,7 @@ def initial(user_key):
 
 def cancel(user_key, reservation):
     def wrapper_func(user_key):
+        print(reservation)
         message = reservation['button_name'] + '예약을 취소 하시겠습니까?'
         resp = Response(message, keyboard_buttons=['예', '아니오'])
         resp.set_function('예', cancel_confirm(user_key, reservation))
