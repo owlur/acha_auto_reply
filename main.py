@@ -19,8 +19,8 @@ sessions = {}
 class Keyboard(Resource):
     def get(self):
         resp = setting.init_keyboard
-        print(resp.buttons.keys())
-        return {'type': resp.type, 'buttons': list(resp.buttons.keys())}
+        print(resp.buttons)
+        return {'type': resp.type, 'buttons': list(resp.buttons)}
 
 
 class Message(Resource):
