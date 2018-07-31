@@ -20,6 +20,7 @@ def initial(user_key):
     else:
         resp = setting.get_init_response()
         resp.message = '현재 예약되어 있는 내용이 없습니다.'
+        return resp
 
 
 def cancel(user_key, reservation):
