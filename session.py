@@ -18,6 +18,7 @@ class Session:
                 if button_name == content:
                     if self.next.buttons[button_name]:
                         self.next = self.next.buttons[button_name](self.user_key)
+                        break
                     else:
                         self.next = setting.init_response
             else:
