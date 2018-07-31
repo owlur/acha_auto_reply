@@ -1,5 +1,6 @@
 from conversation import *
 from response import Keyboard, Response
+import copy
 
 
 commands = {
@@ -23,6 +24,6 @@ for command in commands:
     init_response.set_function(command, commands[command])
 
 
-def ret_init_response():
-    return init_response
+def get_init_response():
+    return copy.deepcopy(init_response)
 
