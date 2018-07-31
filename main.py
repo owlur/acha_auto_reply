@@ -1,9 +1,7 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
-from conversation import *
 from conversation import setting
 from session import Session
-from response import Response
 import alrim
 
 app = Flask(__name__)

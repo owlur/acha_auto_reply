@@ -1,6 +1,5 @@
 import time
-from conversation import *
-from conversation import setting, initial
+from conversation import setting
 
 
 class Session:

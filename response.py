@@ -1,5 +1,4 @@
 import collections
-from conversation import setting
 
 
 class Keyboard:
@@ -52,11 +51,6 @@ class Response(Keyboard):
         print('\n\n')
         resp
         return resp
-
-    def set_init(self):
-        self.type = 'buttons'
-        for command in setting.default_keyboard:
-            self.buttons[command] = setting.commands[command]
 
     def __str__(self):
         return self.get_response()
