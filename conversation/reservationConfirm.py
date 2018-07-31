@@ -22,7 +22,7 @@ def initial(user_key):
 
 def find_reservation(user_key, reservation):
     def wrapper_func(user_key):
-        message = '%s 예약 정보입니다.\n성함 : %s\n시간 : %d월 %d일 %d:%d\n인원 : %d'%\
+        message = '%s 예약 정보입니다.\n성함 : %s\n시간 : %d월 %d일 %d:%d\n인원 : %s'%\
                   (reservation['storeName'],reservation['reservName'], reservation['reservTime'].tm_mon, reservation['reservTime'].tm_mday,
                    reservation['reservTime'].tm_hour, reservation['reservTime'].tm_min, reservation['reservNumber'])
         resp = Response(message, keyboard_buttons=['확인 완료', '예약 취소'])
