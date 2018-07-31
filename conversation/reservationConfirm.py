@@ -27,7 +27,7 @@ def find_reservation(user_key, reservation):
                    reservation['reservTime'].tm_hour, reservation['reservTime'].tm_min, reservation['reservNumber'])
         resp = Response(message, keyboard_buttons=['확인 완료', '예약 취소'])
         #resp.set_function('확인 완료', setting.init_response)
-        resp.set_function('예약 취소', cancel(user_key,reservation['reservId']))
+        resp.set_function('예약 취소', cancel(user_key,reservation))
         return resp
     return wrapper_func
 
