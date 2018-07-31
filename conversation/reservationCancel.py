@@ -25,6 +25,5 @@ def cancel_confirm(user_key, reservation_id):
     def wrapper_func(user_key):
         message = DB.get_reservation(reservation_id) + '예약이 취소 되었습니다.'
         resp = Response(message)
-        resp.set_init()
         return resp
     return wrapper_func
