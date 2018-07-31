@@ -18,6 +18,20 @@ class Keyboard:
         return self.buttons[button]
 
 
+class Keyboard:
+    def __init__(self, keyboard_buttons=False):
+        self.buttons = collections.OrderedDict()
+        if type(keyboard_buttons) == list:
+            self.type = 'buttons'
+        else:
+            self.type = 'text'
+
+    def set_function(self,  function):
+        self.next_function = function
+
+    def get_function(self):
+        return self.next_function
+
 class Response(Keyboard):
     def __init__(self, message, photo=False, message_button=False, keyboard_buttons=False):
         """
