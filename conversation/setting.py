@@ -19,7 +19,7 @@ for command in default_keyboard:
 def fallback_function(user_key, response):
     for command in commands:
         if response == command:
-            return commands[command]
+            return commands[command]()
 
 
 fallback = Response('현재는 지원하지 않는 기능입니다.', keyboard_buttons=default_keyboard)
