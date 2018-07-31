@@ -11,6 +11,7 @@ class Keyboard:
         else:
             self.type = 'text'
 
+
     def set_function(self, button, function):
         self.buttons[button] = function
 

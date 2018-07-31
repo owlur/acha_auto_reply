@@ -55,23 +55,6 @@ class Session:
         print('user_key : ',self.user_key,'\ncontent : ',content)
         if type == 'text':
             self.next = self.next.next_function(self.user_key, content)
-            if self.next.type == 'buttons':
-                for button_name in self.next.buttons:
-                    if button_name == content:
-                        print('function: ', self.next.buttons[button_name])
-                        if self.next.buttons[button_name]:
-                            print('function True')
-                            self.next = self.next.next_function(self.user_key, content)
-                            break
-                        else:
-                            print('function False')
-                            self.next = setting.init_response
-                else:
-                    print('button name not matching')
-                    self.next = setting.init_response
-            elif self.next.type == 'text':
-                pass
-
         else:
             print('type is not text')
             self.next = setting.init_response
