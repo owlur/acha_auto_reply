@@ -32,7 +32,7 @@ def initial(user_key):
 
         print(button_list)
         resp = Response('아래의 예약 중 확인하고 싶은 예약을 선택하여 주십시오', keyboard_buttons=button_list)
-        resp.set_function(find_reservation2(user_key, reserv))
+        resp.set_function(find_reservation2(user_key, reserv_list))
         return resp
     else:
         resp = setting.get_init_response()
