@@ -26,4 +26,5 @@ class Session:
         else:
             self.next = setting.init_response
 
+        print(self.next)
         return self.next.get_response()
