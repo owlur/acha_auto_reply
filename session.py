@@ -16,6 +16,7 @@ class Session:
         if type == 'text':
             for button_name in self.next.buttons:
                 if button_name == content:
+                    print('function: ', self.next.buttons[button_name])
                     if self.next.buttons[button_name]:
                         self.next = self.next.buttons[button_name](self.user_key)
                         break
