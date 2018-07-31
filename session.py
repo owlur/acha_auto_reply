@@ -1,4 +1,4 @@
-import time
+"""import time
 from conversation import setting
 
 
@@ -37,7 +37,7 @@ class Session:
 
         print(self.next)
         return self.next.get_response()
-
+"""
 import time
 from conversation import setting
 

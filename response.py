@@ -1,7 +1,7 @@
 import collections
 
 
-class Keyboard:
+"""class Keyboard:
     def __init__(self, keyboard_buttons=False):
         self.buttons = collections.OrderedDict()
         if type(keyboard_buttons) == list:
@@ -17,7 +17,7 @@ class Keyboard:
 
     def get_function(self, button):
         return self.buttons[button]
-
+"""
 
 class Keyboard:
     def __init__(self, keyboard_buttons=False):
@@ -63,8 +63,6 @@ class Response(Keyboard):
             resp['message']['message_button'] = {'label': self.message_button[0], 'url': self.message_button[1]}
 
         print(resp)
-        print('\n\n')
-        resp
         return resp
 
     def __str__(self):
