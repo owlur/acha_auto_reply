@@ -15,7 +15,7 @@ class Session:
         print('user_key : ',self.user_key,'\ncontent : ',content)
         if type == 'text':
             for button_name in self.next.buttons:
-                if button_name == content and self.next.buttons[button_name]:
+                if button_name == content:
                     if self.next.buttons[button_name]:
                         self.next = self.next.buttons[button_name](self.user_key)
                     else:

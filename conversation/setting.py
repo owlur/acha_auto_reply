@@ -21,3 +21,8 @@ for command in commands:
 init_response = Response('아차 입니다\n 무엇을 도와 드릴까요?', keyboard_buttons=default_keyboard)
 for command in commands:
     init_response.set_function(command, commands[command])
+
+
+def ret_init_response():
+    return init_response
+
