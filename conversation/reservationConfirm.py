@@ -26,6 +26,7 @@ def initial(user_key):
     if reserv_list:
         for reserv in reserv_list:
             date = reserv['reservTime']
+
             button_name = '%d월 %d일 %s'%(date.tm_mon, date.tm_mday,reserv['storeName'])
             button_list.append(button_name)
             reserv['button_name'] = button_name
@@ -56,9 +57,10 @@ def find_reservation2(outer_user_key, reservation_list):
     def wrapper_func(inner_user_key, response):
         for reservation in reservation_list:
             if reservation['button_name'] == response:
-                message = '%s 예약 정보입니다.\n성함 : %s\n시간 : %d월 %d일 %d:%d\n인원 : %s'%\
-                          (reservation['storeName'],reservation['reservName'], reservation['reservTime'].tm_mon, reservation['reservTime'].tm_mday,
-                           reservation['reservTime'].tm_hour, reservation['reservTime'].tm_min, reservation['reservNumber'])
+                date = reservation['reservTime']
+                message = '%s 예약 정보입니다.\n성함 : %s\n시간 : %s %d월 %d일 %d:%d\n인원 : %s'%\
+                          (reservation['storeName'],reservation['reservName'], '오후' if date.tm_hour >= 12 else '오전', date.tm_mon, date.tm_mday,
+                           date.tm_hour - 12 if date.tm_hour > 12 else date.tm_hour , date.tm_min, reservation['reservNumber'])
                 resp = Response(message, keyboard_buttons=['확인 완료', '예약 취소'])
                 #resp.set_function('확인 완료', setting.init_response)
                 resp.set_function(reservation_cancel(inner_user_key,reservation))
