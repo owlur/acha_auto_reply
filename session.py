@@ -18,13 +18,17 @@ class Session:
                 if button_name == content:
                     print('function: ', self.next.buttons[button_name])
                     if self.next.buttons[button_name]:
+                        print('function True')
                         self.next = self.next.buttons[button_name](self.user_key)
                         break
                     else:
+                        print('function False')
                         self.next = setting.init_response
             else:
+                print('button name not matching')
                 self.next = setting.init_response
         else:
+            print('type is not text')
             self.next = setting.init_response
 
         print(self.next)
