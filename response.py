@@ -53,4 +53,4 @@ class Response(Keyboard):
         return resp
 
     def __str__(self):
-        return self.get_response()
+        return str(self.get_response())
