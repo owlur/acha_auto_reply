@@ -79,6 +79,7 @@ def reservation_cancel(outer_user_key, reservatoin):
             return resp
         else:
             return setting.init_response
+    return wrapper_func
 
 
 def get_phone_number():
