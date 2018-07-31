@@ -36,7 +36,7 @@ def initial(user_key):
         return resp
     else:
         resp = setting.get_init_response()
-        resp.message('현재 예약되어 있는 내용이 없습니다.')
+        resp.message = '현재 예약되어 있는 내용이 없습니다.'
 
 
 """def find_reservation(user_key, reservation):
