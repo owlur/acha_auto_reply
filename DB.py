@@ -21,8 +21,12 @@ def get_reservation_list(user_key='', phone_number=''):
                 reserv['reservTime'] = time.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
             print(res['reservList'])
             return res['reservList']
-        else:
+        elif res['result'] == 'failed':
             print(res)
+            error_code = res['msg'].split(' : ')[1]
+            return []
+        else:
+            return False
     else:
         return False
 
