@@ -9,7 +9,7 @@ class Session:
         self.step = 1
         self.history = []
         self.lastest = time.time()
-        self.next = initial.keyboard
+        self.next = setting.init_keyboard
 
     def receive_message(self, type, content):
         self.step += 1
@@ -20,11 +20,11 @@ class Session:
                     if self.next.buttons[button_name]:
                         self.next = self.next.buttons[button_name](self.user_key)
                     else:
-                        self.next = initial.keyboard
+                        self.next = setting.init_response
                     return self.next.get_response()
             else:
-                self.next = initial.keyboard
+                self.next = setting.init_keyboard
                 return setting.fallback.get_response()
         else:
-            self.next = initial.keyboard
+            self.next = setting.init_keyboard
             return setting.fallback.get_response()

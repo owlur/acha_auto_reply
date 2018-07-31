@@ -1,5 +1,6 @@
 from response import Response
 from conversation.reservationCancel import cancel
+from conversation import setting
 import DB
 
 
@@ -15,10 +16,10 @@ def initial(user_key):
 
 
 def find_reservation(user_key, reservation_idx):
-    message = DB.get_reservation(reservation_idx)
-
     def wrapper_func(user_key):
+        message = DB.get_reservation(reservation_idx)
         resp = Response(message, keyboard_buttons=['확인 완료', '예약 취소'])
+        resp.set_function('확인 완료', initial.init_response)
         resp.set_function('예약 취소', cancel(user_key,reservation_idx))
         return resp
     return wrapper_func

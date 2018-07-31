@@ -1,17 +1,18 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from conversation import *
-from conversation import initial
+from conversation import setting
 from session import Session
 from response import Response
+import alrim
 
 app = Flask(__name__)
 api = Api(app)
 
-parser = reqparse.RequestParser()
-parser.add_argument('user_key')
-parser.add_argument('type')
-parser.add_argument('content')
+message_parser = reqparse.RequestParser()
+message_parser.add_argument('user_key')
+message_parser.add_argument('type')
+message_parser.add_argument('content')
 
 
 sessions = {}
@@ -19,7 +20,7 @@ sessions = {}
 
 class Keyboard(Resource):
     def get(self):
-        resp = initial.keyboard
+        resp = setting.init_keyboard
         print(resp.buttons.keys())
         return {'type': resp.type, 'buttons': list(resp.buttons.keys())}
 
@@ -31,10 +32,9 @@ class Message(Resource):
 
 
         print('test')
-        args = parser.parse_args()
+        args = message_parser.parse_args()
 
         user_key = args['user_key']
-        print('test2')
         type = args['type']
         content = args['content']
 
@@ -49,7 +49,7 @@ class Friend(Resource):
         return {'message': 'test'}
 
     def post(self):
-        args = parser.parse_args()
+        args = message_parser.parse_args()
         user_key = args['user_key']
         return {'message': user_key}
 
@@ -64,11 +64,24 @@ class ChatRoom(Resource):
         return {'message': user_key}
 
 
+alrim_parser = reqparse.RequestParser()
+alrim_parser.add_argument('phone_number')
+alrim_parser.add_argument('store_name')
+alrim_parser.add_argument('person_num')
+alrim_parser.add_argument('date')
+
+
+class SendAlrim(Resource):
+    def post(self):
+        alrim_parser.parse_args()
+        alrim.send
+
 api.add_resource(Keyboard, '/keyboard')
 api.add_resource(Message, '/message')
 api.add_resource(Friend,'/friend')
 api.add_resource(FriendDelete,'/friend/<user_key>')
 api.add_resource(ChatRoom,'/chat_room/<user_key>')
+api.add_resource(SendAlrim,'/send_alrim')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

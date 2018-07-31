@@ -11,10 +11,20 @@ def initial(user_key):
         resp.set_function(reserv_list[reserv_id], cancel(user_key, reserv_id))
     return resp
 
-def cancel(user_key, reservation_id):
-    message = DB.get_reservation(reservation_id) + '예약을 취소 하시겠습니까?'
 
+def cancel(user_key, reservation_id):
     def wrapper_func(user_key):
+        message = DB.get_reservation(reservation_id) + '예약을 취소 하시겠습니까?'
         resp = Response(message, keyboard_buttons=['예', '아니오'])
+        resp.set_function('예', cancel_confirm(user_key, reservation_id))
+        return resp
+    return wrapper_func
+
+
+def cancel_confirm(user_key, reservation_id):
+    def wrapper_func(user_key):
+        message = DB.get_reservation(reservation_id) + '예약이 취소 되었습니다.'
+        resp = Response(message)
+        resp.set_init()
         return resp
     return wrapper_func
