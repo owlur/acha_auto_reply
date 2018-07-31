@@ -1,6 +1,7 @@
 import collections
 from conversation import setting
 
+
 class Keyboard:
     def __init__(self, keyboard_buttons=False):
         self.buttons = collections.OrderedDict()
