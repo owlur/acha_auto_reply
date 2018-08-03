@@ -65,6 +65,8 @@ def cancel(outer_user_key, reservation_list):
                 #resp.set_function('확인 완료', setting.init_response)
                 resp.set_function(cancel_confirm(inner_user_key,reservation))
                 return resp
+        else:
+            return setting.init_response
 
     return wrapper_func
 
