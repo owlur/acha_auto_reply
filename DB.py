@@ -38,6 +38,7 @@ def check_regist(user_key):
         return False
 
     res = res.json()
+    print(res)
     return res['isReg']
 
 
