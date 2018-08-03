@@ -51,5 +51,9 @@ def user_regist(user_key, phone_number):
         return False
 
 
+def reservation_cancel(user_key, reservation_id):
+    pass
+
+
 def get_reservation(reservation_id):
     pass

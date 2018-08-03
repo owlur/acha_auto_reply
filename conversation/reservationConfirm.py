@@ -36,7 +36,6 @@ def find_reservation(outer_user_key, reservation_list):
                           (reservation['storeName'],reservation['reservName'],  date.tm_mon, date.tm_mday,'오후' if date.tm_hour >= 12 else '오전',
                            date.tm_hour - 12 if date.tm_hour > 12 else date.tm_hour , date.tm_min, reservation['reservNumber'])
                 resp = Response(message, keyboard_buttons=['확인 완료', '예약 취소'])
-                #resp.set_function('확인 완료', setting.init_response)
                 resp.set_function(reservation_cancel(inner_user_key,reservation))
                 return resp
         else:
