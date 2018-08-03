@@ -1,6 +1,6 @@
 from response import Response
 from conversation.reservationCancel import cancel_confirm
-from conversation import setting
+from conversation import setting, userInfoRegist
 import DB
 
 
@@ -20,7 +20,10 @@ import DB
     return resp
 """
 
+
 def initial(user_key):
+    if DB.check_regist(user_key) == 'false':
+        return userInfoRegist.initial()
     reserv_list = DB.get_reservation_list(user_key)
     button_list = []
     if reserv_list:
@@ -33,7 +36,7 @@ def initial(user_key):
 
         print(button_list)
         resp = Response('아래의 예약 중 확인하고 싶은 예약을 선택하여 주십시오', keyboard_buttons=button_list)
-        resp.set_function(find_reservation2(user_key, reserv_list))
+        resp.set_function(find_reservation(user_key, reserv_list))
         return resp
     else:
         resp = setting.get_init_response()
@@ -53,7 +56,7 @@ def initial(user_key):
     return wrapper_func
 """
 
-def find_reservation2(outer_user_key, reservation_list):
+def find_reservation(outer_user_key, reservation_list):
     def wrapper_func(inner_user_key, response):
         for reservation in reservation_list:
             if reservation['button_name'] == response:

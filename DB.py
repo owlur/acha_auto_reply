@@ -2,7 +2,6 @@ import requests
 from json import dump
 import time
 
-
 base_url = 'http://api.acha.io:3000/user'
 API_KEY = '33233C0EB2C9CA56566FD7D503F100ABDBE012306B4EB812C3C9E83129E8495D'
 
@@ -40,6 +39,16 @@ def check_regist(user_key):
 
     res = res.json()
     return res['isReg']
+
+
+def user_regist(user_key, phone_number):
+    try:
+        params = {'key': API_KEY, 'kakaoUserKey': user_key, 'phoneNumber': phone_number}
+        res = requests.get(base_url + '/info/reg', params)
+        return True
+    except:
+        return False
+
 
 def get_reservation(reservation_id):
     pass

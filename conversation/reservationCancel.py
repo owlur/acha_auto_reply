@@ -1,5 +1,5 @@
 from response import Response
-from conversation import setting
+from conversation import setting, userInfoRegist
 import DB
 
 
@@ -22,7 +22,11 @@ import DB
         resp.message = '현재 예약되어 있는 내용이 없습니다.'
         return resp
 """
+
 def initial(user_key):
+    if DB.check_regist(user_key) == 'false':
+        return userInfoRegist.initial()
+
     reserv_list = DB.get_reservation_list(user_key)
     button_list = []
     if reserv_list:
