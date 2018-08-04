@@ -8,7 +8,7 @@ from conversation import setting
 
 def initial(user_key):
     resp = Response('예약 정보 조회를 위해 휴대폰 번호를 입력하여 주세요.\n 이는 최초 1회만 실시됩니다!\n하이폰(-)은 제외하고 입력\nex)01012345678')
-    resp.set_function()
+    resp.set_function(receive_phone_number(user_key))
     return resp
 
 
