@@ -1,3 +1,11 @@
+"""
+예약 확인
+1. 예약 리스트 조회
+2. 확인 완료 or 예약 취소
+3. 예약 취소 시 예약 취소 진행
+"""
+
+
 from response import Response
 from conversation.reservationCancel import cancel_confirm
 from conversation import setting, userInfoRegist

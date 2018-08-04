@@ -39,7 +39,10 @@ def check_regist(user_key):
 
     res = res.json()
     print(res)
-    return res['isReg']
+    if res['isReg']:
+        return 'true'
+    else:
+        return 'false'
 
 
 def user_regist(user_key, phone_number):
