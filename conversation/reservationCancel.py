@@ -12,7 +12,7 @@ import DB
 
 def initial(user_key):
     if DB.check_regist(user_key) == 'false':
-        return userInfoRegist.initial()
+        return userInfoRegist.initial(user_key)
 
     reserv_list = DB.get_reservation_list(user_key)
     button_list = []
