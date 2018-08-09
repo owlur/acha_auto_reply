@@ -28,8 +28,6 @@ class Message(Resource):
         # 세션 구분
         # 다음 함수 호출
 
-
-        print('test')
         args = message_parser.parse_args()
 
         user_key = args['user_key']

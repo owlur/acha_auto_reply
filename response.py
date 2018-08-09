@@ -46,7 +46,7 @@ class Response(Keyboard):
         if self.message_button:
             resp['message']['message_button'] = {'label': self.message_button[0], 'url': self.message_button[1]}
 
-        print(resp)
+        print('get_response() 결ㄱ과', resp)
         return resp
 
     def __str__(self):

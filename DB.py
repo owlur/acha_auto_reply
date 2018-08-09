@@ -17,7 +17,7 @@ def get_reservation_list(user_key='', phone_number=''):
             reserv_list = res['reservList']
             for reserv in reserv_list:
                 reserv['reservTime'] = time.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
-            print(res['reservList'])
+            print('예약 리스트 : ',res['reservList'])
 
             return res['reservList']
         elif res['result'] == 'failed':
@@ -37,7 +37,7 @@ def check_regist(user_key):
         return False
 
     res = res.json()
-    print(res)
+    print('유저등록 확인:', res)
     if res['isReg']:
         return 'true'
     else:
@@ -48,7 +48,7 @@ def user_regist(user_key, phone_number):
     try:
         params = {'key': API_KEY, 'kakaoUserKey': user_key, 'phoneNumber': phone_number}
         res = requests.get(base_url + '/info/reg', params)
-        print(res.json())
+        print('유저등록', res.json())
         return True
     except:
         return False
@@ -56,6 +56,11 @@ def user_regist(user_key, phone_number):
 
 def reservation_cancel(user_key, reservation_id):
     res = reserv_status_edit(user_key, reservation_id, 'usercancel')
+    return res.json()
+
+
+def reservation_confirm(user_key, reservation_id):
+    res = reserv_status_edit(user_key, reservation_id, 'reserved')
     return res.json()
 
 
