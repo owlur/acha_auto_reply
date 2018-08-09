@@ -2,7 +2,8 @@ import requests
 
 
 alrim_api_base_url = 'https://api-alimtalk.cloud.toast.com'
-api_key =''
+app_key ='OrJbsCa3geKuuqv8'
+secret = 'Ycdr64tw'
 
 
 def send_message(phone_number, store_name, person_num, date):

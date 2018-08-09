@@ -1,5 +1,4 @@
 import requests
-from json import dump
 import time
 
 base_url = 'http://api.acha.io:3000/user'
@@ -56,8 +55,14 @@ def user_regist(user_key, phone_number):
 
 
 def reservation_cancel(user_key, reservation_id):
-    pass
+    res = reserv_status_edit(user_key, reservation_id, 'usercancel')
+    return res.json()
 
+
+def reserv_status_edit(user_key, reservation_id, status):
+    params = {'key': API_KEY, 'kakaoUserKey': user_key, 'reservId': reservation_id, 'statusCode': status}
+    res = requests.get(base_url + '/reserv/edit', params)
+    return res
 
 def get_reservation(reservation_id):
     pass
