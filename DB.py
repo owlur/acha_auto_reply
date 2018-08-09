@@ -7,7 +7,7 @@ API_KEY = '33233C0EB2C9CA56566FD7D503F100ABDBE012306B4EB812C3C9E83129E8495D'
 
 def get_reservation_list(user_key='', phone_number=''):
     if user_key or phone_number:
-        params = {'key': API_KEY, 'kakaoUserKey': user_key, 'phoneNumber': phone_number}
+        params = {'key': API_KEY, 'kakaoUserKey': user_key, 'phoneNumber': phone_number, 'statusCode': 'reserved'}
         res = requests.get(base_url + '/reserv/search', params)
         if res.status_code != 200:
             return False
