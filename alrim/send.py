@@ -1,7 +1,7 @@
 import requests
 
 
-alrim_api_base_url = ''
+alrim_api_base_url = 'https://api-alimtalk.cloud.toast.com'
 api_key =''
 
 

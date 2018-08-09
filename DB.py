@@ -49,6 +49,7 @@ def user_regist(user_key, phone_number):
     try:
         params = {'key': API_KEY, 'kakaoUserKey': user_key, 'phoneNumber': phone_number}
         res = requests.get(base_url + '/info/reg', params)
+        print(res)
         return True
     except:
         return False
