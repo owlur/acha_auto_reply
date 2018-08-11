@@ -33,6 +33,7 @@ class Message(Resource):
         user_key = args['user_key']
         type = args['type']
         content = args['content']
+        print(content.split('\n'))
 
         if sessions.get(user_key):
             return sessions[user_key].receive_message(type, content)
@@ -70,7 +71,7 @@ alrim_parser.add_argument('date')
 class SendAlrim(Resource):
     def post(self):
         alrim_parser.parse_args()
-        alrim.send
+
 
 api.add_resource(Keyboard, '/keyboard')
 api.add_resource(Message, '/message')

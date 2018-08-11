@@ -8,6 +8,7 @@ commands = {
     '예약 취소': reservationCancel.initial
 }
 default_keyboard = ['예약 확인', '예약 취소']
+alrim_keyword = ['확정', '취소']
 
 
 def fallback_function(user_key, response):
