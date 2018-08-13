@@ -67,6 +67,7 @@ class ChatRoom(Resource):
 
 reserv_parser = reqparse.RequestParser()
 reserv_parser.add_argument('phoneNumber')
+reserv_parser.add_argument('storeName')
 reserv_parser.add_argument('reservName')
 reserv_parser.add_argument('reservNumber')
 reserv_parser.add_argument('reservDate')
