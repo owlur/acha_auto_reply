@@ -66,11 +66,11 @@ class ChatRoom(Resource):
 
 
 reserv_parser = reqparse.RequestParser()
-reserv_parser.add_argument('phone_number')
-reserv_parser.add_argument('store_name')
-reserv_parser.add_argument('person_num')
-reserv_parser.add_argument('date')
-reserv_parser.add_argument('token')
+reserv_parser.add_argument('phoneNumber')
+reserv_parser.add_argument('reservName')
+reserv_parser.add_argument('reservNumber')
+reserv_parser.add_argument('reservDate')
+reserv_parser.add_argument('reservToken')
 
 
 class SendAlrim(Resource):
