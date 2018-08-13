@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from conversation import setting
 from session import Session
-from alrim import processing
+from alrim import processing, send
 
 app = Flask(__name__)
 api = Api(app)
@@ -82,6 +82,7 @@ class SendAlrim(Resource):
 class ReservRegist(Resource):
     def post(self):
         args = reserv_parser.parse_args()
+        send.send_initial_message(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'])
         print(args)
 
 
