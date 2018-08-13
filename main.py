@@ -65,16 +65,24 @@ class ChatRoom(Resource):
         return {'message': user_key}
 
 
-alrim_parser = reqparse.RequestParser()
-alrim_parser.add_argument('phone_number')
-alrim_parser.add_argument('store_name')
-alrim_parser.add_argument('person_num')
-alrim_parser.add_argument('date')
+reserv_parser = reqparse.RequestParser()
+reserv_parser.add_argument('phone_number')
+reserv_parser.add_argument('store_name')
+reserv_parser.add_argument('person_num')
+reserv_parser.add_argument('date')
+reserv_parser.add_argument('token')
 
 
 class SendAlrim(Resource):
     def post(self):
-        alrim_parser.parse_args()
+        reserv_parser.parse_args()
+
+
+class ReservRegist(Resource):
+    def post(self):
+        args = reserv_parser.parse_args()
+        print(args)
+
 
 
 api.add_resource(Keyboard, '/keyboard')
@@ -83,6 +91,7 @@ api.add_resource(Friend,'/friend')
 api.add_resource(FriendDelete,'/friend/<user_key>')
 api.add_resource(ChatRoom,'/chat_room/<user_key>')
 api.add_resource(SendAlrim,'/send_alrim')
+api.add_resource(ReservRegist,'/reserv/regist')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
