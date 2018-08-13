@@ -17,7 +17,7 @@ def parse_initial_reservation_alrim(content):
     if not res:
         return False
     print(res.group())
-    splited_content = content.split[1:]('\n')
+    splited_content = content[1:].split('\n')
 
 
 
