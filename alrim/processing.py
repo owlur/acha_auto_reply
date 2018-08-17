@@ -25,7 +25,7 @@ def parse_initial_reservation_alrim(content):
 
 def reserv_regist(phone_number, store_name, person_name, person_num, date, token):
     template_code = 'FIRRM0003'
-    template_parameter = {'상호명': store_name, '이름': person_name, '인원': person_num, '날짜': date, '예약번호': token}
+    template_parameter = {'상호명': store_name, '이름': person_name, '인원': person_num, '날짜': date, '예약번호': token, '제한시간': '30분'}
     return send.send_alrim(template_code, phone_number, template_parameter)
 
 
