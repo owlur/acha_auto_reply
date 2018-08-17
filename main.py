@@ -84,7 +84,7 @@ class ReservRegist(Resource):
     def post(self):
         args = reserv_parser.parse_args()
         ts = time.gmtime(int(args['reservDate']))
-        args['reservDate'] = '%d월 %d일 %d시 %d분' % (ts.tm_month, ts.tm_mday, ts.tm_hour, ts.tm_min)
+        args['reservDate'] = '%d월 %d일 %d시 %d분' % (ts.tm_mon, ts.tm_mday, ts.tm_hour, ts.tm_min)
         processing.reserv_regist(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'], args['reservToken'])
         print(args)
 
