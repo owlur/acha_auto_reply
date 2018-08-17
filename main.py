@@ -2,7 +2,8 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from conversation import setting
 from session import Session
-from alrim import processing, send
+from alrim import processing
+import time
 
 app = Flask(__name__)
 api = Api(app)
@@ -12,7 +13,7 @@ message_parser.add_argument('user_key')
 message_parser.add_argument('type')
 message_parser.add_argument('content')
 
-
+reserv_token = []
 sessions = {}
 
 
@@ -82,7 +83,9 @@ class SendAlrim(Resource):
 class ReservRegist(Resource):
     def post(self):
         args = reserv_parser.parse_args()
-        send.send_initial_message(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'])
+        ts = time.gmtime(int(args['reservDate']))
+        args['reservDate'] = '%d월 %d일 %d시 %d분' % (ts.tm_month, ts.tm_mday, ts.tm_hour, ts.tm_min)
+        processing.reserv_regist(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'], args['reservToken'])
         print(args)
 
 

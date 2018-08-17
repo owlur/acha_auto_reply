@@ -10,9 +10,9 @@ header = {'X-Secret-Key': secret, 'Content-Type': 'application/json;charset=UTF-
 plusFriendId = 'ah_cha'
 
 
-def send_initial_message(phone_number, store_name, person_name, person_num, date):
+def send_initial_message(phone_number, store_name, person_name, person_num, date, token):
     template_code = 'FIRRM0001'
-    template_parameter = {'상호명': store_name, '이름': person_name, '인원': person_num, '날짜': date}
+    template_parameter = {'상호명': store_name, '이름': person_name, '인원': person_num, '날짜': date, '예약번호': token, '제한시간': '30분'}
     return send_alrim(template_code, phone_number, template_parameter)
 
 

@@ -4,10 +4,10 @@ import copy
 
 
 commands = {
-    '예약 확인': reservationConfirm.initial,
-    '예약 취소': reservationCancel.initial
+    '예약 확인 할래요!': reservationConfirm.initial,
+    '예약 취소 할래요!': reservationCancel.initial
 }
-default_keyboard = ['예약 확인', '예약 취소']
+default_keyboard = ['예약 확인 할래요!', '예약 취소 할래요!']
 alrim_keyword = ['확정', '취소']
 
 
