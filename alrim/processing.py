@@ -19,7 +19,7 @@ def parse_initial_reservation_alrim(user_key, command, content):
     store_name = splited_content[0][1:-1]
     person_name = splited_content[4].split('이름 : ')[1]
     person_number = splited_content[5].split('인원 : ')[1]
-    token = splited_content[-1].split('예약번호 : ')[1]
+    token = splited_content[-1].split('예약 번호 : ')[1]
     print(store_name, person_name, person_number, token)
     DB.reserv_match(user_key, token, person_name, person_number)
 
