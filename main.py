@@ -83,6 +83,7 @@ class SendAlrim(Resource):
 class ReservRegist(Resource):
     def post(self):
         args = reserv_parser.parse_args()
+        print(args['reservDate'])
         ts = time.gmtime(int(args['reservDate']))
         print('등록시 받은 시간 : ',ts)
         args['reservDate'] = '%d월 %d일 %d시 %d분' % (ts.tm_mon, ts.tm_mday, ts.tm_hour, ts.tm_min)
