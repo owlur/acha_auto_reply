@@ -29,9 +29,8 @@ def parse_initial_reservation_alrim(user_key, command, content):
     person_number = splited_content[5].split('인원 : ')[1]
     reserv_time = splited_content[6].split('날짜 : ')[1]
     token = splited_content[-1].split('예약 번호 : ')[1]
-    print(store_name, person_name, person_number, token)
+
     res = DB.reserv_match(user_key, token, person_name, person_number)
-    print(res)
 
     reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[4:7])
     if command == '확정':
