@@ -3,7 +3,7 @@ from flask_restful import Resource, Api, reqparse
 from conversation import setting
 from session import Session
 from alrim import processing
-import time
+from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
@@ -84,9 +84,9 @@ class ReservRegist(Resource):
     def post(self):
         args = reserv_parser.parse_args()
         print(args['reservDate'])
-        ts = time.gmtime(int(args['reservDate']))
-        print('등록시 받은 시간 : ',ts)
-        args['reservDate'] = '%d월 %d일 %d시 %d분' % (ts.tm_mon, ts.tm_mday, ts.tm_hour, ts.tm_min)
+        dt = datetime.fromtimestamp(int(args['reservDate']))
+        print('등록시 받은 시간 : ',dt)
+        args['reservDate'] = '%d월 %d일 %d시 %d분' % (dt.month, dt.day, dt.hour, dt.minute)
         processing.reserv_regist(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'], args['reservToken'])
         print(args)
 
