@@ -58,7 +58,7 @@ def reserv_cancel(session, status_code, reserv_info, reserv_id):
         resp.next_function = reserv_cancel_confirm(reserv_id)
         resp.buttons = ['네!', '아니요 괜찮아요!']
         session.next = resp
-        pass
+        return resp.get_response()
 
 
 def reserv_cancel_confirm(reserv_id):
