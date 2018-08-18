@@ -14,7 +14,7 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
     return send.send_alrim(template_code, phone_number, template_parameter)
 
 
-def parse_initial_reservation_alrim(user_key, command, content):
+def parse_initial_reservation_alrim(session, command, content):
 
     regex = template['FIRRM0005']
 
@@ -30,13 +30,13 @@ def parse_initial_reservation_alrim(user_key, command, content):
     reserv_time = splited_content[6].split('날짜 : ')[1]
     token = splited_content[-1].split('예약 번호 : ')[1]
 
-    res = DB.reserv_match(user_key, token, person_name, person_number)
+    res = DB.reserv_match(session.user_key, token, person_name, person_number)
 
     reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[4:7])
     if command == '확정':
-        return reserv_confirm(user_key, res['statusCode'], reserv_info, res['reservId'])
+        return reserv_confirm(session.user_key, res['statusCode'], reserv_info, res['reservId'])
     elif command == '취소':
-        return reserv_cancel(user_key, res['statusCode'], reserv_info, res['reservId'])
+        return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])
 
 
 def reserv_confirm(user_key, status_code, reserv_info, reserv_id):
@@ -51,6 +51,25 @@ def reserv_confirm(user_key, status_code, reserv_info, reserv_id):
         return resp.get_response()
 
 
-def reserv_cancel(user_key, status_code, store_name, person_name, person_num, reserv_time, reserv_id):
+def reserv_cancel(session, status_code, reserv_info, reserv_id):
     if status_code == 'reservwait' or status_code == 'reserved':
+        resp = setting.get_init_response()
+        resp.message = '정말로 아래의 예약을 취소 하시겠습니까?\n' + reserv_info
+        resp.next_function = reserv_cancel_confirm(reserv_id)
+        resp.buttons = ['네!', '아니요 괜찮아요!']
+        session.next = resp
         pass
+
+
+def reserv_cancel_confirm(reserv_id):
+    def wrapper_function(user_key, content):
+        if content == '네!':
+            DB.reservation_cancel(user_key, reserv_id)
+            resp = setting.get_init_response()
+            resp.message = '예약이 정상적으로 취소되었습니다!'
+            return resp
+        elif content == '아니요 괜찮아요!':
+            return setting.init_response
+        else:
+            return setting.init_response
+    return wrapper_function
