@@ -32,7 +32,7 @@ def parse_initial_reservation_alrim(user_key, command, content):
     print(store_name, person_name, person_number, token)
     res = DB.reserv_match(user_key, token, person_name, person_number)
 
-    reserv_info = '\n'.join(splited_content[0], splited_content[4:7])
+    reserv_info = '\n'.join(splited_content[0] + splited_content[4:7])
     if command == '확정':
         return reserv_confirm(user_key, res['statusCode'], reserv_info, res['reservId'])
     elif command == '취소':
