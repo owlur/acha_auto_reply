@@ -34,21 +34,21 @@ def parse_initial_reservation_alrim(session, command, content):
 
     reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[4:7])
     if command == '확정':
-        return reserv_confirm(session.user_key, res['statusCode'], reserv_info, res['reservId'])
+        return reserv_confirm(session, res['statusCode'], reserv_info, res['reservId'])
     elif command == '취소':
         return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])
 
 
-def reserv_confirm(user_key, status_code, reserv_info, reserv_id):
+def reserv_confirm(session, status_code, reserv_info, reserv_id):
     if status_code == 'reservwait':
-        DB.reservation_confirm(user_key, reserv_id)
+        DB.reservation_confirm(session.user_key, reserv_id)
         resp = setting.get_init_response()
         resp.message = '아래의 예약이 확정 되었습니다!\n' + reserv_info
-        return resp.get_response()
     else:
         resp = setting.get_init_response()
         resp.message = '확정할 수 없는 예약입니다.\n(이미 확정된 예약, 취소된 예약 등)'
-        return resp.get_response()
+    session.next = resp
+    return resp.get_response()
 
 
 def reserv_cancel(session, status_code, reserv_info, reserv_id):
@@ -68,8 +68,6 @@ def reserv_cancel_confirm(reserv_id):
             resp = setting.get_init_response()
             resp.message = '예약이 정상적으로 취소되었습니다!'
             return resp
-        elif content == '아니요 괜찮아요!':
-            return setting.init_response
         else:
             return setting.init_response
     return wrapper_function
