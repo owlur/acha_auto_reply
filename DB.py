@@ -72,6 +72,8 @@ def reserv_status_edit(user_key, reservation_id, status):
 
 def reserv_match(user_key, token, person_name, person_number):
     params = {'key' : API_KEY, 'kakaoUserKey' : user_key, 'reservToken': token, 'reservName': person_name, 'reservName': int(person_number)}
+    print('match send data : ')
+    print(params)
     res = requests.get(base_url + '/reserv/match', params)
     return res.json()
 
