@@ -44,11 +44,11 @@ def reserv_confirm(user_key, status_code, reserv_info, reserv_id):
         DB.reservation_confirm(user_key, reserv_id)
         resp = setting.get_init_response()
         resp.message = '아래의 예약이 확정 되었습니다!\n' + reserv_info
-        return resp
+        return resp.get_response()
     else:
         resp = setting.get_init_response()
         resp.message = '확정할 수 없는 예약입니다.\n(이미 확정된 예약, 취소된 예약 등)'
-        return resp
+        return resp.get_response()
 
 
 def reserv_cancel(user_key, status_code, store_name, person_name, person_num, reserv_time, reserv_id):
