@@ -40,14 +40,13 @@ def parse_initial_reservation_alrim(session, command, content):
 
 
 def reserv_confirm(session, status_code, reserv_info, reserv_id):
+    resp = setting.get_init_response()
     if status_code == 'reservwait':
         DB.reservation_confirm(session.user_key, reserv_id)
-        resp = setting.get_init_response()
         resp.message = '아래의 예약이 확정 되었습니다!\n' + reserv_info
     else:
-        resp = setting.get_init_response()
         resp.message = '확정할 수 없는 예약입니다.\n(이미 확정된 예약, 취소된 예약 등)'
-    session.next = resp
+    #session.next = resp
     return resp.get_response()
 
 
