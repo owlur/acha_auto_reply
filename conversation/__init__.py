@@ -1,1 +1,1 @@
-__all__ = ['reservationConfirm', 'reservationCancel']
+__all__ = ['reservationConfirm', 'reservationCancel', 'introduceAcha', 'contactUs']
