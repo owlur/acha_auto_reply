@@ -88,7 +88,7 @@ class ReservRegist(Resource):
         print(args['reservDate'])
         #dt = datetime.fromtimestamp(int(args['reservDate']) / 1000)
         ts = time.gmtime(int(args['reservDate']) / 1000)
-        args['reservDate'] = f'{ts.tm_mon}월 {ts.tm_mday}일 {ts.tm_hour}시 {ts.tm_min}분'
+        args['reservDate'] = '%d월 %d일 %d시 %d분' % (ts.tm_mon, ts.tm_mday, ts.tm_hour, ts.tm_min)
         processing.reserv_regist(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'], args['reservToken'])
         print(args)
 
