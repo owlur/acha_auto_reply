@@ -34,9 +34,9 @@ def parse_initial_reservation_alrim(session, command, content):
 
     reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[3:6])
     if command == '확정':
-        return reserv_confirm(session, res['statusCode'], reserv_info, res['reservId'])
+        return reserv_confirm(session, res['currentStatus'], reserv_info, res['reservId'])
     elif command == '취소':
-        return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])
+        return reserv_cancel(session, res['currentStatus'], reserv_info, res['reservId'])
 
 
 def reserv_confirm(session, status_code, reserv_info, reserv_id):

@@ -17,7 +17,7 @@ def get_reservation_list(user_key='', phone_number=''):
             reserv_list = res['reservList']
             for reserv in reserv_list:
                 reserv['reservTime'] = time.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
-            print('예약 리스트 : ',res['reservList'])
+            print('예약 리스트 : ', res['reservList'])
 
             return res['reservList']
         elif res['result'] == 'failed':
