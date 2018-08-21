@@ -23,8 +23,6 @@ def parse_initial_reservation_alrim(session, command, content):
         print(content,'\n 템플릿 일치하지 않음')
         return False
     splited_content = list(filter(lambda x: x, content.split('\n')))
-    print(content)
-    print(splited_content)
 
     store_name = splited_content[0][1:-1]
     person_name = splited_content[3].split('이름 : ')[1]
