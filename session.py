@@ -19,4 +19,6 @@ class Session:
             print('type is not text')
             self.next = setting.init_response
 
+        self.lastest = time.time()
+
         return self.next.get_response()

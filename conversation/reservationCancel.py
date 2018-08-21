@@ -19,7 +19,7 @@ def initial(user_key):
     if reserv_list:
         for reserv in reserv_list:
             date = reserv['reservTime']
-            button_name = '%d월 %d일 %s'%(date.tm_mon, date.tm_mday,reserv['storeName'])
+            button_name = f"{date.tm_mon}월 {date.tm_mday}일 {reserv['storeName']}"
             button_list.append(button_name)
             reserv['button_name'] = button_name
         print(button_list)
