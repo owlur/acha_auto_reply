@@ -27,9 +27,9 @@ def parse_initial_reservation_alrim(session, command, content):
     print(splited_content)
 
     store_name = splited_content[0][1:-1]
-    person_name = splited_content[4].split('이름 : ')[1]
-    person_number = splited_content[5].split('인원 : ')[1]
-    reserv_time = splited_content[6].split('날짜 : ')[1]
+    person_name = splited_content[3].split('이름 : ')[1]
+    person_number = splited_content[4].split('인원 : ')[1]
+    reserv_time = splited_content[5].split('날짜 : ')[1]
     token = splited_content[-1].split('예약 번호 : ')[1]
 
     res = DB.reserv_match(session.user_key, token, person_name, person_number)
