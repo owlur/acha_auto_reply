@@ -1,6 +1,7 @@
 import requests
 import time
 import pymongo
+from datetime import datetime
 from bson.objectid import ObjectId
 
 base_url = 'http://api.acha.io:3000/user'
@@ -92,7 +93,8 @@ def get_reservation(reservation_id):
 
 
 def get_reserv_local(start, end):
-    res = reserv_collection.find()
+    res = reserv_collection.find({'reservTime': {'$gte': datetime.fromtimestamp(start), '$lte': datetime.fromtimestamp(end)}}, {'storeId': 1, 'phoneNumber': 1, \
+                                                                           'reservTime': 1})
     for i in res:
         print(i)
 
