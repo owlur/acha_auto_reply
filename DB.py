@@ -94,7 +94,9 @@ def get_reservation(reservation_id):
 def get_reserv_local(start, end):
     res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}}, {'storeId': 1, 'phoneNumber': 1, \
                                                                            'reservTime': 1})
-    print(res)
+    for i in res:
+        print(i)
+
     return res
 
 
