@@ -5,6 +5,7 @@ from session import Session
 from alrim import processing
 #from datetime import datetime
 import time
+import DB
 
 app = Flask(__name__)
 api = Api(app)
@@ -50,7 +51,6 @@ class Message(Resource):
                                                        '\n'.join(content_parse[2:]))
             if res:
                 return res
-
 
         return sessions[user_key].receive_message(type, content)
 
@@ -109,4 +109,5 @@ api.add_resource(SendAlrim,'/send_alrim')
 api.add_resource(ReservRegist,'/reserv/regist')
 
 if __name__ == '__main__':
+    DB.get_reserv_local(time.time(), time.time() + 604800)
     app.run(host='0.0.0.0', debug=True)
