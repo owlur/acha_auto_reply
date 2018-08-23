@@ -142,7 +142,7 @@ def get_today_alrim_list():
         if not store_info['alarm_interval']:
             continue
 
-        for alarm_interval in store_info['alarmInterval']:
+        for alarm_interval in store_info['alarm_interval']:
             alarm_interval = int(alarm_interval)
             send_time = reserv['reservTime'] - timedelta(minutes=alarm_interval)
             if send_time < today_end:
