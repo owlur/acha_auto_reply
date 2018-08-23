@@ -132,6 +132,7 @@ def get_today_alrim_list():
         #reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         if reserv['storeId'] not in stores:
             store_info = get_store_info(reserv['storeId'])
+            print(store_info)
             stores[reserv['storeId']] = {'alarm_interval': store_info['alarmInterval'],
                                          'store_name': store_info['storeName'],
                                          'address': store_info['address']}
