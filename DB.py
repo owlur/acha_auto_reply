@@ -125,7 +125,7 @@ def get_today_alrim_list():
     seven_day_reserv = get_reserv_local(start, week_end)
     today_end = start + timedelta(1)
 
-    stores = []
+    stores = {}
     res = deque()
     for reserv in seven_day_reserv:
         print(reserv)
