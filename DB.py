@@ -129,7 +129,7 @@ def get_today_alrim_list():
     res = deque()
     for reserv in seven_day_reserv:
         print(reserv)
-        reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
+        #reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         if reserv['storeId'] in stores:
             store_info = get_store_info(reserv['storeId'])
             stores[reserv['storeId']] = {'alarm_interval': store_info['alarmInterval'],
