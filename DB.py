@@ -1,8 +1,10 @@
 import requests
 import time
 import pymongo
-from datetime import datetime
+from datetime import datetime, timedelta
 from bson.objectid import ObjectId
+from collections import deque
+import heapq
 
 base_url = 'http://api.acha.io:3000/user'
 API_KEY = '33233C0EB2C9CA56566FD7D503F100ABDBE012306B4EB812C3C9E83129E8495D'
@@ -31,7 +33,7 @@ def get_reservation_list(user_key='', phone_number=''):
             return res['reservList']
         elif res['result'] == 'failed':
             print(res)
-            #error_code = res['msg'].split(' : ')[1]
+            # error_code = res['msg'].split(' : ')[1]
             return []
         else:
             return False
@@ -80,7 +82,7 @@ def reserv_status_edit(user_key, reservation_id, status):
 
 
 def reserv_match(user_key, token, person_name, person_number):
-    params = {'key' : API_KEY, 'kakaoUserKey' : user_key, 'reservToken': token, 'reservName': person_name,\
+    params = {'key': API_KEY, 'kakaoUserKey': user_key, 'reservToken': token, 'reservName': person_name, \
               'reservNumber': int(person_number)}
     print('match send data : ')
     print(params)
@@ -93,13 +95,55 @@ def get_reservation(reservation_id):
 
 
 def get_reserv_local(start, end):
-    res = reserv_collection.find({'reservTime': {'$gte': datetime.fromtimestamp(start), '$lte': datetime.fromtimestamp(end)}}, {'storeId': 1, 'phoneNumber': 1, \
-                                                                           'reservTime': 1})
-    for i in res:
-        print(i)
-
+    res = reserv_collection.find({'reservTime': {'$gte': datetime.fromtimestamp(start), \
+                                                 '$lte': datetime.fromtimestamp(end)}, \
+                                  'currentStatus': 'reserved'},
+                                 {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, 'reservNumber': 1, \
+                                  'reservToken': 1})
     return res
 
 
-def get_alarm_interval():
-    pass
+def get_store_info(object_id):
+    res = store_collection.find_one({'_id': object_id}, {'alarmInterval': 1, 'address': 1, 'storeName': 1})
+    return res
+
+
+def get_today_alrim_list():
+    """
+    새벽 3시 실행
+    당일 새벽 4시 ~ 다음날 새벽 4시에 전송해야할 알림 리스트
+    :return:
+    """
+    now = datetime.now()
+    start = now.replace(hour=4, minute=0, second=0, microsecond=0)
+    week_end = start + timedelta(7)
+    seven_day_reserv = get_reserv_local(start, week_end)
+    today_end = start + timedelta(1)
+
+    stores = []
+    res = deque()
+    for reserv in seven_day_reserv:
+        print(reserv)
+        reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
+        if reserv['storeId'] in stores:
+            store_info = get_store_info(reserv['storeId'])
+            stores[reserv['storeId']] = {'alarm_interval': store_info['alarmInterval'],
+                                         'store_name': store_info['storeName'],
+                                         'address': store_info['address']}
+
+        store_info = stores[reserv['storeId']]
+
+        for alarm_interval in stores['storeId']:
+            send_time = reserv['reservTime'] - timedelta(minutes=alarm_interval)
+            if send_time < today_end:
+                res.append({'token': reserv['reservToken'],
+                            'store_name': store_info['store_name'],
+                            'person_name': reserv['name'],
+                            'reserv_date': reserv['reservTime'],
+                            'person_num': reserv['reservNumber'],
+                            'until_time': alarm_interval,
+                            'address': store_info['address'],
+                            'phone_number': reserv['phoneNumber'],
+                            'send_time': send_time})
+
+    return sorted(res, key=lambda x: x['send_time'])

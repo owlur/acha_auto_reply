@@ -109,5 +109,5 @@ api.add_resource(SendAlrim,'/send_alrim')
 api.add_resource(ReservRegist,'/reserv/regist')
 
 if __name__ == '__main__':
-    DB.get_reserv_local(time.time(), time.time() + 604800)
+    print(DB.get_today_alrim_list())
     app.run(host='0.0.0.0', debug=True)
