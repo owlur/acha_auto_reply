@@ -139,6 +139,9 @@ def get_today_alrim_list():
 
         store_info = stores[reserv['storeId']]
 
+        if not store_info.get('alarm_interval'):
+            continue
+
         for alarm_interval in stores['storeId']:
             send_time = reserv['reservTime'] - timedelta(minutes=alarm_interval)
             if send_time < today_end:
