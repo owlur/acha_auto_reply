@@ -95,8 +95,13 @@ def get_reservation(reservation_id):
 
 
 def get_reserv_local(start, end):
-    res = reserv_collection.find({'reservTime': {'$gte': datetime.fromtimestamp(start), \
-                                                 '$lte': datetime.fromtimestamp(end)}, \
+    """
+    :param start: datetime.datetime object
+    :param end: datetime.datetime object
+    :return:
+    """
+    res = reserv_collection.find({'reservTime': {'$gte': start, \
+                                                 '$lte': end}, \
                                   'currentStatus': 'reserved'},
                                  {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, 'reservNumber': 1, \
                                   'reservToken': 1})
