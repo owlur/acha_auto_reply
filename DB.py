@@ -133,13 +133,13 @@ def get_today_alrim_list():
         if reserv['storeId'] not in stores:
             store_info = get_store_info(reserv['storeId'])
             print(store_info)
-            stores[reserv['storeId']] = {'alarm_interval': store_info['alarmInterval'],
+            stores[reserv['storeId']] = {'alarm_interval': store_info.get('alarmInterval'),
                                          'store_name': store_info['storeName'],
                                          'address': store_info['address']}
 
         store_info = stores[reserv['storeId']]
 
-        if not store_info.get('alarm_interval'):
+        if not store_info['alarm_interval']:
             continue
 
         for alarm_interval in stores['storeId']:
