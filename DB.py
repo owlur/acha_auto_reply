@@ -20,16 +20,13 @@ def get_reservation_list(user_key='', phone_number=''):
         res = requests.get(base_url + '/reserv/search', params)
         if res.status_code != 200:
             return False
-        raw_res = res.json()
-
-        print(raw_res)
-        res = []
-        for i in raw_res:
-            res.append({**i['store'], **i['reserv']})
-        res = res['reserv'].extend(res['store']).copy()
+        res = res.json()
 
         if res['result'] == 'success':
-            reserv_list = res['reservList']
+            reserv_list = []
+            for i in res['reservList']:
+                reserv_list.append({**i['store'], **i['reserv']})
+
             for reserv in reserv_list:
                 reserv['reservTime'] = time.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
             print('예약 리스트 : ', res['reservList'])
