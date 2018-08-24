@@ -111,6 +111,7 @@ class ReservRegist(Resource):
 
 @app.before_first_request
 def initialize():
+    global alrim_queue
     alrim_queue = DB.get_today_alrim_list()
     for i in alrim_queue:
         print(i)
