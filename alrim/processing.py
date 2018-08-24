@@ -21,8 +21,7 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
     return send.send_alrim(template_code, phone_number, template_parameter)
 
 
-def parse_initial_reservation_alrim(session, command, content):
-    for
+def parse_initial_reservation_alrim2(session, command, content):
     pass
 
 def parse_initial_reservation_alrim(session, command, content):
