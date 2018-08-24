@@ -12,6 +12,7 @@ plusFriendId = 'ah_cha'
 
 def send_interval_alrim(phone_number, store_name, person_name, person_num, date, until_date, address, token):
     until_date = int(until_date)
+    print(until_date)
     if until_date >= 1440:
         template_code = 'RRM004'
         until_date = '%d일' % until_date // 1440
