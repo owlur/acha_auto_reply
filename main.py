@@ -119,7 +119,7 @@ def initialize():
     alrim_queue = DB.get_today_alrim_list()
     for alrim_info in alrim_queue:
         print(alrim_info)
-    Timer(0, check_alrim_queue)
+    Timer(0, check_alrim_queue).start()
 
 api.add_resource(Keyboard, '/keyboard')
 api.add_resource(Message, '/message')
