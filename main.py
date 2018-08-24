@@ -23,7 +23,6 @@ session_queue = []
 
 
 def check_alrim_queue():
-    print(datetime.now(), '   check')
     start = time.time()
     now = datetime.now()
     while alrim_queue[0]['send_time'] < now:
