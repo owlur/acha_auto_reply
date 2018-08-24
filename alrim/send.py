@@ -19,11 +19,11 @@ def send_interval_alrim(phone_number, store_name, person_name, person_num, date,
         template_code = 'RRM003'
         if until_date >= 60:
             if until_date % 60 == 0:
-                until_date = '%d시간' % until_date /60
+                until_date = '%d시간' % until_date // 60
             else:
                 until_date = '%d시간 %d분' % (until_date //60, until_date %60)
         else:
-            until_date = '%분' % until_date
+            until_date = '%d분' % until_date
 
     template_parameter = {'상호명': store_name, '이름': person_name, '인원': person_num, '날짜': date, '예약번호': token, '남은일수': until_date, \
                           'mobile_url': 'http://api.acha.io:3000/user/map?addr=%s' % address, \
