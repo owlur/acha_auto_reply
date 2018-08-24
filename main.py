@@ -130,4 +130,9 @@ api.add_resource(SendAlrim,'/send_alrim')
 api.add_resource(ReservRegist,'/reserv/regist')
 
 if __name__ == '__main__':
+    test = """testesgvsedg
+    stegesd
+    segsegse
+    segae"""
+    print(test)
     app.run(host='0.0.0.0', debug=True)

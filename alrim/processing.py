@@ -3,7 +3,14 @@ from alrim import send
 from conversation import setting
 import DB
 
-template ={'FIRRM0006': "\[.+\]\n\n안녕하세요! .+ 님에게 아래와 같이 예약이 접수되었습니다.\n예약내용이 맞는지 확인 부탁드립니다!\n이름 : .+\n인원 : .+\n날짜 : .+\n\n예약 내용이 맞으실 경우 .+ 이내에 '확정' 버튼을, 아닐 경우 '취소' 버튼을 눌러주세요!\n\n'확정' 버튼을 누르실 경우 간편한 예약 관리 서비스 '아차'에 .+에 동의 하게 됩니다!\n\n이후 '아차' 플러스 친구를 통해 간편하게 예약 확인 및 취소가 가능합니다\n\n예약 번호 : [0-9]{16}"}
+template ={'FIRRM0006': "\[.+\]\n\n안녕하세요! .+ 님에게 아래와 같이 예약이 접수되었습니다.\n예약내용이 맞는지 확인 부탁드립니다!\n이름 : .+\n인원 : .+\n날짜 : .+\n\n예약 내용이 맞으실 경우 .+ 이내에 '확정' 버튼을, 아닐 경우 '취소' 버튼을 눌러주세요!\n\n'확정' 버튼을 누르실 경우 간편한 예약 관리 서비스 '아차'에 .+에 동의 하게 됩니다!\n\n이후 '아차' 플러스 친구를 통해 간편하게 예약 확인 및 취소가 가능합니다\n\n예약 번호 : [0-9]{16}",
+           'RRM0003': "\[.+\]\n\n안녕하세요! 곧 .+님이 .+에 예약하신 시간입니다!\n이름 : .+\n날짜 : .+\n인원 : .+\n\n만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다.\n\n잠시 후 .+에서 뵙겠습니다!\n\n예약 번호 : [0-9]{16}",
+           'RRM0004': "\[.+\]\n\n안녕하세요! .+님이 예약하신 날짜까지 .+ 남았습니다!\n이름 : .+\n날짜 : .+\n인원 : .+\n\n만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다!\n\n예약 번호 : [0-9]{16}"}
+
+
+templates ={'FIRRM0006': ("\[.+\]\n\n안녕하세요! .+ 님에게 아래와 같이 예약이 접수되었습니다.\n예약내용이 맞는지 확인 부탁드립니다!\n이름 : .+\n인원 : .+\n날짜 : .+\n\n예약 내용이 맞으실 경우 .+ 이내에 '확정' 버튼을, 아닐 경우 '취소' 버튼을 눌러주세요!\n\n'확정' 버튼을 누르실 경우 간편한 예약 관리 서비스 '아차'에 .+에 동의 하게 됩니다!\n\n이후 '아차' 플러스 친구를 통해 간편하게 예약 확인 및 취소가 가능합니다\n\n예약 번호 : [0-9]{16}"),
+           'RRM0003': "\[.+\]\n\n안녕하세요! 곧 .+님이 .+에 예약하신 시간입니다!\n이름 : .+\n날짜 : .+\n인원 : .+\n\n만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다.\n\n잠시 후 .+에서 뵙겠습니다!\n\n예약 번호 : [0-9]{16}",
+           'RRM0004': "\[.+\]\n\n안녕하세요! .+님이 예약하신 날짜까지 .+ 남았습니다!\n이름 : .+\n날짜 : .+\n인원 : .+\n\n만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다!\n\n예약 번호 : [0-9]{16}"}
 
 
 def reserv_regist(phone_number, store_name, person_name, person_num, date, token):
@@ -15,6 +22,10 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
 
 
 def parse_initial_reservation_alrim(session, command, content):
+    for
+    pass
+
+def parse_initial_reservation_alrim(session, command, content):
 
     regex = template['FIRRM0006']
 
@@ -22,7 +33,7 @@ def parse_initial_reservation_alrim(session, command, content):
     if not res:
         print(content,'\n 템플릿 일치하지 않음')
         return False
-    splited_content = list(filter(lambda x: x, content.split('\n')))
+    splited_content = list(filter(lambda x: x, content.split('\n'))) #줄바꿈만 있는 line 제거
 
     store_name = splited_content[0][1:-1]
     person_name = splited_content[3].split('이름 : ')[1]
