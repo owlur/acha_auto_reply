@@ -123,4 +123,4 @@ if __name__ == '__main__':
     for i in alrim_queue:
         print(i)
     Timer(0, check_alrim_queue)
-    app.run(host='0.0.0.0', debug=True)
+    #app.run(host='0.0.0.0', debug=True)
