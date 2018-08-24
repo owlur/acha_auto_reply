@@ -27,9 +27,9 @@ def check_alrim_queue():
     now = datetime.now()
     while alrim_queue[0]['send_time'] < now:
         alrim_info = alrim_queue.popleft()
-        send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'], alrim_info['person_name'],
+        print(send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'], alrim_info['person_name'],
                                  alrim_info['person_num'], alrim_info['reserv_date'], alrim_info['until_time'],
-                                 alrim_info['address'], alrim_info['token'])
+                                 alrim_info['address'], alrim_info['token']))
 
     Timer(60 - (time.time() - start), check_alrim_queue).start()
 
