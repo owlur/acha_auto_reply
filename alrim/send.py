@@ -15,12 +15,12 @@ def send_interval_alrim(phone_number, store_name, person_name, person_num, date,
     print(until_date)
     if until_date >= 1440:
         template_code = 'RRM004'
-        until_date = '%d일' % until_date // 1440
+        until_date = '%d일' % (until_date // 1440)
     else:
         template_code = 'RRM003'
         if until_date >= 60:
             if until_date % 60 == 0:
-                until_date = '%d시간' % until_date // 60
+                until_date = '%d시간' % (until_date // 60)
             else:
                 until_date = '%d시간 %d분' % (until_date //60, until_date %60)
         else:
