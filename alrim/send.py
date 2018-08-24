@@ -11,7 +11,7 @@ plusFriendId = 'ah_cha'
 
 
 def send_interval_alrim(phone_number, store_name, person_name, person_num, date, token):
-    template_code = ''
+    template_code = 'RRM004'
 
 
 def send_alrim(template_code, phone_number, template_parameter):

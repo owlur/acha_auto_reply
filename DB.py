@@ -126,7 +126,7 @@ def get_today_alrim_list():
     today_end = start + timedelta(1)
 
     stores = {}
-    res = deque()
+    res = []
     for reserv in seven_day_reserv:
         print(reserv)
         #reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
@@ -156,4 +156,4 @@ def get_today_alrim_list():
                             'phone_number': reserv['phoneNumber'],
                             'send_time': send_time})
 
-    return sorted(res, key=lambda x: x['send_time'])
+    return deque(sorted(res, key=lambda x: x['send_time']))

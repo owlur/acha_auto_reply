@@ -3,9 +3,11 @@ from flask_restful import Resource, Api, reqparse
 from conversation import setting
 from session import Session
 from alrim import processing
+from datetime import datetime
 #from datetime import datetime
 import time
 import DB
+from threading import Timer
 
 app = Flask(__name__)
 api = Api(app)
@@ -19,6 +21,14 @@ reserv_token = []
 sessions = {}
 session_queue = []
 
+
+def check_alrim_queue():
+    start = time.time()
+    now = datetime.now()
+    while alrim_queue[0]['send_time'] < now:
+        alrim_queue.popleft()
+
+    Timer(60 - (time.time() - start), check_alrim_queue).start()
 
 class Keyboard(Resource):
     def get(self):
@@ -109,5 +119,6 @@ api.add_resource(SendAlrim,'/send_alrim')
 api.add_resource(ReservRegist,'/reserv/regist')
 
 if __name__ == '__main__':
-    print(DB.get_today_alrim_list())
+    alrim_queue = DB.get_today_alrim_list()
+    Timer(0, check_alrim_queue)
     app.run(host='0.0.0.0', debug=True)
