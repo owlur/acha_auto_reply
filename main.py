@@ -120,7 +120,7 @@ def initialize():
         send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'], alrim_info['person_name'],
                                  alrim_info['person_num'], alrim_info['reserv_date'], alrim_info['until_time'],
                                  alrim_info['address'], alrim_info['token'])
-        print(i)
+        print(alrim_info)
     Timer(0, check_alrim_queue)
 
 api.add_resource(Keyboard, '/keyboard')
