@@ -28,8 +28,8 @@ def send_interval_alrim(phone_number, store_name, person_name, person_num, date,
             until_date = '%d분' % until_date
 
     template_parameter = {'상호명': store_name, '이름': person_name, '인원': person_num, '날짜': date, '예약번호': token, '남은일수': until_date, \
-                          'mobile_url': 'http://api.acha.io:3000/user/map?addr=%s' % address, \
-                          'pc_url': 'http://api.acha.io:3000/user/map?addr=%s' % address}
+                          'mobile_url': 'api.acha.io:3000/user/map?addr=%s' % address, \
+                          'pc_url': 'hapi.acha.io:3000/user/map?addr=%s' % address}
     return send_alrim(template_code, phone_number, template_parameter)
 
 
