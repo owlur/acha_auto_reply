@@ -21,10 +21,11 @@ def get_reservation_list(user_key='', phone_number=''):
         if res.status_code != 200:
             return False
         raw_res = res.json()
+
+        print(raw_res)
         res = []
         for i in raw_res:
             res.append({**i['store'], **i['reserv']})
-        print(res)
         res = res['reserv'].extend(res['store']).copy()
 
         if res['result'] == 'success':
