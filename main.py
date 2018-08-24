@@ -109,6 +109,12 @@ class ReservRegist(Resource):
         processing.reserv_regist(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'], args['reservToken'])
         print(args)
 
+@app.before_first_request
+def initialize():
+    alrim_queue = DB.get_today_alrim_list()
+    for i in alrim_queue:
+        print(i)
+    Timer(0, check_alrim_queue)
 
 api.add_resource(Keyboard, '/keyboard')
 api.add_resource(Message, '/message')
@@ -119,8 +125,4 @@ api.add_resource(SendAlrim,'/send_alrim')
 api.add_resource(ReservRegist,'/reserv/regist')
 
 if __name__ == '__main__':
-    alrim_queue = DB.get_today_alrim_list()
-    for i in alrim_queue:
-        print(i)
-    Timer(0, check_alrim_queue)
-    #app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=True)
