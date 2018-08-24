@@ -60,7 +60,7 @@ class Message(Resource):
         content_parse = content.split('\n')
         if len(content_parse) > 2 and not content_parse[1] and content_parse[0] in setting.alrim_keyword:
             print('알림톡 응답 수신')
-            res = processing.parse_initial_reservation_alrim(sessions[user_key], content_parse[0],
+            res = processing.alrim_response_parsing(sessions[user_key], content_parse[0],
                                                        '\n'.join(content_parse[2:]))
             if res:
                 return res

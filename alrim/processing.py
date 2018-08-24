@@ -16,7 +16,7 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
     return send.send_alrim(template_code, phone_number, template_parameter)
 
 
-def parse_initial_reservation_alrim(session, command, content):
+def alrim_response_parsing(session, command, content):
     for template_code in templates:
         regex = templates[template_code][0]
         if re.match(regex, content):
@@ -131,7 +131,7 @@ templates ={'FIRRM0006': ( ("\[.+\]\n\n"
                          "만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다.\n\n"
                          "잠시 후 .+에서 뵙겠습니다!\n\n"
                          "예약 번호 : [0-9]{16}"),
-                        initial_alrim_response),
+                        interval_alrim_response),
            'RRM0004': ( ("\[.+\]\n\n"
                          "안녕하세요! .+님이 예약하신 날짜까지 .+ 남았습니다!\n"
                          "이름 : .+\n"
@@ -139,5 +139,5 @@ templates ={'FIRRM0006': ( ("\[.+\]\n\n"
                          "인원 : .+\n\n"
                          "만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다!\n\n"
                          "예약 번호 : [0-9]{16}"),
-                        initial_alrim_response)
+                        interval_alrim_response)
             }
