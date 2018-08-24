@@ -3,15 +3,10 @@ from alrim import send
 from conversation import setting
 import DB
 
-template ={'FIRRM0006': "\[.+\]\n\n안녕하세요! .+ 님에게 아래와 같이 예약이 접수되었습니다.\n예약내용이 맞는지 확인 부탁드립니다!\n이름 : .+\n인원 : .+\n날짜 : .+\n\n예약 내용이 맞으실 경우 .+ 이내에 '확정' 버튼을, 아닐 경우 '취소' 버튼을 눌러주세요!\n\n'확정' 버튼을 누르실 경우 간편한 예약 관리 서비스 '아차'에 .+에 동의 하게 됩니다!\n\n이후 '아차' 플러스 친구를 통해 간편하게 예약 확인 및 취소가 가능합니다\n\n예약 번호 : [0-9]{16}",
+"""template ={'FIRRM0006': "\[.+\]\n\n안녕하세요! .+ 님에게 아래와 같이 예약이 접수되었습니다.\n예약내용이 맞는지 확인 부탁드립니다!\n이름 : .+\n인원 : .+\n날짜 : .+\n\n예약 내용이 맞으실 경우 .+ 이내에 '확정' 버튼을, 아닐 경우 '취소' 버튼을 눌러주세요!\n\n'확정' 버튼을 누르실 경우 간편한 예약 관리 서비스 '아차'에 .+에 동의 하게 됩니다!\n\n이후 '아차' 플러스 친구를 통해 간편하게 예약 확인 및 취소가 가능합니다\n\n예약 번호 : [0-9]{16}",
            'RRM0003': "\[.+\]\n\n안녕하세요! 곧 .+님이 .+에 예약하신 시간입니다!\n이름 : .+\n날짜 : .+\n인원 : .+\n\n만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다.\n\n잠시 후 .+에서 뵙겠습니다!\n\n예약 번호 : [0-9]{16}",
            'RRM0004': "\[.+\]\n\n안녕하세요! .+님이 예약하신 날짜까지 .+ 남았습니다!\n이름 : .+\n날짜 : .+\n인원 : .+\n\n만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다!\n\n예약 번호 : [0-9]{16}"}
-
-
-templates ={'FIRRM0006': ("\[.+\]\n\n안녕하세요! .+ 님에게 아래와 같이 예약이 접수되었습니다.\n예약내용이 맞는지 확인 부탁드립니다!\n이름 : .+\n인원 : .+\n날짜 : .+\n\n예약 내용이 맞으실 경우 .+ 이내에 '확정' 버튼을, 아닐 경우 '취소' 버튼을 눌러주세요!\n\n'확정' 버튼을 누르실 경우 간편한 예약 관리 서비스 '아차'에 .+에 동의 하게 됩니다!\n\n이후 '아차' 플러스 친구를 통해 간편하게 예약 확인 및 취소가 가능합니다\n\n예약 번호 : [0-9]{16}"),
-           'RRM0003': "\[.+\]\n\n안녕하세요! 곧 .+님이 .+에 예약하신 시간입니다!\n이름 : .+\n날짜 : .+\n인원 : .+\n\n만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다.\n\n잠시 후 .+에서 뵙겠습니다!\n\n예약 번호 : [0-9]{16}",
-           'RRM0004': "\[.+\]\n\n안녕하세요! .+님이 예약하신 날짜까지 .+ 남았습니다!\n이름 : .+\n날짜 : .+\n인원 : .+\n\n만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다!\n\n예약 번호 : [0-9]{16}"}
-
+"""
 
 def reserv_regist(phone_number, store_name, person_name, person_num, date, token):
     template_code = 'FIRRM0006'
@@ -21,8 +16,44 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
     return send.send_alrim(template_code, phone_number, template_parameter)
 
 
-def parse_initial_reservation_alrim2(session, command, content):
-    pass
+def parse_initial_reservation_alrim(session, command, content):
+    for template_code in templates:
+        regex = templates[template_code][0]
+        if re.match(regex, content):
+            splited_content = list(filter(lambda x: x, content.split('\n')))
+            return templates[template_code][1](session, command, splited_content)
+    print(content,'\n 템플릿 일치하지 않음')
+    return False
+
+
+"""def initial_alrim_response(session, command, splited_content):
+    store_name = splited_content[0][1:-1]
+    person_name = splited_content[3].split('이름 : ')[1]
+    person_number = splited_content[4].split('인원 : ')[1]
+    reserv_time = splited_content[5].split('날짜 : ')[1]
+    token = splited_content[-1].split('예약 번호 : ')[1]
+
+    res = DB.reserv_match(session.user_key, token, person_name, person_number)
+
+    reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[3:6])
+    if command == '확정':
+        return reserv_confirm(session, res['statusCode'], reserv_info, res['reservId'])
+    elif command == '취소':
+        return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])"""
+
+
+def interval_alrim_response(session, command, splited_content):
+    store_name = splited_content[0][1:-1]
+    person_name = splited_content[2].split('이름 : ')[1]
+    reserv_time = splited_content[3].split('날짜 : ')[1]
+    person_number = splited_content[4].split('인원 : ')[1]
+    token = splited_content[-1].split('예약 번호 : ')[1]
+
+    res = DB.reserv_match(session.user_key, token, person_name, person_number)
+
+    reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[2:5])
+    if command == '예약 취소':
+        return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])
 
 def parse_initial_reservation_alrim(session, command, content):
 
@@ -79,3 +110,34 @@ def reserv_cancel_confirm(reserv_id):
         else:
             return setting.init_response
     return wrapper_function
+
+
+templates ={'FIRRM0006': ( ("\[.+\]\n\n"
+                            "안녕하세요! .+ 님에게 아래와 같이 예약이 접수되었습니다.\n"
+                            "예약내용이 맞는지 확인 부탁드립니다!\n"
+                            "이름 : .+\n"
+                            "인원 : .+\n"
+                            "날짜 : .+\n\n"
+                            "예약 내용이 맞으실 경우 .+ 이내에 '확정' 버튼을, 아닐 경우 '취소' 버튼을 눌러주세요!\n\n"
+                            "'확정' 버튼을 누르실 경우 간편한 예약 관리 서비스 '아차'에 .+에 동의 하게 됩니다!\n\n"
+                            "이후 '아차' 플러스 친구를 통해 간편하게 예약 확인 및 취소가 가능합니다\n\n"
+                            "예약 번호 : [0-9]{16}"),
+                           initial_alrim_response),
+           'RRM0003': ( ("\[.+\]\n\n"
+                         "안녕하세요! 곧 .+님이 .+에 예약하신 시간입니다!\n"
+                         "이름 : .+\n"
+                         "날짜 : .+\n"
+                         "인원 : .+\n\n"
+                         "만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다.\n\n"
+                         "잠시 후 .+에서 뵙겠습니다!\n\n"
+                         "예약 번호 : [0-9]{16}"),
+                        initial_alrim_response),
+           'RRM0004': ( ("\[.+\]\n\n"
+                         "안녕하세요! .+님이 예약하신 날짜까지 .+ 남았습니다!\n"
+                         "이름 : .+\n"
+                         "날짜 : .+\n"
+                         "인원 : .+\n\n"
+                         "만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다!\n\n"
+                         "예약 번호 : [0-9]{16}"),
+                        initial_alrim_response)
+            }
