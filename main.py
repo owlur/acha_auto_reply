@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from conversation import setting
 from session import Session
-from alrim import processing
+from alrim import processing, send
 from datetime import datetime
 #from datetime import datetime
 import time
@@ -26,7 +26,10 @@ def check_alrim_queue():
     start = time.time()
     now = datetime.now()
     while alrim_queue[0]['send_time'] < now:
-        alrim_queue.popleft()
+        alrim_info = alrim_queue.popleft()
+        send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'], alrim_info['person_name'],
+                                 alrim_info['person_num'], alrim_info['reserv_date'], alrim_info['until_time'],
+                                 alrim_info['address'], alrim_info['token'])
 
     Timer(60 - (time.time() - start), check_alrim_queue).start()
 
@@ -113,7 +116,10 @@ class ReservRegist(Resource):
 def initialize():
     global alrim_queue
     alrim_queue = DB.get_today_alrim_list()
-    for i in alrim_queue:
+    for alrim_info in alrim_queue:
+        send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'], alrim_info['person_name'],
+                                 alrim_info['person_num'], alrim_info['reserv_date'], alrim_info['until_time'],
+                                 alrim_info['address'], alrim_info['token'])
         print(i)
     Timer(0, check_alrim_queue)
 
