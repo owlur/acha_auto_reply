@@ -128,7 +128,6 @@ def get_today_alrim_list():
     stores = {}
     res = []
     for reserv in seven_day_reserv:
-        print(reserv)
         #reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         if reserv['storeId'] not in stores:
             store_info = get_store_info(reserv['storeId'])

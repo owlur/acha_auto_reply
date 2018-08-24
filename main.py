@@ -120,5 +120,6 @@ api.add_resource(ReservRegist,'/reserv/regist')
 
 if __name__ == '__main__':
     alrim_queue = DB.get_today_alrim_list()
+    print(alrim_queue)
     Timer(0, check_alrim_queue)
     app.run(host='0.0.0.0', debug=True)
