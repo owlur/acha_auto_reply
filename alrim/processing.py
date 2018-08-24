@@ -26,7 +26,7 @@ def parse_initial_reservation_alrim(session, command, content):
     return False
 
 
-"""def initial_alrim_response(session, command, splited_content):
+def initial_alrim_response(session, command, splited_content):
     store_name = splited_content[0][1:-1]
     person_name = splited_content[3].split('이름 : ')[1]
     person_number = splited_content[4].split('인원 : ')[1]
@@ -39,7 +39,7 @@ def parse_initial_reservation_alrim(session, command, content):
     if command == '확정':
         return reserv_confirm(session, res['statusCode'], reserv_info, res['reservId'])
     elif command == '취소':
-        return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])"""
+        return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])
 
 
 def interval_alrim_response(session, command, splited_content):
@@ -55,7 +55,7 @@ def interval_alrim_response(session, command, splited_content):
     if command == '예약 취소':
         return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])
 
-def parse_initial_reservation_alrim(session, command, content):
+"""def parse_initial_reservation_alrim(session, command, content):
 
     regex = template['FIRRM0006']
 
@@ -78,7 +78,7 @@ def parse_initial_reservation_alrim(session, command, content):
         return reserv_confirm(session, res['statusCode'], reserv_info, res['reservId'])
     elif command == '취소':
         return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])
-
+"""
 
 def reserv_confirm(session, status_code, reserv_info, reserv_id):
     resp = setting.get_init_response()
