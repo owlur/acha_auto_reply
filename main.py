@@ -1,10 +1,9 @@
-from flask import Flask, request
+from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from conversation import setting
 from session import Session
 from alrim import processing, send
 from datetime import datetime
-#from datetime import datetime
 import time
 import DB
 from threading import Timer

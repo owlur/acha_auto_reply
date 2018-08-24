@@ -2,9 +2,7 @@ import requests
 import time
 import pymongo
 from datetime import datetime, timedelta
-from bson.objectid import ObjectId
 from collections import deque
-import heapq
 
 base_url = 'http://api.acha.io:3000/user'
 API_KEY = '33233C0EB2C9CA56566FD7D503F100ABDBE012306B4EB812C3C9E83129E8495D'
@@ -23,6 +21,7 @@ def get_reservation_list(user_key='', phone_number=''):
         if res.status_code != 200:
             return False
         res = res.json()
+        res = res['reserv'].extend(res['store'])
 
         if res['result'] == 'success':
             reserv_list = res['reservList']
