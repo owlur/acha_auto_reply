@@ -121,7 +121,8 @@ def get_today_alrim_list():
     :return:
     """
     now = datetime.now()
-    start = now.replace(hour=4, minute=0, second=0, microsecond=0)
+
+    start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
     week_end = start + timedelta(7)
     seven_day_reserv = get_reserv_local(start, week_end)
     today_end = start + timedelta(1)
