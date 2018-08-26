@@ -24,11 +24,14 @@ session_queue = []
 def check_alrim_queue():
     start = time.time()
     now = datetime.now()
-    while alrim_queue[0]['send_time'] < now:
-        alrim_info = alrim_queue.popleft()
-        print(send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'], alrim_info['person_name'],
-                                 alrim_info['person_num'], alrim_info['reserv_date'], alrim_info['until_time'],
-                                 alrim_info['address'], alrim_info['token']))
+    try:
+        while alrim_queue[0]['send_time'] < now:
+            alrim_info = alrim_queue.popleft()
+            print(send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'], alrim_info['person_name'],
+                                     alrim_info['person_num'], alrim_info['reserv_date'], alrim_info['until_time'],
+                                     alrim_info['address'], alrim_info['token']))
+    except IndexError:
+        print('empty alrim queue')
 
     Timer(60 - (time.time() - start), check_alrim_queue).start()
 
