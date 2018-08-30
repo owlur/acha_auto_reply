@@ -88,6 +88,7 @@ def reserv_match(user_key, token, person_name, person_number):
     print('match send data : ')
     print(params)
     res = requests.get(base_url + '/reserv/match', params)
+    print(res.json())
     return res.json()
 
 
