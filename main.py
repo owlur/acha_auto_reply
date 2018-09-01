@@ -31,7 +31,7 @@ def check_alrim_queue():
                                      alrim_info['person_num'], alrim_info['reserv_date'], alrim_info['until_time'],
                                      alrim_info['address'], alrim_info['token']))
     except IndexError:
-        print('empty alrim queue')
+        pass
 
     Timer(60 - (time.time() - start), check_alrim_queue).start()
 
