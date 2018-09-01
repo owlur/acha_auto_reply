@@ -21,7 +21,7 @@ def initial(user_key):
         for reserv in reserv_list:
             date = reserv['reservTime']
 
-            button_name = '%d월 %d일 %s'%(date.tm_mon, date.tm_mday,reserv['storeName'])
+            button_name = '%d월 %d일 %s'%(date.month, date.day,reserv['storeName'])
             button_list.append(button_name)
             reserv['button_name'] = button_name
 
@@ -41,8 +41,8 @@ def find_reservation(outer_user_key, reservation_list):
             if reservation['button_name'] == response:
                 date = reservation['reservTime']
                 message = '%s 예약 정보입니다.\n성함 : %s\n시간 : %d월 %d일 %s %d시% d분\n인원 : %s' %\
-                          (reservation['storeName'],reservation['name'],  date.tm_mon, date.tm_mday,'오후' if date.tm_hour >= 12 else '오전',
-                           date.tm_hour - 12 if date.tm_hour > 12 else date.tm_hour , date.tm_min, reservation['reservNumber'])
+                          (reservation['storeName'],reservation['name'],  date.month, date.day,'오후' if date.hour >= 12 else '오전',
+                           date.hour - 12 if date.hour > 12 else date.hour , date.minute, reservation['reservNumber'])
                 resp = Response(message, keyboard_buttons=['확인 완료', '예약 취소'])
                 resp.message_button =['지도 보기', "http://api.acha.io:3000/user/map?addr=%s&storeName=%s&detailAddress=%s" %
                                       (reservation['roadAddress'], reservation['storeName'], reservation['detailAddress'])]
