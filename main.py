@@ -109,9 +109,9 @@ class ReservRegist(Resource):
         args = reserv_parser.parse_args()
         print(args['reservDate'])
         dt = datetime.fromtimestamp(int(args['reservDate']) / 1000)
+        dt = dt + timedelta(hours=9)
         #ts = time.gmtime(int(args['reservDate']) / 1000)
         args['reservDate'] = '%d월 %d일 %d시 %d분' % (dt.month, dt.day, dt.hour, dt.minute)
-        args['reservDate'] = args['reservDate'] + timedelta(hours=9)
         processing.reserv_regist(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'], args['reservToken'])
         print(args)
 
