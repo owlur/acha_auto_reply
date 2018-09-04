@@ -29,7 +29,7 @@ def get_reservation_list(user_key='', phone_number=''):
 
             for reserv in reserv_list:
                 reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
-                reserv['reservTime'] = reserv['reservTime'] + timedelta(hours=9)
+                reserv['reservTime'] += timedelta(hours=9)
             print('예약 리스트 : ', reserv_list)
 
             return reserv_list
