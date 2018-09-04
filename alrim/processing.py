@@ -34,6 +34,7 @@ def alrim_response_parsing(session, command, content):
         regex = templates[template_code][0]
         if re.match(regex, content):
             splited_content = list(filter(lambda x: x, content.split('\n')))
+            session.next = setting.init_response
             return templates[template_code][1](session, command, splited_content)
     print(content,'\n 템플릿 일치하지 않음')
     return False

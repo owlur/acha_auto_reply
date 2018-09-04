@@ -99,11 +99,6 @@ reserv_parser.add_argument('reservDate')
 reserv_parser.add_argument('reservToken')
 
 
-class SendAlrim(Resource):
-    def post(self):
-        reserv_parser.parse_args()
-
-
 class ReservRegist(Resource):
     def post(self):
         args = reserv_parser.parse_args()
@@ -125,7 +120,6 @@ api.add_resource(Message, '/message')
 api.add_resource(Friend,'/friend')
 api.add_resource(FriendDelete,'/friend/<user_key>')
 api.add_resource(ChatRoom,'/chat_room/<user_key>')
-api.add_resource(SendAlrim,'/send_alrim')
 api.add_resource(ReservRegist,'/reserv/regist')
 
 if __name__ == '__main__':
