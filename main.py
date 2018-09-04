@@ -5,7 +5,7 @@ from session import Session
 from alrim import processing, send
 from datetime import datetime, timedelta
 import time
-import DB
+import DB, utils
 from threading import Timer
 
 app = Flask(__name__)
@@ -111,7 +111,8 @@ class ReservRegist(Resource):
         dt = datetime.fromtimestamp(int(args['reservDate']) / 1000)
         dt = dt + timedelta(hours=9)
         #ts = time.gmtime(int(args['reservDate']) / 1000)
-        args['reservDate'] = '%d월 %d일 %d시 %d분' % (dt.month, dt.day, dt.hour, dt.minute)
+        #args['reservDate'] = '%d월 %d일 %d시 %d분' % (dt.month, dt.day, dt.hour, dt.minute)
+        args['reservDate'] = utils.datetime2str(dt)
         processing.reserv_regist(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'], args['reservToken'])
         print(args)
 

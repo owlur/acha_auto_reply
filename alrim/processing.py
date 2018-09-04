@@ -3,12 +3,18 @@ from alrim import send
 from conversation import setting
 import DB
 
-"""template ={'FIRRM0006': "\[.+\]\n\n안녕하세요! .+ 님에게 아래와 같이 예약이 접수되었습니다.\n예약내용이 맞는지 확인 부탁드립니다!\n이름 : .+\n인원 : .+\n날짜 : .+\n\n예약 내용이 맞으실 경우 .+ 이내에 '확정' 버튼을, 아닐 경우 '취소' 버튼을 눌러주세요!\n\n'확정' 버튼을 누르실 경우 간편한 예약 관리 서비스 '아차'에 .+에 동의 하게 됩니다!\n\n이후 '아차' 플러스 친구를 통해 간편하게 예약 확인 및 취소가 가능합니다\n\n예약 번호 : [0-9]{16}",
-           'RRM0003': "\[.+\]\n\n안녕하세요! 곧 .+님이 .+에 예약하신 시간입니다!\n이름 : .+\n날짜 : .+\n인원 : .+\n\n만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다.\n\n잠시 후 .+에서 뵙겠습니다!\n\n예약 번호 : [0-9]{16}",
-           'RRM0004': "\[.+\]\n\n안녕하세요! .+님이 예약하신 날짜까지 .+ 남았습니다!\n이름 : .+\n날짜 : .+\n인원 : .+\n\n만약 해당 예약의 취소를 원하실 경우 아래의 '예약 취소' 버튼을 통해 간편하게 예약을 취소하실 수 있습니다!\n\n예약 번호 : [0-9]{16}"}
-"""
 
 def reserv_regist(phone_number, store_name, person_name, person_num, date, token):
+    """
+    최초 예약 등록 알림톡 전송
+    :param phone_number:
+    :param store_name:
+    :param person_name:
+    :param person_num:
+    :param date:
+    :param token:
+    :return:
+    """
     template_code = 'FIRRM0006'
     template_parameter = {'상호명': store_name, '이름': person_name, '인원': person_num, '날짜': date, '예약번호': token, '제한시간': '30분', \
                           '법률': '개인정보의 제3자 수집 이용 제공', 'mobile_url': 'www.privacy.go.kr/a3sc/per/chk/examInfoViewFQ41.do', \
@@ -17,6 +23,13 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
 
 
 def alrim_response_parsing(session, command, content):
+    """
+    메시지를 수신하였을 때 일치하는 알림톡 템플릿이 존재하는지 확인 후 템플릿에 해당하는 처리 함수 호출
+    :param session:
+    :param command:
+    :param content:
+    :return:
+    """
     for template_code in templates:
         regex = templates[template_code][0]
         if re.match(regex, content):
@@ -27,6 +40,13 @@ def alrim_response_parsing(session, command, content):
 
 
 def initial_alrim_response(session, command, splited_content):
+    """
+    최초 전송하는 알림톡 응답시
+    :param session:
+    :param command:
+    :param splited_content:
+    :return:
+    """
     store_name = splited_content[0][1:-1]
     person_name = splited_content[3].split('이름 : ')[1]
     person_number = splited_content[4].split('인원 : ')[1]
@@ -43,6 +63,13 @@ def initial_alrim_response(session, command, splited_content):
 
 
 def interval_alrim_response(session, command, splited_content):
+    """
+    주기에 따라 보내는 알림톡 응답시
+    :param session:
+    :param command:
+    :param splited_content:
+    :return:
+    """
     store_name = splited_content[0][1:-1]
     person_name = splited_content[2].split('이름 : ')[1]
     reserv_time = splited_content[3].split('날짜 : ')[1]
@@ -55,30 +82,6 @@ def interval_alrim_response(session, command, splited_content):
     if command == '예약 취소':
         return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])
 
-"""def parse_initial_reservation_alrim(session, command, content):
-
-    regex = template['FIRRM0006']
-
-    res = re.match(regex, content)
-    if not res:
-        print(content,'\n 템플릿 일치하지 않음')
-        return False
-    splited_content = list(filter(lambda x: x, content.split('\n'))) #줄바꿈만 있는 line 제거
-
-    store_name = splited_content[0][1:-1]
-    person_name = splited_content[3].split('이름 : ')[1]
-    person_number = splited_content[4].split('인원 : ')[1]
-    reserv_time = splited_content[5].split('날짜 : ')[1]
-    token = splited_content[-1].split('예약 번호 : ')[1]
-
-    res = DB.reserv_match(session.user_key, token, person_name, person_number)
-
-    reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[3:6])
-    if command == '확정':
-        return reserv_confirm(session, res['statusCode'], reserv_info, res['reservId'])
-    elif command == '취소':
-        return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])
-"""
 
 def reserv_confirm(session, status_code, reserv_info, reserv_id):
     resp = setting.get_init_response()
