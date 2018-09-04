@@ -7,9 +7,9 @@ commands = {
     '예약 확인 할래요!': reservationConfirm.initial,
     '예약 취소 할래요!': reservationCancel.initial,
     '아차!는 어떤 서비스 인가요?': introduceAcha.initial,
-    '아차! 서비스를 저희 매장에 사용하고 싶은데 어떻게 해야 하나요?': contactUs.initial
+    '아차!와 제휴를 맺고 싶어요': contactUs.initial
 }
-default_keyboard = ['예약 확인 할래요!', '예약 취소 할래요!', '아차!는 어떤 서비스 인가요?', '아차! 서비스를 저희 매장에 사용하고 싶은데 어떻게 해야 하나요?']
+default_keyboard = ['예약 확인 할래요!', '예약 취소 할래요!', '아차!는 어떤 서비스 인가요?', '아차!와 제휴를 맺고 싶어요']
 alrim_keyword = ['확정', '취소', '예약 취소']
 
 
