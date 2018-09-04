@@ -107,11 +107,7 @@ class SendAlrim(Resource):
 class ReservRegist(Resource):
     def post(self):
         args = reserv_parser.parse_args()
-        print(args['reservDate'])
         dt = datetime.fromtimestamp(int(args['reservDate']) / 1000)
-        dt = dt + timedelta(hours=9)
-        #ts = time.gmtime(int(args['reservDate']) / 1000)
-        #args['reservDate'] = '%d월 %d일 %d시 %d분' % (dt.month, dt.day, dt.hour, dt.minute)
         args['reservDate'] = utils.datetime2str(dt)
         processing.reserv_regist(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'], args['reservToken'])
         print(args)
@@ -133,9 +129,4 @@ api.add_resource(SendAlrim,'/send_alrim')
 api.add_resource(ReservRegist,'/reserv/regist')
 
 if __name__ == '__main__':
-    test = """testesgvsedg
-    stegesd
-    segsegse
-    segae"""
-    print(test)
     app.run(host='0.0.0.0', debug=True)
