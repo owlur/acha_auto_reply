@@ -3,5 +3,5 @@ from conversation import setting
 
 def initial(user_key):
     resp = setting.get_init_response()
-    resp.message = '현재 아차!는 테스트중인 서비스로 별도의 제휴신청은 받고 있지 않습니다! 작은 관심 감사합니다!'
+    resp.message = '현재 아차!는 테스트중으로 무료로 서비스를 제공하고 있습니다. 관련 문의는 상담용 플러스친구(http://pf.kakao.com/_xfxbxnxhj)를 통해 문의하실 수 있습니다.'
     return resp
