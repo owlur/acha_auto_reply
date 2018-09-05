@@ -38,7 +38,7 @@ def get_alrim_list(minute=10):
     10분 뒤의 알람 획득
     :return:
     """
-    start = datetime.now()
+    start = datetime.now() - timedelta(hours=9)
 
     # start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
     week_end = start + timedelta(7)
@@ -64,7 +64,7 @@ def get_alrim_list(minute=10):
 
         for alarm_interval in store_info['alarm_interval']:
             alarm_interval = int(alarm_interval)
-            send_time = reserv['reservTime'] - timedelta(minutes=alarm_interval)
+            send_time = reserv['reservTime'] - timedelta(minutes=alarm_interval) + timedelta(hours=9)
             if send_time < end_time:
                 res.append({'token': reserv['reservToken'],
                             'store_name': store_info['store_name'],
