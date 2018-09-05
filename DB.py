@@ -174,6 +174,7 @@ def get_alrim_list(minute=10):
 
     #start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
     week_end = start + timedelta(7)
+    print(start, week_end)
     seven_day_reserv = get_reserv_local(start, week_end)
     end_time = start + timedelta(minutes=minute)
 

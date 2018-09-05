@@ -22,9 +22,6 @@ sessions = {}
 session_queue = []
 
 
-def start_flask():
-    app.run(host='0.0.0.0')
-
 def interval_alrim_process():
     """
     1분 간격으로 보낼 알림이 있는지 체크
@@ -136,15 +133,6 @@ class PrivacyPolicy(Resource):
         return send_from_directory('page', 'PrivacyPolicy.html')
 
 
-""""@app.before_first_request
-def initialize():
-    global alrim_queue
-    alrim_queue = DB.get_today_alrim_list()
-    for alrim_info in alrim_queue:
-        print(alrim_info)
-    Timer(0, check_alrim_queue).start()
-"""
-
 api.add_resource(Keyboard, '/keyboard')
 api.add_resource(Message, '/message')
 api.add_resource(Friend, '/friend')
@@ -154,7 +142,7 @@ api.add_resource(ReservRegist, '/reserv/regist')
 api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
 
 if __name__ == '__main__':
-    flask_process = Process(target=start_flask)
+    flask_process = Process(target=app.run, kwargs={'host': '0.0.0.0'})
     interval_alrim_send = Process(target=interval_alrim_process)
     flask_process.start()
     interval_alrim_send.start()
