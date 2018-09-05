@@ -6,7 +6,6 @@ from alrim import processing, send
 from datetime import datetime, timedelta
 import time
 import DB, utils
-from threading import Timer
 from multiprocessing import Process
 
 app = Flask(__name__, static_folder='page')
@@ -37,7 +36,7 @@ def interval_alrim_process():
             alrim_queue = DB.get_alrim_list(minute=10)
             while alrim_queue and alrim_queue[0]['send_time'] < last_alrim_time:
                 alrim_queue.popleft()
-            print('보낼 알림들: ', alrim_queue)
+            print(datetime.now(), '보낼 알림들: ', alrim_queue)
         now = datetime.now()
 
         # 알림큐가 비어있지 않고 맨 앞의 원소가 보내야할때
