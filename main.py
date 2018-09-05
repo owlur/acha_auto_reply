@@ -36,7 +36,7 @@ def interval_alrim_process():
             print('five minute check')
             five_minute_check = time.time()
             alrim_queue = DB.get_alrim_list(minute=10)
-            while alrim_queue[0]['send_time'] < last_alrim_time:
+            while alrim_queue and alrim_queue[0]['send_time'] < last_alrim_time:
                 alrim_queue.popleft()
         now = datetime.now()
 
