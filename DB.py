@@ -8,10 +8,14 @@ base_url = 'http://api.acha.io:3000/user'
 API_KEY = '33233C0EB2C9CA56566FD7D503F100ABDBE012306B4EB812C3C9E83129E8495D'
 user_name = 'acha'
 password = 'achasoma09!!'
-conn = pymongo.MongoClient('mongodb://%s:%s@127.0.0.1:27017/acha' % (user_name, password))
-acha_db = conn.get_database('acha')
-reserv_collection = acha_db.get_collection('Reserv')
-store_collection = acha_db.get_collection('Store')
+
+
+def local_initilize():
+    global reserv_collection, store_collection
+    conn = pymongo.MongoClient('mongodb://%s:%s@127.0.0.1:27017/acha' % (user_name, password))
+    acha_db = conn.get_database('acha')
+    reserv_collection = acha_db.get_collection('Reserv')
+    store_collection = acha_db.get_collection('Store')
 
 
 def get_reservation_list(user_key='', phone_number=''):
