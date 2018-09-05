@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_restful import Resource, Api, reqparse
 from conversation import setting
 from session import Session
@@ -107,6 +107,12 @@ class ReservRegist(Resource):
         processing.reserv_regist(args['phoneNumber'],args['storeName'], args['reservName'], args['reservNumber'], args['reservDate'], args['reservToken'])
         print(args)
 
+
+class PrivacyPolicy(Resource):
+    def get(self):
+        return send_from_directory('page', 'PrivacyPolicy.html')
+
+
 @app.before_first_request
 def initialize():
     global alrim_queue
@@ -115,12 +121,14 @@ def initialize():
         print(alrim_info)
     Timer(0, check_alrim_queue).start()
 
+
 api.add_resource(Keyboard, '/keyboard')
 api.add_resource(Message, '/message')
 api.add_resource(Friend,'/friend')
 api.add_resource(FriendDelete,'/friend/<user_key>')
 api.add_resource(ChatRoom,'/chat_room/<user_key>')
 api.add_resource(ReservRegist,'/reserv/regist')
+api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=True, static_folder='page')
