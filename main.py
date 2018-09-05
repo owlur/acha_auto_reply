@@ -23,7 +23,6 @@ session_queue = []
 
 
 def start_flask():
-    DB.local_initilize()
     app.run(host='0.0.0.0')
 
 def interval_alrim_process():
@@ -31,6 +30,7 @@ def interval_alrim_process():
     1분 간격으로 보낼 알림이 있는지 체크
     5분 간격으로 새로운 알림 리스트 요청 -> 이때 10분치의 알림 받아옴
     """
+    DB.local_initilize()
     alrim_queue = DB.get_alrim_list(minute=10)
     five_minute_check = time.time()
     while True:
