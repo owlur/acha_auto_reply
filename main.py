@@ -8,7 +8,7 @@ import time
 import DB, utils
 from threading import Timer
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='page')
 api = Api(app)
 
 message_parser = reqparse.RequestParser()
@@ -131,4 +131,4 @@ api.add_resource(ReservRegist,'/reserv/regist')
 api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, static_folder='page')
+    app.run(host='0.0.0.0', debug=True)
