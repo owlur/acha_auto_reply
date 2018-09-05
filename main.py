@@ -31,20 +31,20 @@ def interval_alrim_process():
     alrim_queue = DB.get_alrim_list(minute=10)
     five_minute_check = time.time()
     while True:
-        print('one minute check')
         one_minute_check = time.time()
         if time.time() - five_minute_check > 360:
-            print('five minute check')
             five_minute_check = time.time()
             alrim_queue = DB.get_alrim_list(minute=10)
             while alrim_queue and alrim_queue[0]['send_time'] < last_alrim_time:
                 alrim_queue.popleft()
+            print('보낼 알림들: ', alrim_queue)
         now = datetime.now()
 
         # 알림큐가 비어있지 않고 맨 앞의 원소가 보내야할때
         while alrim_queue and alrim_queue[0]['send_time'] < now + timedelta(minutes=1):
             alrim_info = alrim_queue.popleft()
-            print(send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'],
+            print('보낸 알림: ', alrim_info)
+            print('알림톡 응답: ', send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'],
                                            alrim_info['person_name'],
                                            alrim_info['person_num'], alrim_info['reserv_date'],
                                            alrim_info['until_time'],
