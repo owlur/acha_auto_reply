@@ -150,7 +150,7 @@ api.add_resource(ReservRegist, '/reserv/regist')
 api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
 
 if __name__ == '__main__':
-    flask_process = Process(target=app.run, kwargs={'host': '0.0.0.0', 'debug': True})
+    flask_process = Process(target=app.run, kwargs={'host': '0.0.0.0'})
     interval_alrim_send = Process(target=interval_alrim_process)
     flask_process.start()
     interval_alrim_send.start()
