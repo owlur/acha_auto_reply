@@ -1,3 +1,8 @@
+"""
+시간 값을 가져올 때 주의할점
+ - mongodb는 기본적으로 UTC시간으로 저장한다
+ - 따라서 시간을 가져오거나 조회할 떄는 반드시 +9시간/-9시간을 해서 한국시간에 맞춰줘야한다
+"""
 import requests
 import time
 import pymongo
@@ -24,9 +29,6 @@ def get_reserv_local(start, end):
     :param end: datetime.datetime object
     :return:
     """
-    for i in reserv_collection.find({'reservTime': {'$gte': start}, 'currentStatus': 'reserved'}):
-        print(i)
-
     res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}, 'currentStatus': 'reserved'},
                                  {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, 'reservNumber': 1, \
                                   'reservToken': 1})
@@ -42,14 +44,12 @@ def get_alrim_list(minute=10):
 
     # start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
     week_end = start + timedelta(7)
-    print(start, week_end)
     seven_day_reserv = get_reserv_local(start, week_end)
     end_time = start + timedelta(minutes=minute)
 
     stores = {}
     res = []
     for reserv in seven_day_reserv:
-        print(reserv)
         # reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         if reserv['storeId'] not in stores:
             store_info = get_store_info(reserv['storeId'])
