@@ -24,7 +24,7 @@ def get_reserv_local(start, end):
     :param end: datetime.datetime object
     :return:
     """
-    for i in reserv_collection.find():
+    for i in reserv_collection.find({'currentStatus': 'reserved'}):
         print(i)
 
     res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}, 'currentStatus': 'reserved'},
