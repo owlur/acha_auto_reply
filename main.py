@@ -29,6 +29,7 @@ def interval_alrim_process():
     DB.local_initilize()
     alrim_queue = DB.get_alrim_list(minute=10)
     five_minute_check = time.time()
+    last_alrim_time = 0
     while True:
         one_minute_check = time.time()
         if time.time() - five_minute_check >= 300:
