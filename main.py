@@ -31,6 +31,7 @@ def interval_alrim_process():
 
     five_minute_check = time.time()
     last_alrim_time = datetime.now()
+    last_alrim_token = ''
     while True:
         one_minute_check = time.time()
         if time.time() - five_minute_check >= 300:
