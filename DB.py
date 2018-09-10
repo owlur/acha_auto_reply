@@ -50,7 +50,7 @@ def get_alrim_list(minute=10):
     stores = {}
     res = []
     for reserv in seven_day_reserv:
-        print(reserv)
+        print('initial check', reserv)
         # reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         if reserv['storeId'] not in stores:
             store_info = get_store_info(reserv['storeId'])
@@ -59,14 +59,16 @@ def get_alrim_list(minute=10):
                                          'address': store_info['address']}
 
         store_info = stores[reserv['storeId']]
-
+        print('second check', store_info)
         if not store_info['alarm_interval']:
             continue
 
         for alarm_interval in store_info['alarm_interval']:
+            print('third check', alarm_interval)
             alarm_interval = int(alarm_interval)
             send_time = reserv['reservTime'] - timedelta(minutes=alarm_interval) + timedelta(hours=9)
             if send_time < end_time:
+                print('fourth check', alarm_interval)
                 res.append({'token': reserv['reservToken'],
                             'store_name': store_info['store_name'],
                             'person_name': reserv['name'],
