@@ -40,7 +40,7 @@ def get_alrim_list(minute=10):
     10분 뒤의 알람 획득
     :return:
     """
-    start = datetime.now() - timedelta(hours=9)
+    start = datetime.utcnow()
 
     # start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
     week_end = start + timedelta(7)
@@ -72,12 +72,12 @@ def get_alrim_list(minute=10):
                 res.append({'token': reserv['reservToken'],
                             'store_name': store_info['store_name'],
                             'person_name': reserv['name'],
-                            'reserv_date': reserv['reservTime'],
+                            'reserv_date': reserv['reservTime'] + timedelta(hours=9),
                             'person_num': reserv['reservNumber'],
                             'until_time': alarm_interval,
                             'address': store_info['address'],
                             'phone_number': reserv['phoneNumber'],
-                            'send_time': send_time})
+                            'send_time': send_time + timedelta(hours=9)})
 
     return deque(sorted(res, key=lambda x: x['send_time']))
 
