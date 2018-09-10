@@ -36,7 +36,8 @@ def interval_alrim_process():
         if time.time() - five_minute_check >= 300:
             five_minute_check = time.time()
             alrim_queue = DB.get_alrim_list(minute=10)
-        while alrim_queue and alrim_queue[0]['send_time'] < last_alrim_time:
+        while alrim_queue and \
+                (alrim_queue[0]['send_time'] < last_alrim_time or alrim_queue[0]['token'] is last_alrim_token):
             alrim_queue.popleft()
         if alrim_queue:
             print(datetime.now(), '보낼 알림들: ', alrim_queue)
@@ -52,6 +53,7 @@ def interval_alrim_process():
                                            alrim_info['until_time'],
                                            alrim_info['address'], alrim_info['token']))
             last_alrim_time = alrim_info['send_time']
+            last_alrim_token = alrim_info['token']
 
         time.sleep(60 - (time.time() - one_minute_check))
 
