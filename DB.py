@@ -66,7 +66,7 @@ def get_alrim_list(minute=10):
         for alarm_interval in store_info['alarm_interval']:
             print('third check', alarm_interval)
             alarm_interval = int(alarm_interval)
-            send_time = reserv['reservTime'] - timedelta(minutes=alarm_interval) + timedelta(hours=9)
+            send_time = reserv['reservTime'] - timedelta(minutes=alarm_interval)
             if send_time < end_time:
                 print('fourth check', alarm_interval)
                 res.append({'token': reserv['reservToken'],
