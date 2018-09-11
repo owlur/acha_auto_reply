@@ -18,13 +18,16 @@ def initial(user_key):
     reserv_list = DB.get_reservation_list(user_key)
     reserv_list.sort(key=lambda x:x['reservTime'])
     button_list = []
+
     if reserv_list:
         pre_duplicate_num = 1
+        store_name = ''
+        date = reserv_list[-1]['storeName']
         for reserv in reserv_list:
             if date.year == reserv['reservTime'].year and date.month == reserv['reservTime'].month \
-                    and date.day == reserv['reservTime'] and store_name == reserv['storeName']:
+                    and date.day == reserv['reservTime'].day and store_name == reserv['storeName']:
                 pre_duplicate_num += 1
-                button_name = '%d월 %d일 %s[%d]'%(date.month, date.day,store_name, pre_duplicate_num)
+                button_name = '%d월 %d일 %s[%d]' % (date.month, date.day,store_name, pre_duplicate_num)
             else:
                 date = reserv['reservTime']
                 store_name = reserv['storeName']
