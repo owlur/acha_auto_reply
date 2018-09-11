@@ -16,10 +16,9 @@ def initial(user_key):
     if DB.check_regist(user_key) == 'false':
         return userInfoRegist.initial(user_key)
     reserv_list = DB.get_reservation_list(user_key)
-    reserv_list.sort(key=lambda x:x['reservTime'])
-    button_list = []
 
     if reserv_list:
+        reserv_list.sort(key=lambda x:x['reservTime'])
 
         button_list = utils.generate_button(reserv_list)
         """pre_duplicate_num = 1

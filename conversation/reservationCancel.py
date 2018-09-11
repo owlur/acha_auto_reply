@@ -15,8 +15,9 @@ def initial(user_key):
         return userInfoRegist.initial(user_key)
 
     reserv_list = DB.get_reservation_list(user_key)
-    #button_list = []
+
     if reserv_list:
+        reserv_list.sort(key=lambda x: x['reservTime'])
         button_list = utils.generate_button(reserv_list)
         """for reserv in reserv_list:
             date = reserv['reservTime']
