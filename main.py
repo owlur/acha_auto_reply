@@ -31,17 +31,17 @@ def interval_alrim_process():
     last_alrim_time = datetime.now()
     while True:
         one_minute_check = time.time()
+        now = datetime.now()
         if time.time() - five_minute_check >= 300:
             five_minute_check = time.time()
-            alrim_queue = DB.get_alrim_list(minute=10)
+            alrim_queue = DB.get_alrim_list(now - timedelta(minutes=1), minute=10)
             while alrim_queue and alrim_queue[0]['send_time'] <= last_alrim_time:
                 alrim_queue.popleft()
             if alrim_queue:
                 print(datetime.now(), '보낼 알림들: ', alrim_queue)
-        now = datetime.now()
 
         # 지금 보낼알림이 있는지 확인
-        while alrim_queue and alrim_queue[0]['send_time'] < now + timedelta(minutes=1):
+        while alrim_queue and alrim_queue[0]['send_time'] < now:
             alrim_info = alrim_queue.popleft()
             print('보낸 알림: ', alrim_info)
             print('알림톡 응답: ', send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'],

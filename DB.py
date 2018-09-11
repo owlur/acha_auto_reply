@@ -35,12 +35,13 @@ def get_reserv_local(start, end):
     return res
 
 
-def get_alrim_list(minute=10):
+def get_alrim_list(start, minute=10):
     """
     10분 뒤의 알람 획득
     :return:
     """
-    start = datetime.utcnow()
+    #start = datetime.utcnow()
+    start -= timedelta(hours=9)
 
     # start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
     week_end = start + timedelta(7)
