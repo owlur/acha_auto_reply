@@ -20,7 +20,9 @@ def initial(user_key):
     button_list = []
 
     if reserv_list:
-        pre_duplicate_num = 1
+
+        button_list = utils.generate_button(reserv_list)
+        """pre_duplicate_num = 1
         store_name = ''
         date = reserv_list[-1]['reservTime']
         for reserv in reserv_list:
@@ -36,7 +38,7 @@ def initial(user_key):
                 button_name = '%d월 %d일 %s'%(date.month, date.day,store_name)
 
             button_list.append(button_name)
-            reserv['button_name'] = button_name
+            reserv['button_name'] = button_name"""
 
         print(button_list)
         resp = Response('아래의 예약 중 확인하고 싶은 예약을 선택하여 주십시오', keyboard_buttons=button_list)

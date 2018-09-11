@@ -21,3 +21,26 @@ def datetime2str(origin_datetime):
         result += '%d분' % origin_datetime.minute
 
     return result
+
+
+def generate_button(reserv_list):
+    button_list = []
+    pre_duplicate_num = 1
+    store_name = ''
+    date = reserv_list[-1]['reservTime']
+    for reserv in reserv_list:
+        if date.year == reserv['reservTime'].year and date.month == reserv['reservTime'].month \
+                and date.day == reserv['reservTime'].day and store_name == reserv['storeName']:
+            pre_duplicate_num += 1
+            button_name = '%d월 %d일 %s[%d]' % (date.month, date.day, store_name, pre_duplicate_num)
+        else:
+            date = reserv['reservTime']
+            store_name = reserv['storeName']
+            pre_duplicate_num = 1
+
+            button_name = '%d월 %d일 %s' % (date.month, date.day, store_name)
+
+        button_list.append(button_name)
+        reserv['button_name'] = button_name
+
+    return button_list
