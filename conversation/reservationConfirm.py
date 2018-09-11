@@ -22,7 +22,7 @@ def initial(user_key):
     if reserv_list:
         pre_duplicate_num = 1
         store_name = ''
-        date = reserv_list[-1]['storeName']
+        date = reserv_list[-1]['reservTime']
         for reserv in reserv_list:
             if date.year == reserv['reservTime'].year and date.month == reserv['reservTime'].month \
                     and date.day == reserv['reservTime'].day and store_name == reserv['storeName']:
