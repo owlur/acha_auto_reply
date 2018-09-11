@@ -7,7 +7,7 @@
 
 from response import Response
 from conversation import setting, userInfoRegist
-import DB
+import DB, utils
 
 
 def initial(user_key):
@@ -15,13 +15,14 @@ def initial(user_key):
         return userInfoRegist.initial(user_key)
 
     reserv_list = DB.get_reservation_list(user_key)
-    button_list = []
+    #button_list = []
     if reserv_list:
-        for reserv in reserv_list:
+        button_list = utils.generate_button(reserv_list)
+        """for reserv in reserv_list:
             date = reserv['reservTime']
             button_name = '%d월 %d일 %s'%(date.month, date.day,reserv['storeName'])
             button_list.append(button_name)
-            reserv['button_name'] = button_name
+            reserv['button_name'] = button_name"""
         print(button_list)
         resp = Response('아래의 예약 중 취소하고 싶은 예약을 선택하여 주십시오', keyboard_buttons=button_list)
         resp.set_function(cancel(user_key, reserv_list))
