@@ -10,7 +10,7 @@ def datetime2str(origin_datetime):
     elif origin_datetime.hour == 0:
         hour = '밤 12시'
     else:
-        hour = '오전 %d시' % origin_datetime
+        hour = '오전 %d시' % origin_datetime.hour
     result = '%d월 %d일 %s' % (origin_datetime.month, origin_datetime.day, hour)
 
     if origin_datetime.year > now.year:
