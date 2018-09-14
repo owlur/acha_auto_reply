@@ -90,7 +90,7 @@ class Message(Resource):
         type = args['type']
         content = args['content']
 
-        logger.info('/message:POST:user_key=%s, type=%s, content=%s' % (user_key, type, content))
+        logger.info('/message:POST:%s: type=%s, content=%s' % (user_key, type, content))
         if not sessions.get(user_key):
             sessions[user_key] = Session(user_key)
         else:
@@ -99,13 +99,15 @@ class Message(Resource):
 
         content_parse = content.split('\n')
         if len(content_parse) > 2 and not content_parse[1] and content_parse[0] in setting.alrim_keyword:
-            logger.info('알림톡 응답 수신:%s:user_key=%s' % (content_parse[0], user_key ))
+            logger.info('알림톡 응답 수신:%s:%s' % (user_key, content_parse[0]))
             res = processing.alrim_response_parsing(sessions[user_key], content_parse[0],
                                                     '\n'.join(content_parse[2:]))
             if res:
                 return res
 
-        return sessions[user_key].receive_message(type, content)
+        response = sessions[user_key].receive_message(type, content)
+        logger.info('RESPONSE:%s:%s' % (user_key, response))
+        return response
 
 
 class Friend(Resource):
