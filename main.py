@@ -162,7 +162,7 @@ api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
 
 if __name__ == '__main__':
     logger = logging.getLogger('flask')
-    fomatter = logging.Formatter('[ % (levelname)s | % (filename)s: % (lineno)s] % (asctime)s > % (message)s')
+    fomatter = logging.Formatter('[ %(levelname)s | %(filename)s: %(lineno)s] %(asctime)s > %(message)s')
     handler = RotatingFileHandler('log.log', maxBytes=10000, backupCount=1)
     handler.setFormatter(fomatter)
     logger.addHandler(handler)
