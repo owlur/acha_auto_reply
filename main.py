@@ -8,6 +8,9 @@ import time
 import DB, utils
 from multiprocessing import Process
 from collections import deque
+import logging
+from logging.handlers import RotatingFileHandler
+
 
 app = Flask(__name__, static_folder='page')
 api = Api(app)
@@ -50,8 +53,8 @@ def interval_alrim_process():
             """
             while alrim_queue and alrim_queue[0]['send_time'] <= last_alrim_time:
                 alrim_queue.popleft()
-            #while feedback_queue and feedback_queue[0]['send_time'] <= last_alrim_time:
-            #    feedback_queue.popleft()
+            #while total_queue and total_queue[0]['send_time'] <= last_alrim_time:
+            #    total_queue.popleft()
             if alrim_queue:
                 print(datetime.now(), '보낼 알림들: ', alrim_queue)
 
@@ -157,6 +160,10 @@ api.add_resource(ReservRegist, '/reserv/regist')
 api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
 
 if __name__ == '__main__':
+    handler = RotatingFileHandler('log.log', maxBytes=10000, backupCount=1)
+    handler.setLevel(logging.INFO)
+    app.logger.addHandler(handler)
+
     flask_process = Process(target=app.run, kwargs={'host': '0.0.0.0'})
     interval_alrim_send = Process(target=interval_alrim_process)
     flask_process.start()
