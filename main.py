@@ -90,7 +90,7 @@ class Message(Resource):
         type = args['type']
         content = args['content']
 
-        app.logger.info('/message:POST:user_key=%s, type=%s, content=%s' % (user_key, type, content))
+        logger.info('/message:POST:user_key=%s, type=%s, content=%s' % (user_key, type, content))
         if not sessions.get(user_key):
             sessions[user_key] = Session(user_key)
         else:
@@ -99,7 +99,7 @@ class Message(Resource):
 
         content_parse = content.split('\n')
         if len(content_parse) > 2 and not content_parse[1] and content_parse[0] in setting.alrim_keyword:
-            app.logger.info('알림톡 응답 수신:%s:user_key=%s' % (content_parse[0], user_key ))
+            logger.info('알림톡 응답 수신:%s:user_key=%s' % (content_parse[0], user_key ))
             res = processing.alrim_response_parsing(sessions[user_key], content_parse[0],
                                                     '\n'.join(content_parse[2:]))
             if res:
@@ -161,9 +161,12 @@ api.add_resource(ReservRegist, '/reserv/regist')
 api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
 
 if __name__ == '__main__':
+    logger = logging.getLogger('flask')
+    fomatter = logging.Formatter('[ % (levelname)s | % (filename)s: % (lineno)s] % (asctime)s > % (message)s')
     handler = RotatingFileHandler('log.log', maxBytes=10000, backupCount=1)
-    handler.setLevel(logging.INFO)
-    app.logger.addHandler(handler)
+    handler.setFormatter(fomatter)
+    logger.addHandler(handler)
+    logger.setLevel(logging.DEBUG)
 
     flask_process = Process(target=app.run, kwargs={'host': '0.0.0.0'})
     interval_alrim_send = Process(target=interval_alrim_process)
