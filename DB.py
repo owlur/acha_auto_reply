@@ -23,16 +23,51 @@ def local_initilize():
     store_collection = acha_db.get_collection('Store')
 
 
-def get_reserv_local(start, end):
+def get_reserv_local(start, end, status, **kwargs):
     """
     :param start: datetime.datetime object
     :param end: datetime.datetime object
     :return:
     """
-    res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}, 'currentStatus': 'reserved'},
+    if kwargs:
+        res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}, 'currentStatus': status}, kwargs)
+    else:
+        res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}, 'currentStatus': status},
                                  {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, 'reservNumber': 1, \
                                   'reservToken': 1})
     return res
+
+
+def get_feedback_list(start, minute=10):
+    """
+    10분 뒤의 알람 획득
+    :return:
+    """
+    start -= timedelta(hours=33) # 24(1day) + 9(UTC)
+
+    # start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
+    end = start + timedelta(minutes=minute)
+    reserv_list = get_reserv_local(start, end, 'visit', {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, \
+                                                         'reservToken': 1})
+
+    stores = {}
+    res = []
+    for reserv in reserv_list:
+        # reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
+        if reserv['storeId'] not in stores:
+            store_info = get_store_info(reserv['storeId'])
+            stores[reserv['storeId']] = {'store_name': store_info['storeName']}
+
+        store_info = stores[reserv['storeId']]
+
+
+        res.append({'token': reserv['reservToken'],
+                    'store_name': store_info['store_name'],
+                    'person_name': reserv['name'],
+                    'phone_number': reserv['phoneNumber'],
+                    'send_time': reserv['reservTime'] + timedelta(hours=33)}) # 24(1day) + 9(UTC)
+
+    return deque(sorted(res, key=lambda x: x['send_time']))
 
 
 def get_alrim_list(start, minute=10):
@@ -45,7 +80,7 @@ def get_alrim_list(start, minute=10):
 
     # start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
     week_end = start + timedelta(7)
-    seven_day_reserv = get_reserv_local(start, week_end)
+    seven_day_reserv = get_reserv_local(start, week_end, 'reserved')
     end_time = start + timedelta(minutes=minute)
 
     stores = {}
@@ -162,53 +197,9 @@ def get_reservation(reservation_id):
     pass
 
 
-def get_store_info(object_id):
-    res = store_collection.find_one({'_id': object_id}, {'alarmInterval': 1, 'address': 1, 'storeName': 1})
+def get_store_info(object_id, **kwargs):
+    if kwargs:
+        res = store_collection.find_one({'_id': object_id}, kwargs)
+    else:
+        res = store_collection.find_one({'_id': object_id}, {'alarmInterval': 1, 'address': 1, 'storeName': 1})
     return res
-
-
-def get_today_alrim_list():
-    """
-    새벽 3시 실행
-    당일 새벽 4시 ~ 다음날 새벽 4시에 전송해야할 알림 리스트
-    :return:
-    """
-    now = datetime.now()
-
-    start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
-    week_end = start + timedelta(7)
-    seven_day_reserv = get_reserv_local(start, week_end)
-    today_end = start + timedelta(1)
-
-    stores = {}
-    res = []
-    for reserv in seven_day_reserv:
-        #reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
-        if reserv['storeId'] not in stores:
-            store_info = get_store_info(reserv['storeId'])
-            stores[reserv['storeId']] = {'alarm_interval': store_info.get('alarmInterval'),
-                                         'store_name': store_info['storeName'],
-                                         'address': store_info['address']}
-
-        store_info = stores[reserv['storeId']]
-
-        if not store_info['alarm_interval']:
-            continue
-
-        for alarm_interval in store_info['alarm_interval']:
-            alarm_interval = int(alarm_interval)
-            send_time = reserv['reservTime'] - timedelta(minutes=alarm_interval)
-            if send_time < today_end:
-                res.append({'token': reserv['reservToken'],
-                            'store_name': store_info['store_name'],
-                            'person_name': reserv['name'],
-                            'reserv_date': reserv['reservTime'],
-                            'person_num': reserv['reservNumber'],
-                            'until_time': alarm_interval,
-                            'address': store_info['address'],
-                            'phone_number': reserv['phoneNumber'],
-                            'send_time': send_time})
-
-    return deque(sorted(res, key=lambda x: x['send_time']))
-
-

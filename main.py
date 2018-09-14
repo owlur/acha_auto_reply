@@ -35,8 +35,11 @@ def interval_alrim_process():
         if time.time() - five_minute_check >= 300:
             five_minute_check = time.time()
             alrim_queue = DB.get_alrim_list(now - timedelta(minutes=1), minute=10)
+            #feedback_queue = DB.get_feedback_list(now - timedelta(minutes=1))
             while alrim_queue and alrim_queue[0]['send_time'] <= last_alrim_time:
                 alrim_queue.popleft()
+            #while feedback_queue and feedback_queue[0]['send_time'] <= last_alrim_time:
+            #    feedback_queue.popleft()
             if alrim_queue:
                 print(datetime.now(), '보낼 알림들: ', alrim_queue)
 
