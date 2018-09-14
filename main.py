@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import time
 import DB, utils
 from multiprocessing import Process
+from collections import deque
 
 app = Flask(__name__, static_folder='page')
 api = Api(app)
@@ -35,7 +36,18 @@ def interval_alrim_process():
         if time.time() - five_minute_check >= 300:
             five_minute_check = time.time()
             alrim_queue = DB.get_alrim_list(now - timedelta(minutes=1), minute=10)
-            #feedback_queue = DB.get_feedback_list(now - timedelta(minutes=1))
+            """feedback_queue = DB.get_feedback_list(now - timedelta(minutes=1))
+            total_queue = deque([])
+            for i in range(len(alrim_queue + feedback_queue)):
+                if alrim_queue[0]['send_time'] <= last_alrim_time:
+                    alrim_queue.popleft()
+                elif feedback_queue[0]['send_time'] < last_alrim_time:
+                    feedback_queue.popleft()
+                elif alrim_queue[0]['send_time'] <= feedback_queue[0]['send_time']:
+                    total_queue.append(alrim_queue.popleft())
+                else:
+                    total_queue.append(feedback_queue.popleft())
+            """
             while alrim_queue and alrim_queue[0]['send_time'] <= last_alrim_time:
                 alrim_queue.popleft()
             #while feedback_queue and feedback_queue[0]['send_time'] <= last_alrim_time:

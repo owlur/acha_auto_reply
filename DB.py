@@ -116,7 +116,7 @@ def get_alrim_list(start, minute=10):
 
 def get_reservation_list(user_key='', phone_number=''):
     if user_key or phone_number:
-        params = {'key': API_KEY, 'kakaoUserKey': user_key, 'phoneNumber': phone_number, 'status': 'reserved'}
+        params = {'key': API_KEY, 'kakaoUserKey': user_key, 'phoneNumber': phone_number}
         res = requests.get(base_url + '/reserv/search', params)
         if res.status_code != 200:
             return False
