@@ -119,7 +119,7 @@ class Message(Resource):
                     print('예약등록큐에 존재하지 않는 예약번호 입니다. %s', res[2])
             print(res)
             if res:
-                return res
+                return res[0]
 
         response = sessions[user_key].receive_message(type, content)
         logger.info('RESPONSE:%s:%s' % (user_key, response))
