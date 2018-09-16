@@ -185,7 +185,8 @@ def check_regist():
     print(regist_queue)
     while regist_queue and regist_queue[0][1] < datetime.now():
         reserv_token = regist_queue.popleft()[0]
-        DB.reservation_cancel(reserv_token)
+        res = DB.reservation_cancel(reserv_token)
+        print('auto cancel', res, reserv_token)
 
     Timer(60 - (time.time() - start), check_regist).start()
 
