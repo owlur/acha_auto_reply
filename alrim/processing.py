@@ -87,7 +87,7 @@ def interval_alrim_response(session, command, splited_content):
 def reserv_confirm(session, status_code, reserv_info, reserv_id):
     resp = setting.get_init_response()
     if status_code == 'reservwait':
-        DB.reservation_confirm(session.user_key, reserv_id)
+        DB.reservation_confirm(reserv_id)
         resp.message = '아래의 예약이 확정 되었습니다!\n' + reserv_info
     else:
         resp.message = '확정할 수 없는 예약입니다.\n(이미 확정된 예약, 취소된 예약 등)'
@@ -107,7 +107,7 @@ def reserv_cancel(session, status_code, reserv_info, reserv_id):
 def reserv_cancel_confirm(reserv_id):
     def wrapper_function(user_key, content):
         if content == '네!':
-            DB.reservation_cancel(user_key, reserv_id)
+            DB.reservation_cancel(reserv_id)
             resp = setting.get_init_response()
             resp.message = '예약이 정상적으로 취소되었습니다!'
             return resp

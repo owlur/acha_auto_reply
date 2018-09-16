@@ -10,6 +10,7 @@ from multiprocessing import Process
 from collections import deque
 import logging
 from logging.handlers import RotatingFileHandler
+from threading import Timer
 
 
 app = Flask(__name__, static_folder='page')
@@ -23,6 +24,7 @@ message_parser.add_argument('content')
 reserv_token = []
 sessions = {}
 session_queue = []
+regist_queue = deque([])
 
 
 def interval_alrim_process():

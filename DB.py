@@ -167,18 +167,18 @@ def user_regist(user_key, phone_number):
         return False
 
 
-def reservation_cancel(user_key, reservation_id):
-    res = reserv_status_edit(user_key, reservation_id, 'usercancel')
+def reservation_cancel(reservation_id):
+    res = reserv_status_edit(reservation_id, 'usercancel')
     return res.json()
 
 
-def reservation_confirm(user_key, reservation_id):
-    res = reserv_status_edit(user_key, reservation_id, 'reserved')
+def reservation_confirm(reservation_id):
+    res = reserv_status_edit(reservation_id, 'reserved')
     return res.json()
 
 
-def reserv_status_edit(user_key, reservation_id, status):
-    params = {'key': API_KEY, 'kakaoUserKey': user_key, 'reservId': reservation_id, 'status': status}
+def reserv_status_edit(reservation_id, status):
+    params = {'key': API_KEY, 'reservId': reservation_id, 'status': status}
     res = requests.get(base_url + '/reserv/edit', params)
     return res
 

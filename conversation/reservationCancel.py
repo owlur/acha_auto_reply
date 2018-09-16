@@ -52,7 +52,7 @@ def cancel_confirm(user_key, reservation):
     #예약 취소 API 호출해야함
     def wrapper_func(user_key, response):
         if response == '예':
-            DB.reservation_cancel(user_key, reservation['_id'])
+            DB.reservation_cancel(reservation['_id'])
             message = reservation['button_name'] + '예약이 취소 되었습니다.'
             resp = setting.get_init_response()
             resp.message = message
