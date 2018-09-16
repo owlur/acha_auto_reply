@@ -184,7 +184,7 @@ def check_regist():
 
 
 def run_flask():
-    Timer(60, check_regist)
+    check_regist()
     app.run(host='0.0.0.0')
 
 
