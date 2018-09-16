@@ -1,4 +1,5 @@
 from datetime import datetime
+from datetime import timedelta
 
 weekday = ['월', '화', '수', '목', '금', '토', '일']
 
@@ -9,6 +10,7 @@ def datetime2str(origin_datetime):
     elif origin_datetime.hour == 12:
         hour = '점심 12시'
     elif origin_datetime.hour == 0:
+        origin_datetime -= timedelta(1)
         hour = '밤 12시'
     else:
         hour = '오전 %d시' % origin_datetime.hour
