@@ -105,9 +105,13 @@ class Message(Resource):
             res = processing.alrim_response_parsing(sessions[user_key], content_parse[0],
                                                     '\n'.join(content_parse[2:]), regist_queue)
 
+            print('check', res)
             if res[1] == '확정':
+                print('check2')
                 for index, reserv in enumerate(regist_queue):
+                    print('check3', index, reserv)
                     if reserv[0] == res[2]:
+                        print('check4')
                         regist_queue.pop(index)
                         break
                 else:
