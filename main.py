@@ -187,7 +187,7 @@ def check_regist():
         reserv_token = regist_queue.popleft()[0]
         DB.reservation_cancel(reserv_token)
 
-    Timer(60 - (time.time() - start), check_regist)
+    Timer(60 - (time.time() - start), check_regist).start()
 
 
 def run_flask():
