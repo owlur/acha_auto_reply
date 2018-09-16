@@ -103,7 +103,7 @@ class Message(Resource):
         if len(content_parse) > 2 and not content_parse[1] and content_parse[0] in setting.alrim_keyword:
             logger.info('알림톡 응답 수신:%s:%s' % (user_key, content_parse[0]))
             res = processing.alrim_response_parsing(sessions[user_key], content_parse[0],
-                                                    '\n'.join(content_parse[2:]), regist_queue)
+                                                    '\n'.join(content_parse[2:]))
 
             print('check', res)
             if res[1] == '확정':
@@ -118,7 +118,7 @@ class Message(Resource):
                 else:
                     print('예약등록큐에 존재하지 않는 예약번호 입니다. %s', res[2])
             print(res)
-            if res:
+            if res[0]:
                 return res[0]
 
         response = sessions[user_key].receive_message(type, content)
