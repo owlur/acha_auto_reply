@@ -103,7 +103,13 @@ class Message(Resource):
         if len(content_parse) > 2 and not content_parse[1] and content_parse[0] in setting.alrim_keyword:
             logger.info('알림톡 응답 수신:%s:%s' % (user_key, content_parse[0]))
             res = processing.alrim_response_parsing(sessions[user_key], content_parse[0],
-                                                    '\n'.join(content_parse[2:]))
+                                                    '\n'.join(content_parse[2:]), regist_queue)
+
+            if res[1] == '확정':
+                for index, reserv in regist_queue:
+                    if reserv[0] == res[2]:
+                        break
+                regist_queue.pop(index)
             print(res)
             if res:
                 return res
@@ -176,6 +182,7 @@ def check_regist():
 
     Timer(60 - (time.time() - start), check_regist)
 
+
 def run_flask():
     Timer(60, check_regist)
     app.run(host='0.0.0.0')
@@ -189,7 +196,7 @@ if __name__ == '__main__':
     logger.addHandler(handler)
     logger.setLevel(logging.DEBUG)
 
-    flask_process = Process(target=app.run, kwargs={'host': '0.0.0.0'})
+    flask_process = Process(target=run_flask())
     interval_alrim_send = Process(target=interval_alrim_process)
     flask_process.start()
     interval_alrim_send.start()

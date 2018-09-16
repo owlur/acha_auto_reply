@@ -22,7 +22,7 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
     return send.send_alrim(template_code, phone_number, template_parameter)
 
 
-def alrim_response_parsing(session, command, content):
+def alrim_response_parsing(session, command, content, regist_queue):
     """
     메시지를 수신하였을 때 일치하는 알림톡 템플릿이 존재하는지 확인 후 템플릿에 해당하는 처리 함수 호출
     :param session:
@@ -58,9 +58,10 @@ def initial_alrim_response(session, command, splited_content):
 
     reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[3:6])
     if command == '확정':
-        return reserv_confirm(session, res['statusCode'], reserv_info, res['reservId'])
+        return (reserv_confirm(session, res['statusCode'], reserv_info, res['reservId']), '확정', token)
     elif command == '취소':
-        return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId'])
+        return
+        return (reserv_confirm(session, res['statusCode'], reserv_info, res['reservId']), '취소', token)
 
 
 def interval_alrim_response(session, command, splited_content):
