@@ -105,11 +105,14 @@ class Message(Resource):
             res = processing.alrim_response_parsing(sessions[user_key], content_parse[0],
                                                     '\n'.join(content_parse[2:]), regist_queue)
 
+            print('check', res)
             if res[1] == '확정':
                 for index, reserv in regist_queue:
                     if reserv[0] == res[2]:
+                        regist_queue.pop(index)
                         break
-                regist_queue.pop(index)
+                else:
+                    print('예약등록큐에 존재하지 않는 예약번호 입니다. %s', res[2])
             print(res)
             if res:
                 return res
