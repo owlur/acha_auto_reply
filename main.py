@@ -153,6 +153,7 @@ reserv_parser.add_argument('reservName')
 reserv_parser.add_argument('reservNumber')
 reserv_parser.add_argument('reservDate')
 reserv_parser.add_argument('reservToken')
+reserv_parser.add_argument('reservId')
 
 
 class ReservRegist(Resource):
@@ -184,9 +185,9 @@ def check_regist():
     start = time.time()
     print(regist_queue)
     while regist_queue and regist_queue[0][1] < datetime.now():
-        reserv_token = regist_queue.popleft()[0]
-        res = DB.reservation_cancel(reserv_token)
-        print('auto cancel', res, reserv_token)
+        reserv_id = regist_queue.popleft()[0]
+        res = DB.reservation_cancel(reserv_id)
+        print('auto cancel', res, reserv_id)
 
     Timer(60 - (time.time() - start), check_regist).start()
 
