@@ -162,7 +162,7 @@ class ReservRegist(Resource):
         args['reservDate'] = utils.datetime2str(dt)
         if processing.reserv_regist(args['phoneNumber'], args['storeName'], args['reservName'], args['reservNumber'],
                                  args['reservDate'], args['reservToken']):
-            regist_queue.append((args['reservToken'], datetime.now() + timedelta(minutes=1)))
+            regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=1)))
         print(args)
 
 
