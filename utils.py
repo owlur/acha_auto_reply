@@ -1,5 +1,6 @@
 from datetime import datetime
 
+weekday = ['월', '화', '수', '목', '금', '토', '일']
 
 def datetime2str(origin_datetime):
     now = datetime.now()
@@ -11,7 +12,7 @@ def datetime2str(origin_datetime):
         hour = '밤 12시'
     else:
         hour = '오전 %d시' % origin_datetime.hour
-    result = '%d월 %d일 %s' % (origin_datetime.month, origin_datetime.day, hour)
+    result = '%d월 %d일 (%s) %s' % (origin_datetime.month, origin_datetime.day, origin_datetime.weekday(), hour)
 
     if origin_datetime.year > now.year:
         result_year = '%d년 ' % origin_datetime.year

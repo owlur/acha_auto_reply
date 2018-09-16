@@ -89,8 +89,10 @@ def reserv_confirm(session, status_code, reserv_info, reserv_id):
     if status_code == 'reservwait':
         DB.reservation_confirm(reserv_id)
         resp.message = '아래의 예약이 확정 되었습니다!\n' + reserv_info
+    elif status_code == 'reserved':
+        resp.message = '이미 확정된 예약 입니다.'
     else:
-        resp.message = '확정할 수 없는 예약입니다.\n(이미 확정된 예약, 취소된 예약 등)'
+        resp.message = '확정할 수 없는 예약입니다.\n(시간 초과, 취소된 예약 등)'
     return resp.get_response()
 
 
