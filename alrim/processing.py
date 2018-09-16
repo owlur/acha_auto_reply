@@ -60,7 +60,7 @@ def initial_alrim_response(session, command, splited_content):
     if command == '확정':
         return (reserv_confirm(session, res['statusCode'], reserv_info, res['reservId']), '최초 확정', token)
     elif command == '취소':
-        return (reserv_confirm(session, res['statusCode'], reserv_info, res['reservId']), '예약 취소', token)
+        return (reserv_cancel(session, res['statusCode'], reserv_info, res['reservId']), '예약 취소', token)
 
 
 def interval_alrim_response(session, command, splited_content):
