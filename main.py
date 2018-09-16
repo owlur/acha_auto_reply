@@ -146,8 +146,9 @@ class ReservRegist(Resource):
         args = reserv_parser.parse_args()
         dt = datetime.fromtimestamp(int(args['reservDate']) / 1000)
         args['reservDate'] = utils.datetime2str(dt)
-        processing.reserv_regist(args['phoneNumber'], args['storeName'], args['reservName'], args['reservNumber'],
-                                 args['reservDate'], args['reservToken'])
+        if processing.reserv_regist(args['phoneNumber'], args['storeName'], args['reservName'], args['reservNumber'],
+                                 args['reservDate'], args['reservToken']):
+            regist_queue.append((args['reservToken'], datetime.now() + timedelta(hours=1)))
         print(args)
 
 
@@ -163,6 +164,21 @@ api.add_resource(FriendDelete, '/friend/<user_key>')
 api.add_resource(ChatRoom, '/chat_room/<user_key>')
 api.add_resource(ReservRegist, '/reserv/regist')
 api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
+
+
+def check_regist():
+    start = time.time()
+    print(regist_queue)
+    while regist_queue and regist_queue[0][1] < datetime.now():
+        reserv_token = regist_queue.popleft()[0]
+        DB.reservation_cancel(reserv_token)
+
+    Timer(60 - (time.time() - start), check_regist)
+
+def run_flask():
+    Timer(60, check_regist)
+    app.run(host='0.0.0.0')
+
 
 if __name__ == '__main__':
     logger = logging.getLogger('flask')

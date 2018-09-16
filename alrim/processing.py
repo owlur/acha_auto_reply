@@ -16,7 +16,7 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
     :return:
     """
     template_code = 'FIRRM0006'
-    template_parameter = {'상호명': store_name, '이름': person_name, '인원': person_num, '날짜': date, '예약번호': token, '제한시간': '30분', \
+    template_parameter = {'상호명': store_name, '이름': person_name, '인원': person_num, '날짜': date, '예약번호': token, '제한시간': '1시간', \
                           '법률': '개인정보의 제3자 수집 이용 제공', 'mobile_url': 'acha.io:5000/PrivacyPolicy', \
                           'pc_url': 'acha.io:5000/PrivacyPolicy'}
     return send.send_alrim(template_code, phone_number, template_parameter)
