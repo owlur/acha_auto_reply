@@ -104,6 +104,7 @@ class Message(Resource):
             logger.info('알림톡 응답 수신:%s:%s' % (user_key, content_parse[0]))
             res = processing.alrim_response_parsing(sessions[user_key], content_parse[0],
                                                     '\n'.join(content_parse[2:]))
+            print(res)
             if res:
                 return res
 
