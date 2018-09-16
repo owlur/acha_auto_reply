@@ -111,9 +111,9 @@ class Message(Resource):
                 for reserv in regist_queue:
                     print('check3', reserv)
                     if reserv[0] == res[2]:
-                        print('check4')
+                        print('check4', regist_queue)
                         regist_queue.remove(reserv)
-                        print('check5')
+                        print('check5', regist_queue)
                         break
                 else:
                     print('예약등록큐에 존재하지 않는 예약번호 입니다. %s', res[2])
