@@ -156,8 +156,10 @@ class ReservRegist(Resource):
         args = reserv_parser.parse_args()
         dt = datetime.fromtimestamp(int(args['reservDate']) / 1000)
         args['reservDate'] = utils.datetime2str(dt)
-        if processing.reserv_regist(args['phoneNumber'], args['storeName'], args['reservName'], args['reservNumber'],
-                                 args['reservDate'], args['reservToken']):
+        alrim_res = processing.reserv_regist(args['phoneNumber'], args['storeName'], args['reservName'], args['reservNumber'],
+                                 args['reservDate'], args['reservToken'])
+        print(alrim_res)
+        if alrim_res:
             regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=60)))
         print(args)
 
