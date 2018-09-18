@@ -195,6 +195,7 @@ def reserv_match(user_key, token, person_number):
 def set_name(reserv_id, person_name):
     params = {'key': API_KEY, 'reservId': reserv_id, 'name': person_name}
     res = requests.get(base_url + 'reserv/setname', params)
+    print(res.json())
     return res.json()
 
 def get_current_statuc(reserv_id):
