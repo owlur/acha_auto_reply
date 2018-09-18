@@ -34,6 +34,7 @@ def alrim_response_parsing(session, command, content):
     :param content:
     :return:
     """
+    print('alrim_response_parsing content:' , content)
     for template_code in templates:
         regex = templates[template_code][0]
         if re.match(regex, content):
