@@ -105,7 +105,7 @@ class Message(Resource):
             res = processing.alrim_response_parsing(sessions[user_key], content_parse[0],
                                                     '\n'.join(content_parse[2:]))
 
-            if res[1] == '확정':
+            if res[1] == '최초 확정':
                 for reserv in regist_queue:
                     if reserv[0] == res[2]:
                         regist_queue.remove(reserv)
@@ -149,6 +149,7 @@ reserv_parser.add_argument('reservNumber')
 reserv_parser.add_argument('reservDate')
 reserv_parser.add_argument('reservToken')
 reserv_parser.add_argument('reservId')
+reserv_parser.add_argument('storePhoneNumber')
 
 
 class ReservRegist(Resource):
@@ -157,10 +158,10 @@ class ReservRegist(Resource):
         dt = datetime.fromtimestamp(int(args['reservDate']) / 1000)
         args['reservDate'] = utils.datetime2str(dt)
         alrim_res = processing.reserv_regist(args['phoneNumber'], args['storeName'], args['reservName'], args['reservNumber'],
-                                 args['reservDate'], args['reservToken'])
+                                 args['reservDate'], args['reservToken'], args['storePhoneNumber'])
         print(alrim_res)
         if alrim_res:
-            regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=1)))
+            regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=30)))
         print(args)
 
 

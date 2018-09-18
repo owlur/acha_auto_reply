@@ -183,14 +183,20 @@ def reserv_status_edit(reservation_id, status):
     return res
 
 
-def reserv_match(user_key, token, person_name, person_number):
-    params = {'key': API_KEY, 'kakaoUserKey': user_key, 'reservToken': token, 'reservName': person_name, \
-              'reservNumber': int(person_number)}
+def reserv_match(user_key, token, person_number):
+    params = {'key': API_KEY, 'kakaoUserKey': user_key, 'reservToken': token, 'reservNumber': int(person_number)}
     print('match send data : ')
     print(params)
     res = requests.get(base_url + '/reserv/match', params)
     print(res.json())
     return res.json()
+
+
+def set_name(reserv_id, person_name):
+    params = {'key': API_KEY, 'reservId': reserv_id, 'name': person_name}
+    res = requests.get(base_url + 'reserv/setname', params)
+    return res.json()
+
 
 
 def get_reservation(reservation_id):
