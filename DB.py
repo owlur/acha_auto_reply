@@ -197,6 +197,11 @@ def set_name(reserv_id, person_name):
     res = requests.get(base_url + 'reserv/setname', params)
     return res.json()
 
+def get_current_statuc(reserv_id):
+    params = {'key': API_KEY, 'reservId': reserv_id}
+    res = requests.get(base_url + 'reserv/currentstatus', params)
+    return res.json()
+
 
 
 def get_reservation(reservation_id):

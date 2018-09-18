@@ -73,9 +73,8 @@ def set_name_response(session, command, splited_content):
     reserv_time = splited_content[4].split(' : ')[1]
     store_name = splited_content[6].split (' : ')[1]
     store_phone_number = splited_content[7].split(' : ')[1]
-    token = splited_content[-1].splite(' : ')[1]
+    token = splited_content[-1].split(' : ')[1]
     reserv_info = splited_content[2:8]
-    print('set_name_response()', person_number, reserv_time, store_name, store_phone_number, token, reserv_info)
 
     res = DB.reserv_match(session.user_key, token, person_number)
     if command == '이름 입력':
