@@ -34,7 +34,7 @@ def alrim_response_parsing(session, command, content):
     :param content:
     :return:
     """
-    print('alrim_response_parsing content:' , content)
+    print('alrim_response_parsing content:', content)
     for template_code in templates:
         regex = templates[template_code][0]
         if re.match(regex, content):
@@ -69,6 +69,7 @@ def initial_alrim_response(session, command, splited_content):
 
 
 def set_name_response(session, command, splited_content):
+    print('set_name_response()', command, splited_content)
     person_number = splited_content[3].split(' : ')[1]
     reserv_time = splited_content[4].split(' : ')[1]
     store_name = splited_content[6].split (' : ')[1]
@@ -177,7 +178,7 @@ templates ={'FIRRM0006': ( ("\[.+\]\n\n"
                             "이후 '아차' 플러스 친구를 통해 간편하게 예약 확인 및 취소가 가능합니다\n\n"
                             "예약 번호 : [0-9]{16}"),
                            initial_alrim_response),
-            'FIRRM0009': ( ("""\[.+\]
+            'FIRRM0008': ( ("""\[.+\]
 
 안녕하세요! 고객님에게 아래와 같이 예약이 접수되었습니다.
 
