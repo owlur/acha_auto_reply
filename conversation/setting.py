@@ -10,7 +10,7 @@ commands = {
     '아차!와 제휴를 맺고 싶어요': contactUs.initial
 }
 default_keyboard = ['예약 확인 할래요!', '예약 취소 할래요!', '아차!는 어떤 서비스 인가요?', '아차!와 제휴를 맺고 싶어요']
-alrim_keyword = ['확정', '취소', '예약 취소']
+alrim_keyword = ['확정', '취소', '예약 취소', '이름 입력']
 
 
 def fallback_function(user_key, response):
