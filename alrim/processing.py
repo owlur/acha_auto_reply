@@ -17,7 +17,7 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
     :return:
     """
     if not person_name:
-        template_code = 'FIRRM0009'
+        template_code = 'FIRRM0008'
     else:
         template_code = 'FIRRM0006'
     template_parameter = {'상호명': store_name, '매장 연락처': store_phone_number, '이름': person_name, '인원': person_num,
