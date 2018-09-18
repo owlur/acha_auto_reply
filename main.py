@@ -160,7 +160,7 @@ class ReservRegist(Resource):
                                  args['reservDate'], args['reservToken'])
         print(alrim_res)
         if alrim_res:
-            regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=60)))
+            regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=1)))
         print(args)
 
 
