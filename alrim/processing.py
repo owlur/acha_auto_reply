@@ -54,14 +54,15 @@ def initial_alrim_response(session, command, splited_content):
     :return:
     """
     store_name = splited_content[0][1:-1]
-    person_name = splited_content[3].split('이름 : ')[1]
-    person_number = splited_content[4].split('인원 : ')[1]
-    reserv_time = splited_content[5].split('날짜 : ')[1]
-    token = splited_content[-1].split('예약 번호 : ')[1]
+    person_name = splited_content[3].split(' : ')[1]
+    person_number = splited_content[4].split(' : ')[1]
+    reserv_time = splited_content[5].split(' : ')[1]
+    store_phone_number = splited_content[8].split(' : ')[1]
+    token = splited_content[-1].split(' : ')[1]
 
     res = DB.reserv_match(session.user_key, token, person_number)
 
-    reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[3:6])
+    reserv_info = '\n'.join(splited_content[2:9])
     if command == '확정':
         return (reserv_confirm(session, res['statusCode'], reserv_info, res['reservId']), '최초 확정', token)
     elif command == '취소':
@@ -74,7 +75,7 @@ def set_name_response(session, command, splited_content):
     store_name = splited_content[6].split (' : ')[1]
     store_phone_number = splited_content[7].split(' : ')[1]
     token = splited_content[-1].split(' : ')[1]
-    reserv_info = splited_content[2:8]
+    reserv_info = '\n'.join(splited_content[2:8])
 
     res = DB.reserv_match(session.user_key, token, person_number)
     if command == '이름 입력':
@@ -120,14 +121,14 @@ def interval_alrim_response(session, command, splited_content):
     :return:
     """
     store_name = splited_content[0][1:-1]
-    person_name = splited_content[2].split('이름 : ')[1]
-    reserv_time = splited_content[3].split('날짜 : ')[1]
+    person_name = splited_content[3].split('이름 : ')[1]
+    reserv_time = splited_content[5].split('날짜 : ')[1]
     person_number = splited_content[4].split('인원 : ')[1]
     token = splited_content[-1].split('예약 번호 : ')[1]
 
     res = DB.reserv_match(session.user_key, token, person_number)
 
-    reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[2:5])
+    reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[3:9])
     if command == '예약 취소':
         return (reserv_cancel(session, res['statusCode'], reserv_info, res['reservId']), '예약 취소', token)
 
@@ -196,6 +197,25 @@ templates ={'FIRRM0006': ( ("\[.+\]\n\n"
 
 예약 번호 : [0-9]{16}"""),
                            set_name_response),
+            'FIRRM0009': ( ("""\[.+\]
+
+안녕하세요! 고객님에게 아래와 같이 예약이 접수되었습니다.
+
+\[예약 정보\]
+ \- 성함 : .+
+ \- 인원 : .+
+ \- 날짜 : .+
+
+\[매장 정보\]
+ \- 매장 이름 : .+
+ \- 매장 연락처 : .+
+
+\[ 꼭 읽어 주세요! \]
+ \- .+ 이내에 \[확정\] 버튼을 누르셔야 예약이 확정됩니다.
+ \- \[확정\] 버튼을 누르실 경우 간편한 예약 관리 서비스 '아차'에 .+을 동의 하게 됩니다!
+ \- 이후 '아차' 플러스 친구를 통해 간편한 예약 확인, 취소 및 알림등 다양한 기능이 제공됩니다.
+
+예약 번호 : [0-9]{16}"""), initial_alrim_response),
            'RRM0003': ( ("\[.+\]\n\n"
                          "안녕하세요! 곧 .+님이 .+에 예약하신 시간입니다!\n"
                          "이름 : .+\n"
