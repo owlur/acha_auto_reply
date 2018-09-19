@@ -159,7 +159,7 @@ class ReservRegist(Resource):
         dt = datetime.fromtimestamp(int(args['reservDate']) / 1000)
         args['reservDate'] = utils.datetime2str(dt)
         alrim_res = processing.reserv_regist(args['phoneNumber'], args['storeName'], args['reservName'], args['reservNumber'],
-                                 args['reservDate'], args['reservToken'], args['storePhoneNumber']).json()
+                                 args['reservDate'], args['reservToken'], args['storePhoneNumber'])
         print(alrim_res)
         if alrim_res:
             check_queue.append((args['reservId'], datetime.now() + timedelta(minutes=1), alrim_res['message']['requestId']))
