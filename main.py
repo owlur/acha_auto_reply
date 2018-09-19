@@ -185,7 +185,7 @@ def check_regist():
     start = time.time()
     while check_queue and check_queue[0][1] < datetime.now():
         request_id = check_queue[0][2]
-        alrim_res =  send.get_alrim_status(request_id)
+        alrim_res = send.get_alrim_status(request_id)
         alrim_result_code = alrim_res['resultCode']
         if alrim_result_code == '1000':
             reserv = check_queue.popleft()
@@ -207,7 +207,6 @@ def check_regist():
             reserv = check_queue.popleft()
             print('알 수 없는 에러', reserv[0], reserv[2])
             regist_queue.append(reserv[0], reserv[1] + timedelta(minutes=29))
-
 
     while regist_queue and regist_queue[0][1] < datetime.now():
         reserv_id = regist_queue.popleft()[0]
