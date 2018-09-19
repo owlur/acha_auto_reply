@@ -25,6 +25,7 @@ reserv_token = []
 sessions = {}
 session_queue = []
 regist_queue = deque([])
+check_queue = deque([])
 
 
 def interval_alrim_process():
@@ -158,10 +159,11 @@ class ReservRegist(Resource):
         dt = datetime.fromtimestamp(int(args['reservDate']) / 1000)
         args['reservDate'] = utils.datetime2str(dt)
         alrim_res = processing.reserv_regist(args['phoneNumber'], args['storeName'], args['reservName'], args['reservNumber'],
-                                 args['reservDate'], args['reservToken'], args['storePhoneNumber'])
+                                 args['reservDate'], args['reservToken'], args['storePhoneNumber']).json()
         print(alrim_res)
         if alrim_res:
-            regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=30)))
+            check_queue.append((args['reservId'], datetime.now() + timedelta(minutes=1), alrim_res['message']['requestId']))
+            #regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=30)))
         print(args)
 
 
@@ -181,13 +183,39 @@ api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
 
 def check_regist():
     start = time.time()
+    while check_queue and check_queue[0][1] < datetime.now():
+        request_id = check_queue[0][2]
+        alrim_res =  send.get_alrim_status(request_id)
+        alrim_result_code = alrim_res['resultCode']
+        if alrim_result_code == '1000':
+            reserv = check_queue.popleft()
+            print('정상 전송', reserv[0], reserv[2])
+            regist_queue.append(reserv[0], reserv[1] + timedelta(minutes=29))
+        elif alrim_result_code == '2001':
+            # 카톡이 없어서 자동 확정
+            reserv = check_queue.popleft()
+            print('카톡 없음', reserv[0], reserv[2])
+            db_res = DB.reservation_confirm(reserv[0])
+            # 확정알림을 서버에 보내줘야함
+        elif alrim_result_code == '1002':
+            # 없는 번호일 경우 자동 취소
+            reserv = check_queue.popleft()
+            print('없는 번호', reserv[0], reserv[2])
+            db_res = DB.reservation_cancel(reserv[0])
+        else:
+            # 알수 없는 에러
+            reserv = check_queue.popleft()
+            print('알 수 없는 에러', reserv[0], reserv[2])
+            regist_queue.append(reserv[0], reserv[1] + timedelta(minutes=29))
+
+
     while regist_queue and regist_queue[0][1] < datetime.now():
         reserv_id = regist_queue.popleft()[0]
         if DB.get_current_status(reserv_id)['currentStatus'] == 'reservwait':
             res = DB.reservation_cancel(reserv_id)
             print('auto cancel', res, reserv_id)
 
-    Timer(60 - (time.time() - start), check_regist).start()
+    Timer(30 - (time.time() - start), check_regist).start()
 
 
 def run_flask():

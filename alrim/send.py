@@ -51,3 +51,13 @@ def send_alrim(template_code, phone_number, template_parameter):
     res = requests.post(alrim_api_base_url + '/alimtalk/v1.0/appkeys/' + app_key + '/messages', json=params,
                         headers=header)
     return res.json()
+
+
+def get_alrim_status(request_id):
+    params = {
+        'requestId' : request_id
+    }
+    res = requests.get(alrim_api_base_url + 'slimtalk/v1.1/appkeys/' + app_key + 'messages', params=params,
+                          headers=header).json()
+
+    return res['messageSearchResultResponse']['messages']
