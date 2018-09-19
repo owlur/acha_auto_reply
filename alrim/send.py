@@ -57,7 +57,7 @@ def get_alrim_status(request_id):
     params = {
         'requestId' : request_id
     }
-    res = requests.get(alrim_api_base_url + 'slimtalk/v1.1/appkeys/' + app_key + 'messages', params=params,
+    res = requests.get(alrim_api_base_url + 'slimtalk/v1.1/appkeys/' + app_key + '/messages', params=params,
                           headers=header).json()
 
     return res['messageSearchResultResponse']['messages']
