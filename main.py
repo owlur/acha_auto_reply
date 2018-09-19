@@ -192,7 +192,7 @@ def check_regist():
         if alrim_result_code == '1000':
             reserv = check_queue.popleft()
             print('정상 전송', reserv[0], reserv[2])
-            regist_queue.append(reserv[0], reserv[1] + timedelta(minutes=29))
+            regist_queue.append((reserv[0], reserv[1] + timedelta(minutes=29)))
         elif alrim_result_code == '2001':
             # 카톡이 없어서 자동 확정
             reserv = check_queue.popleft()
@@ -208,7 +208,7 @@ def check_regist():
             # 알수 없는 에러
             reserv = check_queue.popleft()
             print('알 수 없는 에러', reserv[0], reserv[2])
-            regist_queue.append(reserv[0], reserv[1] + timedelta(minutes=29))
+            regist_queue.append((reserv[0], reserv[1] + timedelta(minutes=29)))
 
     while regist_queue and regist_queue[0][1] < datetime.now():
         reserv_id = regist_queue.popleft()[0]
