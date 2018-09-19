@@ -161,7 +161,7 @@ class ReservRegist(Resource):
                                  args['reservDate'], args['reservToken'], args['storePhoneNumber'])
         print(alrim_res)
         if alrim_res:
-            regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=1)))
+            regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=30)))
         print(args)
 
 
@@ -186,7 +186,6 @@ def check_regist():
         if DB.get_current_status(reserv_id)['currentStatus'] == 'reservwait':
             res = DB.reservation_cancel(reserv_id)
             print('auto cancel', res, reserv_id)
-
 
     Timer(60 - (time.time() - start), check_regist).start()
 
