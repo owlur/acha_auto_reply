@@ -183,6 +183,8 @@ api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
 
 def check_regist():
     start = time.time()
+    print('check queue', check_queue)
+    print('regist queue', regist_queue)
     while check_queue and check_queue[0][1] < datetime.now():
         request_id = check_queue[0][2]
         alrim_res = send.get_alrim_status(request_id)
