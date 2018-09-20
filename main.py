@@ -54,7 +54,7 @@ def interval_alrim_process():
                 else:
                     total_queue.append(feedback_queue.popleft())
             """
-            while alrim_queue and alrim_queue[0]['send_time'] <= last_alrim_time:
+            while alrim_queue and alrim_queue[0]['send_time'] < last_alrim_time:
                 alrim_queue.popleft()
             #while total_queue and total_queue[0]['send_time'] <= last_alrim_time:
             #    total_queue.popleft()
@@ -70,7 +70,8 @@ def interval_alrim_process():
                                            alrim_info['person_num'], alrim_info['reserv_date'],
                                            alrim_info['until_time'],
                                            alrim_info['address'], alrim_info['token']))
-            last_alrim_time = alrim_info['send_time']
+
+        last_alrim_time = now
 
         time.sleep(60 - (time.time() - one_minute_check))
 
