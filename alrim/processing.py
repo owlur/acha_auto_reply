@@ -151,8 +151,14 @@ def reserv_cancel(session, status_code, reserv_info, reserv_id):
         resp.message = '정말로 아래의 예약을 취소 하시겠습니까?\n' + reserv_info
         resp.next_function = reserv_cancel_confirm(reserv_id)
         resp.buttons = ['네!', '아니요 괜찮아요!']
-        session.next = resp
-        return resp.get_response()
+    elif status_code == 'usercancel' or status_code == 'storecancel':
+        resp = setting.get_init_response()
+        resp.message = '이미 취소된 예약입니다.'
+    else:
+        resp = setting.get_init_response()
+        resp.message = '취소할 수 없는 예약입니다.(이미 방문처리 된 예약)'
+    session.next = resp
+    return resp.get_response()
 
 
 def reserv_cancel_confirm(reserv_id):
