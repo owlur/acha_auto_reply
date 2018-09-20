@@ -111,7 +111,6 @@ def set_name_confirm(reserv_id):
     return wrapper_func
 
 
-
 def interval_alrim_response(session, command, splited_content):
     """
     주기에 따라 보내는 알림톡 응답시
@@ -121,14 +120,14 @@ def interval_alrim_response(session, command, splited_content):
     :return:
     """
     store_name = splited_content[0][1:-1]
-    person_name = splited_content[3].split('이름 : ')[1]
-    reserv_time = splited_content[5].split('날짜 : ')[1]
-    person_number = splited_content[4].split('인원 : ')[1]
+    person_name = splited_content[2].split('이름 : ')[1]
+    reserv_time = splited_content[4].split('날짜 : ')[1]
+    person_number = splited_content[3].split('인원 : ')[1]
     token = splited_content[-1].split('예약 번호 : ')[1]
 
     res = DB.reserv_match(session.user_key, token, person_number)
 
-    reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[3:9])
+    reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[2:5])
     if command == '예약 취소':
         return (reserv_cancel(session, res['statusCode'], reserv_info, res['reservId']), '예약 취소', token)
 
