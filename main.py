@@ -183,8 +183,6 @@ api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
 
 def check_regist():
     start = time.time()
-    print('check queue', check_queue)
-    print('regist queue', regist_queue)
     while check_queue and check_queue[0][1] < datetime.now():
         request_id = check_queue[0][2]
         alrim_res = send.get_alrim_status(request_id)
@@ -232,7 +230,7 @@ if __name__ == '__main__':
     logger.addHandler(handler)
     logger.setLevel(logging.DEBUG)
 
-    flask_process = Process(target=run_flask())
+    flask_process = Process(target=run_flask)
     interval_alrim_send = Process(target=interval_alrim_process)
     flask_process.start()
     interval_alrim_send.start()

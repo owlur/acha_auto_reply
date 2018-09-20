@@ -2,10 +2,14 @@ import requests
 import utils
 
 alrim_api_base_url = 'https://api-alimtalk.cloud.toast.com'
-app_key ='OrJbsCa3geKuuqv8'
+alrim_api_app_key = 'OrJbsCa3geKuuqv8'
 secret = 'Ycdr64tw'
 
-header = {'X-Secret-Key': secret, 'Content-Type': 'application/json;charset=UTF-8'}
+sms_api_base_url = 'https://api-sms.cloud.toast.com'
+sms_api_app_key = 'm7g6BVXzT1UEulm3'
+
+alrim_header = {'X-Secret-Key': secret, 'Content-Type': 'application/json;charset=UTF-8'}
+sms_header = {'Content-Type': 'application/json;charset=UTF-8'}
 
 plusFriendId = 'ah_cha'
 
@@ -48,8 +52,8 @@ def send_alrim(template_code, phone_number, template_parameter):
         }]
     }
 
-    res = requests.post(alrim_api_base_url + '/alimtalk/v1.0/appkeys/' + app_key + '/messages', json=params,
-                        headers=header)
+    res = requests.post(alrim_api_base_url + '/alimtalk/v1.0/appkeys/' + alrim_api_app_key + '/messages', json=params,
+                        headers=alrim_header)
     return res.json()
 
 
@@ -57,7 +61,20 @@ def get_alrim_status(request_id):
     params = {
         'requestId' : request_id
     }
-    res = requests.get(alrim_api_base_url + '/alimtalk/v1.1/appkeys/' + app_key + '/messages', params=params,
-                          headers=header).json()
+    res = requests.get(alrim_api_base_url + '/alimtalk/v1.1/appkeys/' + alrim_api_app_key + '/messages', params=params,
+                       headers=alrim_header).json()
 
     return res['messageSearchResultResponse']['messages'][0]
+
+
+def send_sms(sender_no, recipent_no, content):
+    params = {
+        'body': content,
+        'sendNo': sender_no,
+        'recipientList':[{
+          'recipientNo': recipent_no
+        }]
+    }
+    res = requests.post(sms_api_base_url + '/sms/v2.1/appKeys/' + sms_api_app_key + '/sender/sms', json=params, headers=sms_header)
+
+    return res
