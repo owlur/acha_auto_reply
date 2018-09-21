@@ -132,16 +132,24 @@ class Friend(Resource):
     def post(self):
         args = message_parser.parse_args()
         user_key = args['user_key']
+        logger.info('ADD FRIEND:user_key = %s' % user_key)
         return {'message': user_key}
 
 
 class FriendDelete(Resource):
     def delete(self, user_key):
+        args = message_parser.parse_args()
+        user_key = args['user_key']
+        logger.info('DELETE FRIEND:user_key = %s' % user_key)
         return {'message': user_key}
 
 
 class ChatRoom(Resource):
     def delete(self, user_key):
+        args = message_parser.parse_args()
+        user_key = args['user_key']
+        logger.info('EXIT ROOM:user_key = %s' % user_key)
+
         return {'message': user_key}
 
 
