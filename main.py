@@ -229,6 +229,7 @@ def check_regist():
             reserv = check_queue.popleft()
             print('카톡 없음', reserv[0], reserv[2])
             logger.info('RESERVATION CONFIRM:Don\'t exist kakao talk account :reserv_id = %s request_id = %s' % (reserv[0], reserv[2]) )
+            DB.push(reserv[0], 'reserved', '예약 등록한 고객님이 카카오톡을 이용하지 않아 예약이 자동 확정되었습니다.', '자세한 내용은 앱에서 확인 부탁드립니다.')
             db_res = DB.reservation_confirm(reserv[0])
             # 확정알림을 서버에 보내줘야함
         elif alrim_result_code == '1002':
@@ -238,6 +239,7 @@ def check_regist():
 
             logger.info('RESERVATION CANCEL:Don\'t exist phone number:reserv_id = %s request_id = %s' % (reserv[0], reserv[2]) )
             db_res = DB.reservation_cancel(reserv[0])
+            DB.push(reserv[0], 'usercancel', '예약 등록한 번호가 존재하지 않는 번호라 예약이 취소 되었습니다.', '자세한 내용은 앱에서 확인 부탁드립니다.')
         else:
             # 알수 없는 에러
             reserv = check_queue.popleft()
@@ -248,6 +250,7 @@ def check_regist():
         reserv_id = regist_queue.popleft()[0]
         if DB.get_current_status(reserv_id)['currentStatus'] == 'reservwait':
             res = DB.reservation_cancel(reserv_id)
+            DB.push(reserv_id, 'usercancel', '고객님이 확정 버튼은 누르지 않아 예약이 취소되었습니다.', '자세한 내용은 앱에서 확인 부탁드립니다.')
             logger.info('AUTO CANCEL:reserv_id = %s' % reserv_id )
             print('auto cancel', res, reserv_id)
 
