@@ -169,6 +169,7 @@ class ReservRegist(Resource):
             #regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=30)))
         print(args)
 
+
 store_cancel_parser = reqparse.RequestParser()
 store_cancel_parser.add_argument('phoneNumber')
 store_cancel_parser.add_argument('storeName')
@@ -213,17 +214,21 @@ def check_regist():
         if alrim_result_code == '1000':
             reserv = check_queue.popleft()
             print('정상 전송', reserv[0], reserv[2])
+            logger.info('RESERVATION CONFIRM:Send alrim talk :reserv_id = %s request_id = %s' % (reserv[0], reserv[2]) )
             regist_queue.append((reserv[0], reserv[1] + timedelta(minutes=29)))
         elif alrim_result_code == '2001':
             # 카톡이 없어서 자동 확정
             reserv = check_queue.popleft()
             print('카톡 없음', reserv[0], reserv[2])
+            logger.info('RESERVATION CONFIRM:Don\'t exist kakao talk account :reserv_id = %s request_id = %s' % (reserv[0], reserv[2]) )
             db_res = DB.reservation_confirm(reserv[0])
             # 확정알림을 서버에 보내줘야함
         elif alrim_result_code == '1002':
             # 없는 번호일 경우 자동 취소
             reserv = check_queue.popleft()
             print('없는 번호', reserv[0], reserv[2])
+
+            logger.info('RESERVATION CANCEL:Don\'t exist phone number:reserv_id = %s request_id = %s' % (reserv[0], reserv[2]) )
             db_res = DB.reservation_cancel(reserv[0])
         else:
             # 알수 없는 에러
@@ -235,6 +240,7 @@ def check_regist():
         reserv_id = regist_queue.popleft()[0]
         if DB.get_current_status(reserv_id)['currentStatus'] == 'reservwait':
             res = DB.reservation_cancel(reserv_id)
+            logger.info('AUTO CANCEL:reserv_id = %s' % reserv_id )
             print('auto cancel', res, reserv_id)
 
     Timer(30 - (time.time() - start), check_regist).start()

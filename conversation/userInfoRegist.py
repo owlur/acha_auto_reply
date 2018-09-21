@@ -38,8 +38,8 @@ def receive_phone_number(inner_user_key):
     def wrapper_function(outer_user_key, response):
         p = re.compile('01{1}[016789]{1}[0-9]{7,8}')
 
-        regres = p.match(response)
-        if regres and regres.end() == len(response):
+        regrex = p.match(response)
+        if regrex and regrex.end() == len(response):
             DB.user_regist(outer_user_key, response)
             resp = setting.get_init_response()
             resp.message = '정보가 등록되었습니다. 아차를 이용하는 매장에서 등록된 예약 정보를 확인 가능합니다.'
