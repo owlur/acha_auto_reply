@@ -13,12 +13,12 @@ def initial(user_key):
                     '- 수집 항목 : 고객명, 휴대폰번호, 예약정보, 결제정보'
                     '- 보유 기간 : 최종서비스이용시점으로부터 5년'
                     '- 수탁 업체 : 젊은친구들'
-                    '- 위탁 업무 : 카카오톡 기반 예약 서비스 제공'
-                    '- 톡주문 서비스 동의 철회: help@acha.io>아차 서비스 동의 철회 요청'
+                    '- 위탁 업무 : 톡 기반 예약 서비스 제공'
+                    '- 서비스 동의 철회: help@acha.io>아차 서비스 동의 철회 요청'
                     '동의하시겠습니까?')
     resp.buttons = ['동의', '미동의(서비스 이용 불가)']
     #resp = Response('예약 정보 조회를 위해 휴대폰 번호를 입력하여 주세요.\n 이는 최초 1회만 실시됩니다!\n하이폰(-)은 제외하고 입력\nex)01012345678')
-    resp.set_function(receive_phone_number(user_key))
+    resp.set_function(request_phone_number(user_key))
     return resp
 
 
