@@ -105,6 +105,7 @@ def set_name_confirm(reserv_id):
         print(db_res)
         db_res = DB.reservation_confirm(reserv_id)
         print(db_res)
+        DB.push(reserv_id, 'reserved', '고객님이 예약을 확정하였습니다.', '자세한 내용은 앱에서 확인 부탁드립니다.')
         resp = setting.get_init_response()
         resp.message = response + '님으로 예약이 확정 되었습니다.'
         return resp
@@ -136,7 +137,7 @@ def reserv_confirm(session, status_code, reserv_info, reserv_id):
     resp = setting.get_init_response()
     if status_code == 'reservwait':
         DB.reservation_confirm(reserv_id)
-        print(DB.push(reserv_id, 'reserved', '예약이 확정되었습니다.'))
+        DB.push(reserv_id, 'reserved', '고객님이 예약을 확정하였습니다.', '자세한 내용은 앱에서 확인 부탁드립니다.')
         resp.message = '아래의 예약이 확정 되었습니다!\n' + reserv_info
     elif status_code == 'reserved':
         resp.message = '이미 확정된 예약 입니다.'
@@ -165,6 +166,7 @@ def reserv_cancel_confirm(reserv_id):
     def wrapper_function(user_key, content):
         if content == '네!':
             DB.reservation_cancel(reserv_id)
+            DB.push(reserv_id, 'usercancel', '고객님이 예약을 취소하였습니다.', '자세한 내용은 앱에서 확인 부탁드립니다.')
             resp = setting.get_init_response()
             resp.message = '예약이 정상적으로 취소되었습니다!'
             return resp

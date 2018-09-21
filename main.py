@@ -187,6 +187,7 @@ class StoreCancel(Resource):
                                reserv_parser['reason'])
         return res
 
+
 class PrivacyPolicy(Resource):
     def get(self):
         return send_from_directory('page', 'PrivacyPolicy.html')
