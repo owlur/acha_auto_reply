@@ -169,22 +169,23 @@ class ReservRegist(Resource):
             #regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=30)))
         print(args)
 
-reserv_parser = reqparse.RequestParser()
-reserv_parser.add_argument('phoneNumber')
-reserv_parser.add_argument('storeName')
-reserv_parser.add_argument('storePhoneNumber')
-reserv_parser.add_argument('reservName')
-reserv_parser.add_argument('reservDate')
-reserv_parser.add_argument('reservNumber')
-reserv_parser.add_argument('reservDate')
-reserv_parser.add_argument('reason')
+store_cancel_parser = reqparse.RequestParser()
+store_cancel_parser.add_argument('phoneNumber')
+store_cancel_parser.add_argument('storeName')
+store_cancel_parser.add_argument('storePhoneNumber')
+store_cancel_parser.add_argument('reservName')
+store_cancel_parser.add_argument('reservDate')
+store_cancel_parser.add_argument('reservNumber')
+store_cancel_parser.add_argument('reservDate')
+store_cancel_parser.add_argument('reason')
 
 
 class StoreCancel(Resource):
     def post(self):
-        res = send.send_store_cancel(reserv_parser['phoneNumber'], reserv_parser['storeName'], reserv_parser['reservName'],
-                               reserv_parser['reservNumber'], reserv_parser['reservDate'], reserv_parser['storePhoneNumber'],
-                               reserv_parser['reason'])
+        res = send.send_store_cancel(store_cancel_parser['phoneNumber'], store_cancel_parser['storeName'], \
+                                     store_cancel_parser['reservName'], store_cancel_parser['reservNumber'], \
+                                     store_cancel_parser['reservDate'], store_cancel_parser['storePhoneNumber'], \
+                                     store_cancel_parser['reason'])
         return res
 
 
