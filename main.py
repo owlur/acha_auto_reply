@@ -65,11 +65,13 @@ def interval_alrim_process():
         while alrim_queue and alrim_queue[0]['send_time'] < now:
             alrim_info = alrim_queue.popleft()
             print('보낸 알림: ', alrim_info)
-            print('알림톡 응답: ', send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'],
+            res = send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'],
                                            alrim_info['person_name'],
                                            alrim_info['person_num'], alrim_info['reserv_date'],
                                            alrim_info['until_time'],
-                                           alrim_info['address'], alrim_info['token']))
+                                           alrim_info['address'], alrim_info['token'])
+            print('알림톡 응답: ', res)
+            logger.info('SEND_INTERVAL_ALRIM:params = %s, result = %s' % (alrim_info,res))
 
         last_alrim_time = now
 
@@ -94,7 +96,6 @@ class Message(Resource):
         type = args['type']
         content = args['content']
 
-        logger.info('/message:POST:%s: type=%s, content=%s' % (user_key, type, content))
         if not sessions.get(user_key):
             sessions[user_key] = Session(user_key)
         else:
@@ -115,11 +116,12 @@ class Message(Resource):
                 else:
                     print('예약등록큐에 존재하지 않는 예약번호 입니다. %s', res[2])
             print(res)
+            logger.info('RESPONSE:%s:request = %s, response = %s' % (user_key, content, res[0]))
             if res[0]:
                 return res[0]
 
         response = sessions[user_key].receive_message(type, content)
-        logger.info('RESPONSE:%s:%s' % (user_key, response))
+        logger.info('RESPONSE:%s:request = %s, response = %s' % (user_key, content, response))
         return response
 
 
@@ -225,7 +227,7 @@ def run_flask():
 
 if __name__ == '__main__':
     logger = logging.getLogger('flask')
-    fomatter = logging.Formatter('[ %(levelname)s | %(filename)s: %(lineno)s] %(asctime)s > %(message)s')
+    fomatter = logging.Formatter('[ %(levelname)s ] %(asctime)s > %(message)s')
     handler = RotatingFileHandler('log.log', maxBytes=10000, backupCount=1)
     handler.setFormatter(fomatter)
     logger.addHandler(handler)

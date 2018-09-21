@@ -205,6 +205,10 @@ def get_current_status(reserv_id):
     return res.json()
 
 
+def push(reserv_id, status, msg):
+    params = {'key': API_KEY, 'reservId':reserv_id, 'status':status, 'msg':msg}
+    res = requests.get(base_url + '/reserv/push', params)
+    return res
 
 def get_reservation(reservation_id):
     pass
