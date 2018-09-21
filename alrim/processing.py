@@ -136,7 +136,7 @@ def reserv_confirm(session, status_code, reserv_info, reserv_id):
     resp = setting.get_init_response()
     if status_code == 'reservwait':
         DB.reservation_confirm(reserv_id)
-        DB.push(reserv_id, 'reserved', '예약이 확정되었습니다.')
+        print(DB.push(reserv_id, 'reserved', '예약이 확정되었습니다.'))
         resp.message = '아래의 예약이 확정 되었습니다!\n' + reserv_info
     elif status_code == 'reserved':
         resp.message = '이미 확정된 예약 입니다.'
