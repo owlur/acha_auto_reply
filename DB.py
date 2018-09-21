@@ -4,7 +4,6 @@
  - 따라서 시간을 가져오거나 조회할 떄는 반드시 +9시간/-9시간을 해서 한국시간에 맞춰줘야한다
 """
 import requests
-import time
 import pymongo
 from datetime import datetime, timedelta
 from collections import deque
