@@ -42,6 +42,17 @@ def send_feedback_alrim(phone_number, store_name, person_name, token):
     pass
 
 
+def send_store_cancel(phone_number, store_name, persone_name, person_num, date, store_phone_num, content):
+    template_code = 'SCR0001'
+    template_parameter = {'상호명': store_name,
+                          '이름': persone_name,
+                          '인원': person_num,
+                          '날짜': date,
+                          '매장연락처': store_phone_num,
+                          '취소사유': content}
+    return send_alrim(template_code, phone_number, template_parameter)
+
+
 def send_alrim(template_code, phone_number, template_parameter):
     params = {
         "plusFriendId": plusFriendId,

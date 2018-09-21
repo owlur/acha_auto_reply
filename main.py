@@ -169,6 +169,23 @@ class ReservRegist(Resource):
             #regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=30)))
         print(args)
 
+reserv_parser = reqparse.RequestParser()
+reserv_parser.add_argument('phoneNumber')
+reserv_parser.add_argument('storeName')
+reserv_parser.add_argument('storePhoneNumber')
+reserv_parser.add_argument('reservName')
+reserv_parser.add_argument('reservDate')
+reserv_parser.add_argument('reservNumber')
+reserv_parser.add_argument('reservDate')
+reserv_parser.add_argument('reason')
+
+
+class StoreCancel(Resource):
+    def post(self):
+        res = send.send_store_cancel(reserv_parser['phoneNumber'], reserv_parser['storeName'], reserv_parser['reservName'],
+                               reserv_parser['reservNumber'], reserv_parser['reservDate'], reserv_parser['storePhoneNumber'],
+                               reserv_parser['reason'])
+        return res
 
 class PrivacyPolicy(Resource):
     def get(self):
@@ -182,6 +199,7 @@ api.add_resource(FriendDelete, '/friend/<user_key>')
 api.add_resource(ChatRoom, '/chat_room/<user_key>')
 api.add_resource(ReservRegist, '/reserv/regist')
 api.add_resource(PrivacyPolicy, '/PrivacyPolicy')
+api.add_resource(StoreCancel, '/store/cancel')
 
 
 def check_regist():
