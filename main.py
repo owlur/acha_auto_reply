@@ -194,6 +194,7 @@ class StoreCancel(Resource):
         args = store_cancel_parser.parse_args()
         res = send.send_store_cancel(args['phoneNumber'], args['storeName'], args['reservName'], args['reservNumber'], \
                                      args['reservDate'], args['storePhoneNumber'], args['reason'])
+        print(res)
         return res
 
 
