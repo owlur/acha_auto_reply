@@ -1,6 +1,7 @@
 import requests
 import utils
 from datetime import datetime
+import re
 
 alrim_api_base_url = 'https://api-alimtalk.cloud.toast.com'
 alrim_api_app_key = 'OrJbsCa3geKuuqv8'
@@ -47,6 +48,8 @@ def send_store_cancel(phone_number, store_name, persone_name, person_num, date, 
     template_code = 'SCR0001'
     date = datetime.strptime(date.split('.')[0], '%Y-%m-%dT%H:%M:%S')
     date =utils.datetime2str(date)
+    # 매장 번호에 하이픈(-) 추가
+    store_phone_num = re.sub(r'(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})', r'\1-\2-\3', store_phone_num)
     template_parameter = {'상호명': store_name,
                           '이름': persone_name,
                           '인원': person_num,
