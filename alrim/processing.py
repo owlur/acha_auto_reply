@@ -3,6 +3,7 @@ from alrim import send
 from conversation import setting
 from response import Response
 import DB
+import utils
 
 
 def reserv_regist(phone_number, store_name, person_name, person_num, date, token, store_phone_number):
@@ -20,6 +21,7 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
         template_code = 'FIRRM0008'
     else:
         template_code = 'FIRRM0009'
+    store_phone_number = utils.add_hyphen(store_phone_number)
     template_parameter = {'상호명': store_name, '매장 연락처': store_phone_number, '이름': person_name, '인원': person_num,
                           '날짜': date, '예약번호': token, '제한시간': '30분', '법률': '개인정보의 제3자 수집 이용 제공',
                           'mobile_url': 'acha.io:5000/PrivacyPolicy', 'pc_url': 'acha.io:5000/PrivacyPolicy'}
