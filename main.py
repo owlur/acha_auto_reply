@@ -191,10 +191,9 @@ store_cancel_parser.add_argument('reason')
 
 class StoreCancel(Resource):
     def post(self):
-        res = send.send_store_cancel(store_cancel_parser['phoneNumber'], store_cancel_parser['storeName'], \
-                                     store_cancel_parser['reservName'], store_cancel_parser['reservNumber'], \
-                                     store_cancel_parser['reservDate'], store_cancel_parser['storePhoneNumber'], \
-                                     store_cancel_parser['reason'])
+        args = store_cancel_parser.parse_args()
+        res = send.send_store_cancel(args['phoneNumber'], args['storeName'], args['reservName'], args['reservNumber'], \
+                                     args['reservDate'], args['storePhoneNumber'], args['reason'])
         return res
 
 
