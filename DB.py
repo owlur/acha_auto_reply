@@ -11,6 +11,7 @@ from collections import deque
 import argvSetting
 
 if filter(lambda x: x in argvSetting.test, sys.argv):
+    print('start test mode')
     base_url = 'http://test.acha.io:3000/user'
 else:
     base_url = 'http://api.acha.io:3000/user'
