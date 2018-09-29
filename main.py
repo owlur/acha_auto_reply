@@ -42,18 +42,6 @@ def interval_alrim_process():
         if time.time() - five_minute_check >= 300:
             five_minute_check = time.time()
             alrim_queue = DB.get_alrim_list(now - timedelta(minutes=1), minute=10)
-            """feedback_queue = DB.get_feedback_list(now - timedelta(minutes=1))
-            total_queue = deque([])
-            for i in range(len(alrim_queue + feedback_queue)):
-                if alrim_queue[0]['send_time'] <= last_alrim_time:
-                    alrim_queue.popleft()
-                elif feedback_queue[0]['send_time'] < last_alrim_time:
-                    feedback_queue.popleft()
-                elif alrim_queue[0]['send_time'] <= feedback_queue[0]['send_time']:
-                    total_queue.append(alrim_queue.popleft())
-                else:
-                    total_queue.append(feedback_queue.popleft())
-            """
             while alrim_queue and alrim_queue[0]['send_time'] < last_alrim_time:
                 alrim_queue.popleft()
             #while total_queue and total_queue[0]['send_time'] <= last_alrim_time:
@@ -64,6 +52,55 @@ def interval_alrim_process():
         # 지금 보낼알림이 있는지 확인
         while alrim_queue and alrim_queue[0]['send_time'] < now:
             alrim_info = alrim_queue.popleft()
+            print('보낸 알림: ', alrim_info)
+            res = send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'],
+                                           alrim_info['person_name'],
+                                           alrim_info['person_num'], alrim_info['reserv_date'],
+                                           alrim_info['until_time'],
+                                           alrim_info['address'], alrim_info['token'])
+            print('알림톡 응답: ', res)
+            logger.info('SEND_INTERVAL_ALRIM:params = %s, result = %s' % (alrim_info,res))
+
+        last_alrim_time = now
+
+        time.sleep(60 - (time.time() - one_minute_check))
+
+
+
+def interval_alrim_process2():
+    """
+    1분 간격으로 보낼 알림이 있는지 체크
+    5분 간격으로 새로운 알림 리스트 요청 -> 이때 10분치의 알림 받아옴
+    """
+    DB.local_initilize()
+    five_minute_check = 0
+    last_alrim_time = datetime.now()
+    while True:
+        one_minute_check = time.time()
+        now = datetime.now()
+        if time.time() - five_minute_check >= 300:
+            five_minute_check = time.time()
+            alrim_queue = DB.get_alrim_list(now - timedelta(minutes=1), minute=10)
+            feedback_queue = DB.get_feedback_list(now - timedelta(minutes=1))
+            total_queue = deque([])
+            for i in range(len(alrim_queue + feedback_queue)):
+                if alrim_queue[0]['send_time'] <= last_alrim_time:
+                    alrim_queue.popleft()
+                elif feedback_queue[0]['send_time'] < last_alrim_time:
+                    feedback_queue.popleft()
+                elif alrim_queue[0]['send_time'] <= feedback_queue[0]['send_time']:
+                    total_queue.append(alrim_queue.popleft())
+                else:
+                    total_queue.append(feedback_queue.popleft())
+
+            while total_queue and total_queue[0]['send_time'] <= last_alrim_time:
+                total_queue.popleft()
+            if total_queue:
+                print(datetime.now(), '보낼 알림들: ', total_queue)
+
+        # 지금 보낼알림이 있는지 확인
+        while total_queue and total_queue[0]['send_time'] < now:
+            alrim_info = total_queue.popleft()
             print('보낸 알림: ', alrim_info)
             res = send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'],
                                            alrim_info['person_name'],

@@ -4,17 +4,23 @@
  - 따라서 시간을 가져오거나 조회할 떄는 반드시 +9시간/-9시간을 해서 한국시간에 맞춰줘야한다
 """
 import requests
+import sys
 import pymongo
 from datetime import datetime, timedelta
 from collections import deque
+import argvSetting
 
-base_url = 'http://api.acha.io:3000/user'
+if filter(lambda x: x in argvSetting.test, sys.argv):
+    base_url = 'http://test.acha.io:3000/user'
+else:
+    base_url = 'http://api.acha.io:3000/user'
+
 API_KEY = '33233C0EB2C9CA56566FD7D503F100ABDBE012306B4EB812C3C9E83129E8495D'
-user_name = 'acha'
-password = 'achasoma09!!'
 
 
 def local_initilize():
+    user_name = 'acha'
+    password = 'achasoma09!!'
     global reserv_collection, store_collection
     conn = pymongo.MongoClient('mongodb://%s:%s@127.0.0.1:27017/acha' % (user_name, password))
     acha_db = conn.get_database('acha')
