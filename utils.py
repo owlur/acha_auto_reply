@@ -1,8 +1,11 @@
 from datetime import datetime
 from datetime import timedelta
 import re
+import sys
+import argvSetting
 
 weekday = ['월', '화', '수', '목', '금', '토', '일']
+
 
 def datetime2str(origin_datetime):
     now = datetime.now()
@@ -52,3 +55,10 @@ def generate_button(reserv_list):
 
 def add_hyphen(phone_number):
     return re.sub(r'(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})', r'\1-\2-\3', phone_number)
+
+
+def is_test():
+    if list(filter(lambda x: x in argvSetting.test, sys.argv)):
+        return True
+    else:
+        return False

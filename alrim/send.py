@@ -2,8 +2,6 @@ import requests
 import utils
 from datetime import datetime
 import re
-import sys
-import argvSetting
 
 alrim_api_base_url = 'https://api-alimtalk.cloud.toast.com'
 alrim_api_app_key = 'OrJbsCa3geKuuqv8'
@@ -15,7 +13,7 @@ sms_api_app_key = 'm7g6BVXzT1UEulm3'
 alrim_header = {'X-Secret-Key': secret, 'Content-Type': 'application/json;charset=UTF-8'}
 sms_header = {'Content-Type': 'application/json;charset=UTF-8'}
 
-if filter(lambda x: x in argvSetting.test, sys.argv):
+if utils.is_test():
     plus_friendId = 'ah_cha'
 else:
     plus_friendId = 'acha'

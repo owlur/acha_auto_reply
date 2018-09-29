@@ -4,13 +4,12 @@
  - 따라서 시간을 가져오거나 조회할 떄는 반드시 +9시간/-9시간을 해서 한국시간에 맞춰줘야한다
 """
 import requests
-import sys
 import pymongo
 from datetime import datetime, timedelta
 from collections import deque
-import argvSetting
+import utils
 
-if filter(lambda x: x in argvSetting.test, sys.argv):
+if utils.is_test():
     print('start test mode')
     base_url = 'http://test.acha.io:3000/user'
 else:
