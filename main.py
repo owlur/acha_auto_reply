@@ -211,7 +211,7 @@ class ReservRegist(Resource):
         print(alrim_res)
         if alrim_res:
             check_queue.append((args['reservId'], datetime.now() + timedelta(minutes=1), alrim_res['message']['requestId']))
-            phone_number_dict[args['reservId']] = args['phoneNumber']
+            phone_number_dict[args['reservToken']] = args['phoneNumber']
             #regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=30)))
         print(args)
 
