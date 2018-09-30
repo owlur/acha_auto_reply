@@ -26,6 +26,7 @@ sessions = {}
 session_queue = []
 regist_queue = deque([])
 check_queue = deque([])
+phone_number_dict = {}
 
 
 def interval_alrim_process():
@@ -64,7 +65,6 @@ def interval_alrim_process():
         last_alrim_time = now
 
         time.sleep(60 - (time.time() - one_minute_check))
-
 
 
 def interval_alrim_process2():
@@ -143,7 +143,7 @@ class Message(Resource):
         if len(content_parse) > 2 and not content_parse[1] and content_parse[0] in setting.alrim_keyword:
             logger.info('알림톡 응답 수신:%s:%s' % (user_key, content_parse[0]))
             res = processing.alrim_response_parsing(sessions[user_key], content_parse[0],
-                                                    '\n'.join(content_parse[2:]))
+                                                    '\n'.join(content_parse[2:]), phone_number_dict)
 
             if res[1] == '최초 확정':
                 for reserv in regist_queue:
@@ -211,6 +211,7 @@ class ReservRegist(Resource):
         print(alrim_res)
         if alrim_res:
             check_queue.append((args['reservId'], datetime.now() + timedelta(minutes=1), alrim_res['message']['requestId']))
+            phone_number_dict[args['reservId']] = args['phoneNumber']
             #regist_queue.append((args['reservId'], datetime.now() + timedelta(minutes=30)))
         print(args)
 

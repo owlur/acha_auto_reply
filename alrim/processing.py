@@ -28,7 +28,7 @@ def reserv_regist(phone_number, store_name, person_name, person_num, date, token
     return send.send_alrim(template_code, phone_number, template_parameter)
 
 
-def alrim_response_parsing(session, command, content):
+def alrim_response_parsing(session, command, content, phone_number_dict):
     """
     메시지를 수신하였을 때 일치하는 알림톡 템플릿이 존재하는지 확인 후 템플릿에 해당하는 처리 함수 호출
     :param session:
@@ -42,12 +42,12 @@ def alrim_response_parsing(session, command, content):
         if re.match(regex, content):
             splited_content = list(filter(lambda x: x, content.split('\n')))
             session.next = setting.init_response
-            return templates[template_code][1](session, command, splited_content)
+            return templates[template_code][1](session, command, splited_content, phone_number_dict)
     print(content,'\n 템플릿 일치하지 않음')
     return False
 
 
-def initial_alrim_response(session, command, splited_content):
+def initial_alrim_response(session, command, splited_content , phone_number_dict):
     """
     최초 전송하는 알림톡 응답시
     :param session:
@@ -62,7 +62,8 @@ def initial_alrim_response(session, command, splited_content):
     store_phone_number = splited_content[8].split(' : ')[1]
     token = splited_content[-1].split(' : ')[1]
 
-    res = DB.reserv_match(session.user_key, token, person_number)
+    res = DB.reserv_match(session.user_key, token, person_number, phone_number_dict[token])
+    phone_number_dict.pop(token)
 
     reserv_info = '\n'.join(splited_content[2:9])
     if command == '확정':
@@ -71,7 +72,7 @@ def initial_alrim_response(session, command, splited_content):
         return (reserv_cancel(session, res['statusCode'], reserv_info, res['reservId']), '예약 취소', token)
 
 
-def set_name_response(session, command, splited_content):
+def set_name_response(session, command, splited_content, phone_number_dict):
     person_number = splited_content[3].split(' : ')[1]
     reserv_time = splited_content[4].split(' : ')[1]
     store_name = splited_content[6].split (' : ')[1]
@@ -79,7 +80,9 @@ def set_name_response(session, command, splited_content):
     token = splited_content[-1].split(' : ')[1]
     reserv_info = '\n'.join(splited_content[2:8])
 
-    res = DB.reserv_match(session.user_key, token, person_number)
+    res = DB.reserv_match(session.user_key, token, person_number, phone_number_dict[token])
+    phone_number_dict.pop(token)
+
     if command == '이름 입력':
         return set_name(session, res['statusCode'], reserv_info, res['reservId']), '이름 입력', token
 
@@ -114,7 +117,7 @@ def set_name_confirm(reserv_id):
     return wrapper_func
 
 
-def interval_alrim_response(session, command, splited_content):
+def interval_alrim_response(session, command, splited_content, phone_number_dict):
     """
     주기에 따라 보내는 알림톡 응답시
     :param session:
@@ -128,7 +131,8 @@ def interval_alrim_response(session, command, splited_content):
     person_number = splited_content[4].split('인원 : ')[1]
     token = splited_content[-1].split('예약 번호 : ')[1]
 
-    res = DB.reserv_match(session.user_key, token, person_number)
+    res = DB.reserv_match(session.user_key, token, person_number, phone_number_dict[token])
+    phone_number_dict.pop(token)
 
     reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[2:5])
     if command == '예약 취소':

@@ -188,8 +188,8 @@ def reserv_status_edit(reservation_id, status):
     return res
 
 
-def reserv_match(user_key, token, person_number):
-    params = {'key': API_KEY, 'kakaoUserKey': user_key, 'reservToken': token, 'reservNumber': int(person_number)}
+def reserv_match(user_key, token, person_number, phone_number):
+    params = {'key': API_KEY, 'kakaoUserKey': user_key, 'reservToken': token, 'reservNumber': int(person_number), 'phoneNumber': phone_number}
     print('match send data : ')
     print(params)
     res = requests.get(base_url + '/reserv/match', params)
