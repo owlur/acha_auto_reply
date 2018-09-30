@@ -13,10 +13,10 @@ sms_api_app_key = 'm7g6BVXzT1UEulm3'
 alrim_header = {'X-Secret-Key': secret, 'Content-Type': 'application/json;charset=UTF-8'}
 sms_header = {'Content-Type': 'application/json;charset=UTF-8'}
 
-if utils.is_test():
-    plus_friendId = 'ah_cha'
-else:
-    plus_friendId = 'acha'
+#if utils.is_test():
+plus_friendId = 'ah_cha'
+#else:
+#    plus_friendId = 'acha'
 
 
 def send_interval_alrim(phone_number, store_name, person_name, person_num, date, until_date, address, token):
