@@ -43,6 +43,14 @@ def get_reserv_local(start, end, status, **kwargs):
     return res
 
 
+def get_store_info(object_id, **kwargs):
+    if kwargs:
+        res = store_collection.find_one({'_id': object_id}, kwargs)
+    else:
+        res = store_collection.find_one({'_id': object_id}, {'alarmInterval': 1, 'address': 1, 'storeName': 1})
+    return res
+
+
 def get_feedback_list(start, minute=10):
     """
     10분 뒤의 알람 획득
@@ -148,8 +156,8 @@ def get_reservation_list(user_key='', phone_number=''):
         return False
 
 
-def check_regist(user_key):
-    params = {'key': API_KEY, 'kakaoUserKey': user_key}
+def check_regist(user_key='', phone_number=''):
+    params = {'key': API_KEY, 'kakaoUserKey': user_key, 'phoneNumber': phone_number}
     res = requests.get(base_url + '/info/regCheck', params)
     if res.status_code != 200:
         return False
@@ -215,13 +223,12 @@ def push(reserv_id, status, title, content):
     res = requests.post(base_url + '/push', json=params)
     return res
 
+
+def regist_user(kakao_user_key, phone_number):
+    params = {'key': API_KEY, 'kakaoUserKey': kakao_user_key, 'phoneNumber': phone_number}
+    res = requests.get(base_url + '/info/reg', params)
+
+
 def get_reservation(reservation_id):
     pass
 
-
-def get_store_info(object_id, **kwargs):
-    if kwargs:
-        res = store_collection.find_one({'_id': object_id}, kwargs)
-    else:
-        res = store_collection.find_one({'_id': object_id}, {'alarmInterval': 1, 'address': 1, 'storeName': 1})
-    return res
