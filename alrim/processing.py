@@ -64,9 +64,9 @@ def initial_alrim_response(session, command, splited_content , phone_number_dict
 
     if phone_number_dict.get(token):
         DB.regist_user(session.user_key, phone_number_dict[token])
-        res = DB.get_current_status(token=token)
-
         phone_number_dict.pop(token)
+
+    res = DB.get_current_status(token=token)
 
     reserv_info = '\n'.join(splited_content[2:9])
     if command == '확정':
@@ -86,8 +86,8 @@ def set_name_response(session, command, splited_content, phone_number_dict):
     if phone_number_dict.get(token):
         #res = DB.reserv_match(session.user_key, token, person_number, phone_number_dict[token])
         DB.regist_user(session.user_key, phone_number_dict[token])
-        res = DB.get_current_status(token=token)
         phone_number_dict.pop(token)
+    res = DB.get_current_status(token=token)
 
     if command == '이름 입력':
         return set_name(session, res['currentStatus'], reserv_info, res['reservId']), '이름 입력', token
@@ -139,9 +139,9 @@ def interval_alrim_response(session, command, splited_content, phone_number_dict
 
     if phone_number_dict.get(token):
         DB.regist_user(session.user_key, phone_number_dict[token])
-        res = DB.get_current_status(token=token)
 
         phone_number_dict.pop(token)
+    res = DB.get_current_status(token=token)
 
     reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[2:5])
     if command == '예약 취소':
