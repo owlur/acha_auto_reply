@@ -114,7 +114,6 @@ def get_feedback_list(start, minute=10):
 
         store_info = stores[reserv['storeId']]
 
-        print(reserv)
 
         res.append({'token': reserv['reservToken'],
                     'store_name': store_info['store_name'],
@@ -152,6 +151,7 @@ def get_alrim_list(start, minute=10):
                                          'address': store_info['address']}
 
         store_info = stores[reserv['storeId']]
+        print(reserv)
         if not store_info['alarm_interval']:
             continue
 
