@@ -70,8 +70,8 @@ def get_reserv_mysql(start, end, status, *args):
     if args:
         columns = args
 
-    start = start.strfromtime('%Y-%m-%d %H:%M:%S')
-    end = start.strftime('%Y-%m-%d %H:%M:%S')
+    start = start.strftime('%Y-%m-%d %H:%M:%S')
+    end = end.strftime('%Y-%m-%d %H:%M:%S')
 
     cur.execute('SELECT %s FROM ReservLookupTable WHERE (reservTime >= %s and reservTime <= %s) and currentStatus = %s' \
                       % (','.join(columns), start, end, status))
