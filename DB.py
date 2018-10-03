@@ -74,8 +74,10 @@ def get_reserv_mysql(start, end, status, *args):
     start = start.strftime('%Y-%m-%d %H:%M:%S')
     end = end.strftime('%Y-%m-%d %H:%M:%S')
 
-    cur.execute('SELECT %s FROM ReservLookupTable WHERE (reservTime >= "%s" and reservTime <= "%s") and reservStatus = "%s"' \
-                      % (','.join(columns), start, end, status))
+    query = 'SELECT %s FROM ReservLookupTable WHERE (reservTime >= "%s" and reservTime <= "%s") and reservStatus = "%s"' \
+                      % (','.join(columns), start, end, status)
+
+    cur.execute(query)
     res = cur.fetchone()
     print(res)
     return res
