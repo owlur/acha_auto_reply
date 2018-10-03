@@ -8,6 +8,7 @@ import pymongo
 from datetime import datetime, timedelta
 from collections import deque
 import utils
+import pymysql
 
 if utils.is_test():
     print('start test mode')
@@ -28,6 +29,15 @@ def local_initilize():
     store_collection = acha_db.get_collection('Store')
 
 
+def mysql_initailize():
+    user = 'acha'
+    passwd = 'acha09!!'
+    conn = pymysql.connect(host='127.0.0.1', port='3306', user=user, passwd=passwd, db='', charset='utf8')
+    global cur
+    cur = conn.cursor()
+    cur.execute()
+
+
 def get_reserv_local(start, end, status, **kwargs):
     """
     :param start: datetime.datetime object
@@ -40,6 +50,33 @@ def get_reserv_local(start, end, status, **kwargs):
         res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}, 'currentStatus': status},
                                  {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, 'reservNumber': 1, \
                                   'reservToken': 1})
+    return res
+
+
+def get_store_info_mysql(store_id, *args):
+    columns = ['firstAlarm', 'secondAlarm', 'storeName', 'fullAddress', 'roadAddress', 'detailAddress']
+
+    if args:
+        columns = args
+
+    cur.execute('SELECT %s FROM acha.StoreLeftJoinAlarmTalk WHERE UUID = UNHEX(%s)' % (','.join(columns), store_id))
+    res = cur.fetchone()
+    print(res)
+    return res
+
+
+def get_reserv_mysql(start, end, status, *args):
+    columns = ['storeUUID', 'phoneNumber', 'reservTime', 'reservName', 'reservNumber', 'reservToken']
+    if args:
+        columns = args
+
+    start = start.strfromtime('%Y-%m-%d %H:%M:%S')
+    end = start.strftime('%Y-%m-%d %H:%M:%S')
+
+    cur.execute('SELECT %s FROM ReservLookupTable WHERE (reservTime >= %s and reservTime <= %s) and currentStatus = %s' \
+                      % (','.join(columns), start, end, status))
+    res = cur.fetchone()
+    print(res)
     return res
 
 
@@ -63,12 +100,15 @@ def get_feedback_list(start, minute=10):
     reserv_list = get_reserv_local(start, end, 'visit', {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, \
                                                          'reservToken': 1})
 
+    get_reserv_mysql(start, end, 'visit', ['storeId', 'phoneNumber', 'reservTime', 'name', 'reservToken'])
+
     stores = {}
     res = []
     for reserv in reserv_list:
         # reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         if reserv['storeId'] not in stores:
             store_info = get_store_info(reserv['storeId'])
+            get_store_info(reserv['storeId'])
             stores[reserv['storeId']] = {'store_name': store_info['storeName']}
 
         store_info = stores[reserv['storeId']]
@@ -94,6 +134,8 @@ def get_alrim_list(start, minute=10):
     # start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
     week_end = start + timedelta(7)
     seven_day_reserv = get_reserv_local(start, week_end, 'reserved')
+
+    get_reserv_mysql(start, week_end, 'reserved')
     end_time = start + timedelta(minutes=minute)
 
     stores = {}
@@ -102,6 +144,7 @@ def get_alrim_list(start, minute=10):
         # reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         if reserv['storeId'] not in stores:
             store_info = get_store_info(reserv['storeId'])
+            get_store_info_mysql(reserv['storeId'])
             stores[reserv['storeId']] = {'alarm_interval': store_info.get('alarmInterval'),
                                          'store_name': store_info['storeName'],
                                          'address': store_info['address']}
