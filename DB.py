@@ -9,11 +9,11 @@ from datetime import datetime, timedelta
 from collections import deque
 import utils
 
-#if utils.is_test():
-#    print('start test mode')
-base_url = 'http://test.acha.io:3000/user'
-#else:
-#    base_url = 'http://api.acha.io:3000/user'
+if utils.is_test():
+    print('start test mode')
+    base_url = 'http://test.acha.io:3000/user'
+else:
+    base_url = 'http://api.acha.io:3000/user'
 
 API_KEY = '33233C0EB2C9CA56566FD7D503F100ABDBE012306B4EB812C3C9E83129E8495D'
 
