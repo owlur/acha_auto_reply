@@ -58,7 +58,8 @@ def get_store_info_mysql(store_id, *args):
     if args:
         columns = args
 
-    cur.execute('SELECT %s FROM StoreLeftJoinAlarmTalk WHERE storeUUID = UNHEX(%s)' % (','.join(columns), store_id))
+    query = 'SELECT %s FROM StoreLeftJoinAlarmTalk WHERE storeUUID = UNHEX(%s)' % (','.join(columns), store_id)
+    cur.execute(query)
     res = cur.fetchone()
     print(res)
     return res
