@@ -274,7 +274,7 @@ def push(reserv_id, status, title, content):
 def regist_user(kakao_user_key, phone_number):
     params = {'key': API_KEY, 'kakaoUserKey': kakao_user_key, 'phoneNumber': phone_number}
     res = requests.get(base_url + '/info/reg', params)
-    print(res.text())
+    print(res.text)
     print(res.json())
     return res.json()
 
