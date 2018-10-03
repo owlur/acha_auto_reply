@@ -68,7 +68,6 @@ def initial_alrim_response(session, command, splited_content , phone_number_dict
 
         phone_number_dict.pop(token)
 
-    res = DB.get
     reserv_info = '\n'.join(splited_content[2:9])
     if command == '확정':
         return (reserv_confirm(session, res['statusCode'], reserv_info, res['reservId']), '최초 확정', token)
