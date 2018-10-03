@@ -32,7 +32,7 @@ def local_initilize():
 def mysql_initailize():
     user = 'acha'
     passwd = 'acha09!!'
-    conn = pymysql.connect(host='127.0.0.1', port='3306', user=user, passwd=passwd, db='', charset='utf8')
+    conn = pymysql.connect(host='127.0.0.1', port=3306, user=user, passwd=passwd, db='', charset='utf8')
     global cur
     cur = conn.cursor()
     cur.execute()
