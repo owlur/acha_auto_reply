@@ -70,9 +70,9 @@ def initial_alrim_response(session, command, splited_content , phone_number_dict
 
     reserv_info = '\n'.join(splited_content[2:9])
     if command == '확정':
-        return (reserv_confirm(session, res['statusCode'], reserv_info, res['reservId']), '최초 확정', token)
+        return (reserv_confirm(session, res['currentStatus'], reserv_info, res['reservId']), '최초 확정', token)
     elif command == '취소':
-        return (reserv_cancel(session, res['statusCode'], reserv_info, res['reservId']), '예약 취소', token)
+        return (reserv_cancel(session, res['currentStatus'], reserv_info, res['reservId']), '예약 취소', token)
 
 
 def set_name_response(session, command, splited_content, phone_number_dict):
@@ -90,10 +90,10 @@ def set_name_response(session, command, splited_content, phone_number_dict):
         phone_number_dict.pop(token)
 
     if command == '이름 입력':
-        return set_name(session, res['statusCode'], reserv_info, res['reservId']), '이름 입력', token
+        return set_name(session, res['currentStatus'], reserv_info, res['reservId']), '이름 입력', token
 
     elif command == '취소':
-        return reserv_cancel(session, res['statusCode'], reserv_info, res['reservId']), '예약 취소', token
+        return reserv_cancel(session, res['currentStatus'], reserv_info, res['reservId']), '예약 취소', token
 
 
 def set_name(session, status_code, reserv_info, reserv_id):
@@ -145,7 +145,7 @@ def interval_alrim_response(session, command, splited_content, phone_number_dict
 
     reserv_info = splited_content[0] + '\n' + '\n'.join(splited_content[2:5])
     if command == '예약 취소':
-        return (reserv_cancel(session, res['statusCode'], reserv_info, res['reservId']), '예약 취소', token)
+        return (reserv_cancel(session, res['currentStatus'], reserv_info, res['reservId']), '예약 취소', token)
 
 
 def reserv_confirm(session, status_code, reserv_info, reserv_id):
