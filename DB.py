@@ -32,7 +32,7 @@ def local_initilize():
 def mysql_initailize():
     user = 'acha'
     passwd = 'acha09!!'
-    conn = pymysql.connect(host='127.0.0.1', port=3306, user=user, password=passwd, db='', charset='utf8')
+    conn = pymysql.connect(host='127.0.0.1', port=3306, user=user, password=passwd, db='acha', charset='utf8')
     global cur
     cur = conn.cursor()
     cur.execute()
@@ -59,7 +59,7 @@ def get_store_info_mysql(store_id, *args):
     if args:
         columns = args
 
-    cur.execute('SELECT %s FROM acha.StoreLeftJoinAlarmTalk WHERE UUID = UNHEX(%s)' % (','.join(columns), store_id))
+    cur.execute('SELECT %s FROM StoreLeftJoinAlarmTalk WHERE UUID = UNHEX(%s)' % (','.join(columns), store_id))
     res = cur.fetchone()
     print(res)
     return res
