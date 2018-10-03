@@ -79,6 +79,7 @@ def get_reserv_mysql(start, end, status, *args):
 
     cur.execute(query)
     res = cur.fetchone()
+    print(query)
     print(res)
     return res
 
