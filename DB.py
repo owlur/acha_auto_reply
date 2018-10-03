@@ -114,6 +114,7 @@ def get_feedback_list(start, minute=10):
 
         store_info = stores[reserv['storeId']]
 
+        print(reserv)
 
         res.append({'token': reserv['reservToken'],
                     'store_name': store_info['store_name'],
