@@ -14,9 +14,9 @@ alrim_header = {'X-Secret-Key': secret, 'Content-Type': 'application/json;charse
 sms_header = {'Content-Type': 'application/json;charset=UTF-8'}
 
 if utils.is_test():
-    plus_friendId = 'ah_cha'
+    plus_friend_id = 'ah_cha'
 else:
-    plus_friendId = 'acha'
+    plus_friend_id = 'acha'
 
 
 def send_interval_alrim(phone_number, store_name, person_name, person_num, date, until_date, address, token):
@@ -64,7 +64,7 @@ def send_store_cancel(phone_number, store_name, persone_name, person_num, date, 
 
 def send_alrim(template_code, phone_number, template_parameter):
     params = {
-        "plusFriendId": plus_friendId,
+        "plusFriendId": plus_friend_id,
         "templateCode": template_code,
         "recipientList": [{
             "recipientNo": phone_number,
