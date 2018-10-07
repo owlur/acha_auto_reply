@@ -263,6 +263,7 @@ def set_name(reserv_id, person_name):
 def get_current_status(reserv_id='', token=''):
     params = {'key': API_KEY, 'reservId': reserv_id, 'reservToken': token}
     #res = requests.get(base_url + '/reserv/getstatus', params)
+    print(params)
     if utils.is_test():
         res = requests.get(base_url + '/reserv/getstatus', params)
     else:
