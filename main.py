@@ -34,7 +34,8 @@ def interval_alrim_process():
     1분 간격으로 보낼 알림이 있는지 체크
     5분 간격으로 새로운 알림 리스트 요청 -> 이때 10분치의 알림 받아옴
     """
-    DB.local_initilize()
+
+    #DB.local_initilize()
     DB.mysql_initailize()
     five_minute_check = 0
     last_alrim_time = datetime.now()
