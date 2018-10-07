@@ -266,10 +266,13 @@ def get_current_status(reserv_id='', token=''):
     print(params)
     if utils.is_test():
         res = requests.get(base_url + '/reserv/getstatus', params)
+        res = res.json()
+        res['currentStatus'] = res['statusCode']
     else:
         res = requests.get(base_url + '/reserv/currentstatus', params)
+        res = res.json()
     print(res.text)
-    return res.json()
+    return res
 
 
 def push(reserv_id, status, title, content):
