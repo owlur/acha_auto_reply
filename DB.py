@@ -61,7 +61,7 @@ def get_store_info_mysql(store_id, *args):
     query = 'SELECT %s FROM StoreLJoinAlarm WHERE storeUUID = "%s"' % (','.join(columns), store_id)
     print(query)
     cur.execute(query)
-    res = cur.fetchone()
+    res = cur.fetchall()
     print(res)
     return res
 
@@ -78,7 +78,7 @@ def get_reserv_mysql(start, end, status, *args):
                       % (','.join(columns), start, end, status)
 
     cur.execute(query)
-    res = cur.fetchone()
+    res = cur.fetchall()
     print(query)
     print(res)
     return res
