@@ -186,13 +186,13 @@ def get_reservation_list(user_key='', phone_number=''):
         print(res)
 
         if res['result'] == 'success':
-            reserv_list = []
-            for i in res['reservList']:
-                reserv_list.append({**i['store'], **i['reserv']})
+            reserv_list = res['reservList']
+            #for i in res['reservList']:
+            #    reserv_list.append({**i['store'], **i['reserv']})
 
             for reserv in reserv_list:
                 reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
-                reserv['reservTime'] += timedelta(hours=9)
+                #reserv['reservTime'] += timedelta(hours=9)
             print('예약 리스트 : ', reserv_list)
 
             return reserv_list
