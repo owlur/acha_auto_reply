@@ -183,6 +183,7 @@ def get_reservation_list(user_key='', phone_number=''):
         if res.status_code != 200:
             return False
         res = res.json()
+        print(res)
 
         if res['result'] == 'success':
             reserv_list = []
