@@ -266,7 +266,7 @@ def get_current_status(reserv_id='', token=''):
     #res = requests.get(base_url + '/reserv/getstatus', params)
     res = requests.get(base_url + '/reserv/getstatus', params)
 
-    print(res.text())
+    print(res.text)
     return res.json()
 
 
