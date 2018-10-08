@@ -35,11 +35,11 @@ def generate_button(reserv_list):
     pre_duplicate_num = 1
     store_name = ''
     date = reserv_list[-1]['reservTime']
-    pre_button_list = list(map(datetime2str, map(lambda x:x['reservTime'], reserv_list)))
+    pre_button_list = list(map(lambda x:datetime2str(x['reservTime']) + ' ' + x['storeName'], reserv_list))
     for index, button_name in enumerate(pre_button_list):
         if index == 0 and pre_button_list[index + 1] == button_name:
             if pre_button_list[index + 1] == button_name:
-                reserv_list[index]['button_name'] = '%s [%d]' %(button_name, pre_duplicate_num)
+                reserv_list[index]['button_name'] = '%s %s [%d]' %(button_name, store_name, pre_duplicate_num)
                 pre_duplicate_num += 1
             else:
                 reserv_list[index]['button_name'] = button_name
