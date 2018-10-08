@@ -289,7 +289,7 @@ def check_regist():
 
     while regist_queue and regist_queue[0][1] < datetime.now():
         reserv_id = regist_queue.popleft()[0]
-        if DB.get_current_status(reserv_id)['currentStatus'] == 'reservwait':
+        if DB.get_current_status(reserv_id)['statusCode'] == 'reservwait':
             res = DB.reservation_cancel(reserv_id)
             DB.push(reserv_id, 'usercancel', '고객님이 확정 버튼은 누르지 않아 예약이 취소되었습니다.', '자세한 내용은 앱에서 확인 부탁드립니다.')
             logger.info('AUTO CANCEL:reserv_id = %s' % reserv_id )
