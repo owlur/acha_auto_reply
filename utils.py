@@ -74,9 +74,11 @@ def generate_button(reserv_list):
                 reserv_list[index]['button_name'] = button_name
                 pre_duplicate_num = 1
 
-        button_list.append(reserv_list[index]['button_name'])"""
+        button_list.append(reserv_list[index]['button_name'])
 
-        """if date.year == reserv['reservTime'].year and date.month == reserv['reservTime'].month \
+        
+        
+        if date.year == reserv['reservTime'].year and date.month == reserv['reservTime'].month \
                 and date.day == reserv['reservTime'].day and store_name == reserv['storeName']:
             pre_duplicate_num += 1
             #button_name = '%d월 %d일 %s[%d]' % (date.month, date.day, store_name, pre_duplicate_num)
