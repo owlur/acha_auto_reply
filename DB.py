@@ -150,11 +150,11 @@ def get_alrim_list(start, minute=10):
         if reserv['storeUUID'] not in stores:
             #store_info = get_store_info(reserv['storeId'])
             store_info = get_store_info_mysql(reserv['storeUUID'])
-            stores[reserv['storeId']] = {'alarm_interval': (store_info['firstAlarm'], store_info['secondAlarm']), #'alarm_interval': store_info.get('alarmInterval'),
+            stores[reserv['storeUUID']] = {'alarm_interval': (store_info['firstAlarm'], store_info['secondAlarm']), #'alarm_interval': store_info.get('alarmInterval'),
                                          'store_name': store_info['storeName'],
                                          'road_address': store_info['roadAddress'],
                                          'detail_addresss': store_info['detailAddress'],
-                                         'full-address': store_info['fullAddress']}
+                                         'full_address': store_info['fullAddress']}
 
         #store_info = stores[reserv['storeId']]
         store_info = stores[reserv['storeUUID']]
