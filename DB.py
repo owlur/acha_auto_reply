@@ -59,10 +59,10 @@ def get_store_info_mysql(store_id, *args):
         columns = args
 
     query = 'SELECT %s FROM StoreLJoinAlarm WHERE storeUUID = "%s"' % (','.join(columns), store_id)
-    print(query)
+    #print(query)
     cur.execute(query)
     res = cur.fetchall()
-    print(res)
+    #print(res)
     return res[0]
 
 
@@ -79,8 +79,8 @@ def get_reserv_mysql(start, end, status, *args):
 
     cur.execute(query)
     res = cur.fetchall()
-    print(query)
-    print(res)
+    #print(query)
+    #print(res)
     return res
 
 
@@ -145,7 +145,7 @@ def get_alrim_list(start, minute=10):
     stores = {}
     res = []
     for reserv in seven_day_reserv:
-        print(reserv)
+        #print(reserv)
         # reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         if reserv['storeUUID'] not in stores:
             #store_info = get_store_info(reserv['storeId'])
@@ -158,7 +158,7 @@ def get_alrim_list(start, minute=10):
 
         #store_info = stores[reserv['storeId']]
         store_info = stores[reserv['storeUUID']]
-        print(reserv)
+        #print(reserv)
         if not list(filter(lambda x:x, store_info['alarm_interval'])):
             continue
 
