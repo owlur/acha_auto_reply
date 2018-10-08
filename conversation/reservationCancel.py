@@ -53,7 +53,7 @@ def cancel_confirm(user_key, reservation):
     def wrapper_func(user_key, response):
         if response == '예':
             DB.reservation_cancel(reservation['_id'])
-            DB.push(reservation['_id'], 'usercancel', '고객님이 예약을 취소하였습니다.', '자세한 내용은 앱에서 확인 부탁드립니다.')
+            DB.push(reservation['reservUUID'], 'usercancel', '고객님이 예약을 취소하였습니다.', '자세한 내용은 앱에서 확인 부탁드립니다.')
             message = reservation['button_name'] + '예약이 취소 되었습니다.'
             resp = setting.get_init_response()
             resp.message = message
