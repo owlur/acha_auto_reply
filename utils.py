@@ -49,7 +49,7 @@ def generate_button(reserv_list):
     #pre_button_list = list(map(lambda x:datetime2str_except_hour(x['reservTime']) + ' ' + x['storeName'], reserv_list))
 
     for index, reserv in enumerate(reserv_list):
-        button_list.append('[%d] %s - %s' % (index+1, datetime2str_except_hour(reserv['reservTime'], reserv['storeName'])))
+        button_list.append('[%d] %s - %s' % (index+1, datetime2str_except_hour(reserv['reservTime']), reserv['storeName']))
         reserv['button_name'] = button_list[-1]
 
     return button_list
