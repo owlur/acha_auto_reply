@@ -38,7 +38,11 @@ def cancel(outer_user_key, reservation_list):
     def wrapper_func(inner_user_key, response):
         for reservation in reservation_list:
             if reservation['button_name'] == response:
-                message = reservation['button_name'] + '예약을 정말로 취소 하시겠습니까?'
+                date = reservation['reservTime']
+                message = '정말로 아래의 예약을 취소하시겠습니까?.\n[예약 정보]\n- 성함 : %s\n- 인원 : %s\n- 날짜 : %s\n\n[매장 정보]\n- 매장 이름 : %s\n- 매장 연락처 : %s' \
+                          % (reservation['reservName'], reservation['reservNumber'], utils.datetime2str(date), \
+                             reservation['storeName'], reservation['storePhoneNumber'])
+                #message = reservation['button_name'] + '예약을 정말로 취소 하시겠습니까?'
                 resp = Response(message, keyboard_buttons=['예', '아니오'])
                 resp.set_function(cancel_confirm(inner_user_key,reservation))
                 return resp
