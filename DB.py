@@ -89,7 +89,7 @@ def get_store_info(object_id, **kwargs):
         res = store_collection.find_one({'_id': object_id}, kwargs)
     else:
         res = store_collection.find_one({'_id': object_id}, {'alarmInterval': 1, 'address': 1, 'storeName': 1})
-    return res
+    return res[0]
 
 
 def get_feedback_list(start, minute=10):
