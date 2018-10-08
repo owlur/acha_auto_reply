@@ -60,7 +60,9 @@ def interval_alrim_process():
                                            alrim_info['person_name'],
                                            alrim_info['person_num'], alrim_info['reserv_date'],
                                            alrim_info['until_time'],
-                                           alrim_info['address'], alrim_info['token'])
+                                           alrim_info['road_address'],
+                                           alrim_info['detail_address'],
+                                           alrim_info['token'])
             print('알림톡 응답: ', res)
             logger.info('SEND_INTERVAL_ALRIM:params = %s, result = %s' % (alrim_info,res))
 

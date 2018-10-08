@@ -152,7 +152,9 @@ def get_alrim_list(start, minute=10):
             store_info = get_store_info_mysql(reserv['storeUUID'])
             stores[reserv['storeId']] = {'alarm_interval': (store_info['firstAlarm'], store_info['secondAlarm']), #'alarm_interval': store_info.get('alarmInterval'),
                                          'store_name': store_info['storeName'],
-                                         'address': store_info['address']}
+                                         'road_address': store_info['roadAddress'],
+                                         'detail_addresss': store_info['detailAddress'],
+                                         'full-address': store_info['fullAddress']}
 
         #store_info = stores[reserv['storeId']]
         store_info = stores[reserv['storeUUID']]
@@ -170,7 +172,9 @@ def get_alrim_list(start, minute=10):
                             'reserv_date': reserv['reservTime'], # + timedelta(hours=9),
                             'person_num': reserv['reservNumber'],
                             'until_time': alarm_interval,
-                            'address': store_info['fullAddress'],
+                            'road_address': store_info['road_address'],
+                            'detail_addresss': store_info['detail_address'],
+                            'address': store_info['full_address'],
                             'phone_number': reserv['phoneNumber'],
                             'send_time': send_time})# + timedelta(hours=9)})
 
