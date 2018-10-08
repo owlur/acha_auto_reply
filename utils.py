@@ -95,7 +95,6 @@ def generate_button(reserv_list):
         reserv['button_name'] = button_name"""
 
 
-
 def add_hyphen(phone_number):
     return re.sub(r'(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})', r'\1-\2-\3', phone_number)
 

@@ -37,8 +37,11 @@ def find_reservation(outer_user_key, reservation_list):
         for reservation in reservation_list:
             if reservation['button_name'] == response:
                 date = reservation['reservTime']
-                message = '%s 예약 정보입니다.\n성함 : %s\n시간 : %s\n인원 : %s' %\
-                          (reservation['storeName'],reservation['reservName'],  utils.datetime2str(date), reservation['reservNumber'])
+                message = '[예약 정보]\n- 성함 : %s\n- 인원 : %s\n- 날짜 : %s\n\n[매장 정보]\n- 매장 이름 : %s\n- 매장 연락처 : .+'\
+                          %(reservation['reservName'], reservation['reservNumber'], utils.datetime2str(date), \
+                            reservation['storeName'], reservation['storePhoneNumber'])
+                #message = '%s 예약 정보입니다.\n[예약 정보]\n성함 : %s\n시간 : %s\n인원 : %s' %\
+                #          (reservation['storeName'],reservation['reservName'],  utils.datetime2str(date), reservation['reservNumber'])
                 resp = Response(message, keyboard_buttons=['확인 완료', '예약 취소'])
                 resp.message_button =['지도 보기', "http://api.acha.io:3000/user/map?addr=%s&storeName=%s&detailAddress=%s" %
                                       (reservation['roadAddress'], reservation['storeName'], reservation['detailAddress'])]
