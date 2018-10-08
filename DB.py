@@ -97,7 +97,7 @@ def get_feedback_list(start, minute=10):
     10분 뒤의 알람 획득
     :return:
     """
-    start -= timedelta(hours=33) # 24(1day) + 9(UTC)
+    start -= timedelta(hours=24) # 24(1day) + 9(UTC)
 
     # start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
     end = start + timedelta(minutes=minute)
@@ -196,6 +196,7 @@ def get_reservation_list(user_key='', phone_number=''):
             #    reserv_list.append({**i['store'], **i['reserv']})
 
             for reserv in reserv_list:
+                print(reserv['reservTime'])
                 reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
                 #reserv['reservTime'] += timedelta(hours=9)
             print('예약 리스트 : ', reserv_list)
