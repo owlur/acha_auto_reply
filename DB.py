@@ -101,21 +101,21 @@ def get_feedback_list(start, minute=10):
 
     # start = now.replace(hour=4, minute=0, second=0, microsecond=0) if now.hour < 4 else now
     end = start + timedelta(minutes=minute)
-    reserv_list = get_reserv_local(start, end, 'visit', {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, \
-                                                         'reservToken': 1})
+    #reserv_list = get_reserv_local(start, end, 'visit', {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, \
+    #                                                     'reservToken': 1})
 
-    get_reserv_mysql(start, end, 'visit', ['storeId', 'phoneNumber', 'reservTime', 'name', 'reservToken'])
+    reserv_list = get_reserv_mysql(start, end, 'visit', ['storeUUID', 'phoneNumber', 'reservTime', 'reservName', 'reservToken'])
 
     stores = {}
     res = []
     for reserv in reserv_list:
         # reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
-        if reserv['storeId'] not in stores:
-            store_info = get_store_info(reserv['storeId'])
-            get_store_info(reserv['storeId'])
-            stores[reserv['storeId']] = {'store_name': store_info['storeName']}
+        if reserv['storeUUID'] not in stores:
+            store_info = get_store_info(reserv['storeUUID'])
+            get_store_info(reserv['storeUUID'])
+            stores[reserv['storeUUID']] = {'store_name': store_info['storeName']}
 
-        store_info = stores[reserv['storeId']]
+        store_info = stores[reserv['storeUUID']]
 
 
         res.append({'token': reserv['reservToken'],
@@ -188,7 +188,6 @@ def get_reservation_list(user_key='', phone_number=''):
         if res.status_code != 200:
             return False
         res = res.json()
-        print(res)
 
         if res['result'] == 'success':
             reserv_list = res['reservList']
@@ -196,7 +195,6 @@ def get_reservation_list(user_key='', phone_number=''):
             #    reserv_list.append({**i['store'], **i['reserv']})
 
             for reserv in reserv_list:
-                print(reserv['reservTime'])
                 reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
                 #reserv['reservTime'] += timedelta(hours=9)
             print('예약 리스트 : ', reserv_list)

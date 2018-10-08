@@ -43,9 +43,10 @@ def send_interval_alrim(phone_number, store_name, person_name, person_num, date,
 
 
 def send_feedback_alrim(phone_number, store_name, person_name, token):
-    template_coed = 'SRM0003'
-    template_parameter = {'상호명': store_name, '이름': person_name, '시간': '어제', '소요시간': '2분', '예약번호': token }
-    pass
+    template_code = 'SRM0003'
+    template_parameter = {'상호명': store_name, '이름': person_name, '시간': '어제', '소요시간': '3분', '예약번호': token }
+
+    return send_alrim(template_code, phone_number, template_parameter)
 
 
 def send_store_cancel(phone_number, store_name, persone_name, person_num, date, store_phone_num, content):

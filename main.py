@@ -86,34 +86,37 @@ def interval_alrim_process2():
             five_minute_check = time.time()
             alrim_queue = DB.get_alrim_list(now - timedelta(minutes=1), minute=10)
             feedback_queue = DB.get_feedback_list(now - timedelta(minutes=1))
-            total_queue = deque([])
-            for i in range(len(alrim_queue + feedback_queue)):
-                if alrim_queue[0]['send_time'] <= last_alrim_time:
-                    alrim_queue.popleft()
-                elif feedback_queue[0]['send_time'] < last_alrim_time:
-                    feedback_queue.popleft()
-                elif alrim_queue[0]['send_time'] <= feedback_queue[0]['send_time']:
-                    total_queue.append(alrim_queue.popleft())
-                else:
-                    total_queue.append(feedback_queue.popleft())
+            while alrim_queue and alrim_queue[0]['send_time'] < last_alrim_time:
+                alrim_queue.popleft()
 
-            while total_queue and total_queue[0]['send_time'] <= last_alrim_time:
-                total_queue.popleft()
-            if total_queue:
-                print(datetime.now(), '보낼 알림들: ', total_queue)
+            while feedback_queue and feedback_queue[0]['send_time'] < last_alrim_time:
+                feedback_queue.popleft()
+
+
+            if alrim_queue:
+                print(datetime.now(), '보낼 알림들: ', alrim_queue)
+            if feedback_queue:
+                print(datetime.now(), '보낼 피드백 요청 메시지들', feedback_queue)
+
 
         # 지금 보낼알림이 있는지 확인
-        while total_queue and total_queue[0]['send_time'] < now:
-            alrim_info = total_queue.popleft()
+        while alrim_queue and alrim_queue[0]['send_time'] < now:
+            alrim_info = alrim_queue.popleft()
             print('보낸 알림: ', alrim_info)
             res = send.send_interval_alrim(alrim_info['phone_number'], alrim_info['store_name'],
                                            alrim_info['person_name'],
                                            alrim_info['person_num'], alrim_info['reserv_date'],
                                            alrim_info['until_time'],
                                            alrim_info['address'], alrim_info['token'])
-            print('알림톡 응답: ', res)
             logger.info('SEND_INTERVAL_ALRIM:params = %s, result = %s' % (alrim_info,res))
 
+        while feedback_queue and feedback_queue[0]['send_time'] < now:
+            feedback_info = feedback_queue.popleft()
+            print('보낸 피드백 알림:', feedback_info)
+            res = send.send_feedback_alrim(feedback_info['phone_number'], feedback_info['store_name'],
+                                           feedback_info['person_name'], feedback_info['token'])
+
+            logger.info('SEND_FEEDBACK_ALRIM:params = %s, result = %s' % (feedback_info,res))
         last_alrim_time = now
 
         time.sleep(60 - (time.time() - one_minute_check))
@@ -314,7 +317,7 @@ if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
 
     flask_process = Process(target=run_flask)
-    interval_alrim_send = Process(target=interval_alrim_process)
+    interval_alrim_send = Process(target=interval_alrim_process2)
     flask_process.start()
     interval_alrim_send.start()
 
