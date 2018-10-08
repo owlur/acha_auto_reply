@@ -145,8 +145,9 @@ def get_alrim_list(start, minute=10):
     stores = {}
     res = []
     for reserv in seven_day_reserv:
+        print(reserv)
         # reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
-        if reserv['storeId'] not in stores:
+        if reserv['storeUUID'] not in stores:
             #store_info = get_store_info(reserv['storeId'])
             store_info = get_store_info_mysql(reserv['storeUUID'])
             stores[reserv['storeId']] = {'alarm_interval': (store_info['firstAlarm'], store_info['secondeAlarm']), #'alarm_interval': store_info.get('alarmInterval'),
