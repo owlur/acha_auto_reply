@@ -63,7 +63,7 @@ def get_store_info_mysql(store_id, *args):
     cur.execute(query)
     res = cur.fetchall()
     print(res)
-    return res
+    return res[0]
 
 
 def get_reserv_mysql(start, end, status, *args):
@@ -89,7 +89,7 @@ def get_store_info(object_id, **kwargs):
         res = store_collection.find_one({'_id': object_id}, kwargs)
     else:
         res = store_collection.find_one({'_id': object_id}, {'alarmInterval': 1, 'address': 1, 'storeName': 1})
-    return res[0]
+    return res
 
 
 def get_feedback_list(start, minute=10):
