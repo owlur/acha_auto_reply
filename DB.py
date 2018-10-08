@@ -66,10 +66,9 @@ def get_store_info_mysql(store_id, *args):
     return res[0]
 
 
-def get_reserv_mysql(start, end, status, *args):
-    columns = ['storeUUID', 'phoneNumber', 'reservTime', 'reservName', 'reservNumber', 'reservToken']
-    if args:
-        columns = args
+def get_reserv_mysql(start, end, status, columns=None):
+    if not columns:
+        columns = ['storeUUID', 'phoneNumber', 'reservTime', 'reservName', 'reservNumber', 'reservToken']
 
     start = start.strftime('%Y-%m-%d %H:%M:%S')
     end = end.strftime('%Y-%m-%d %H:%M:%S')
