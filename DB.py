@@ -34,7 +34,7 @@ def mysql_initailize():
     passwd = 'acha09!!'
     conn = pymysql.connect(host='127.0.0.1', port=3306, user=user, password=passwd, db='acha', charset='utf8')
     global cur
-    cur = conn.cursor()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
 
 
 def get_reserv_local(start, end, status, **kwargs):
