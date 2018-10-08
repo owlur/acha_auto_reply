@@ -30,12 +30,23 @@ def datetime2str(origin_datetime):
     return result
 
 
+def datetime2str_except_hour(origin_datetime):
+    now = datetime.now()
+    result = '%d월 %d일 (%s)' % (origin_datetime.month, origin_datetime.day, weekday[origin_datetime.weekday()])
+
+    if origin_datetime.year > now.year:
+        result_year = '%d년 ' % origin_datetime.year
+        result = result_year + result
+
+    return result
+
+
 def generate_button(reserv_list):
     button_list = []
     pre_duplicate_num = 1
     store_name = ''
     date = reserv_list[-1]['reservTime']
-    pre_button_list = list(map(lambda x:datetime2str(x['reservTime']) + ' ' + x['storeName'], reserv_list))
+    pre_button_list = list(map(lambda x:datetime2str_except_hour(x['reservTime']) + ' ' + x['storeName'], reserv_list))
     for index, button_name in enumerate(pre_button_list):
         if index == 0 and pre_button_list[index + 1] == button_name:
             if pre_button_list[index + 1] == button_name:
