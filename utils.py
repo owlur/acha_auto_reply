@@ -47,10 +47,17 @@ def generate_button(reserv_list):
     store_name = ''
     date = reserv_list[-1]['reservTime']
     pre_button_list = list(map(lambda x:datetime2str_except_hour(x['reservTime']) + ' ' + x['storeName'], reserv_list))
-    for index, button_name in enumerate(pre_button_list):
+
+    for index, reserv in enumerate(reserv_list):
+        button_list.append('[%d] %s - %s' % (index+1, reserv['storeName'], datetime2str_except_hour(reserv['reservTime'])))
+        reserv['button_name'] = button_list[-1]
+
+    return button_list
+
+    """for index, button_name in enumerate(pre_button_list):
         if index == 0 and pre_button_list[index + 1] == button_name:
             if pre_button_list[index + 1] == button_name:
-                reserv_list[index]['button_name'] = '%s %s [%d]' %(button_name, store_name, pre_duplicate_num)
+                reserv_list[index]['button_name'] = '%s [%d]' %(button_name, pre_duplicate_num)
                 pre_duplicate_num += 1
             else:
                 reserv_list[index]['button_name'] = button_name
@@ -67,7 +74,7 @@ def generate_button(reserv_list):
                 reserv_list[index]['button_name'] = button_name
                 pre_duplicate_num = 1
 
-        button_list.append(reserv_list[index]['button_name'])
+        button_list.append(reserv_list[index]['button_name'])"""
 
         """if date.year == reserv['reservTime'].year and date.month == reserv['reservTime'].month \
                 and date.day == reserv['reservTime'].day and store_name == reserv['storeName']:
@@ -85,7 +92,6 @@ def generate_button(reserv_list):
         button_list.append(button_name)
         reserv['button_name'] = button_name"""
 
-    return button_list
 
 
 def add_hyphen(phone_number):
