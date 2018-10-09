@@ -52,11 +52,9 @@ def get_reserv_local(start, end, status, **kwargs):
     return res
 
 
-def get_store_info_mysql(store_id, *args):
-    columns = ['firstAlarm', 'secondAlarm', 'storeName', 'fullAddress', 'roadAddress', 'detailAddress']
-
-    if args:
-        columns = args
+def get_store_info_mysql(store_id, columns=None):
+    if not columns:
+        columns = ['firstAlarm', 'secondAlarm', 'storeName', 'fullAddress', 'roadAddress', 'detailAddress']
 
     query = 'SELECT %s FROM StoreLJoinAlarm WHERE storeUUID = "%s"' % (','.join(columns), store_id)
     #print(query)
@@ -235,6 +233,8 @@ def user_regist(user_key, phone_number):
 
 def reservation_cancel(reservation_id):
     res = reserv_status_edit(reservation_id, 'usercancel')
+    print(res.text)
+    print(res.json())
     return res.json()
 
 
