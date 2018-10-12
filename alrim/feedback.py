@@ -42,6 +42,7 @@ def feedback_step(step):
             resp.set_function(feedback_list(step + 1))
 
         return resp
+    return wrapper_func
 
 
 feedback_list = {
