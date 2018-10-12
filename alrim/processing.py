@@ -1,5 +1,5 @@
 import re
-from alrim import send
+from alrim import send, feedback
 from conversation import setting
 from response import Response
 import DB
@@ -267,5 +267,5 @@ templates ={'FIRRM0006': ( ("\[.+\]\n\n"
                           "\n"
                           "피드백에 참여하시겠습니까?\n"
                           "\n"
-                          "예약번호 : [0-9]{16}"))
+                          "예약번호 : [0-9]{16}"), feedback.feedback_response)
             }
