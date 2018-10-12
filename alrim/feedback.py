@@ -37,7 +37,7 @@ def feedback_step(step):
             if type(question) == str:
                 resp = Response(question[0])
             else:
-                resp = Response(question[0], keyboard_buttons=question[1])
+                resp = Response(question[0], keyboard_buttons=list(question[1]))
 
             resp.set_function(feedback_step(step + 1))
 
