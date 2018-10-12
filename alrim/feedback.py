@@ -1,9 +1,43 @@
 import DB
+from response import Response
+from conversation import setting
 
 
-def get_visit_reserv(start, end):
 
-    pass
+question_list = ['delicious', 'service', 'revisit_coupon', 'comment']
+
+
+def feedback_response(session, command, splited_content, phone_number_dict):
+    if command == '네':
+        question = feedback_list[question_list[0]]
+        if type(question) == str:
+            resp = Response(question[0])
+        else:
+            resp = Response(question[0], keyboard_buttons=question[1])
+
+        resp.set_function(feedback_step(1))
+        session.next = resp
+        return resp
+    else:
+        return setting.get_init_response()
+
+
+def feedback_step(step):
+    def wrapper_func(user_key, content):
+        if step == len(question_list):
+            resp = setting.get_init_response()
+            resp.message = '피드백이 완료 되었습니다!'
+        else:
+            #content 저장
+            question = question_list[step]
+            if type(question) == str:
+                resp = Response(question[0])
+            else:
+                resp = Response(question[0], keyboard_buttons=question[1])
+
+            resp.set_function(feedback_list(step + 1))
+
+        return resp
 
 
 feedback_list = {
