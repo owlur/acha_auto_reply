@@ -8,7 +8,9 @@ question_list = ['delicious', 'service', 'revisit_coupon', 'comment']
 
 
 def feedback_response(session, command, splited_content, phone_number_dict):
+    token = splited_content[-1].split(' : ')[1]
     if command == '네':
+
         question = feedback_list[question_list[0]]
         if type(question) == str:
             resp = Response(question[0])
@@ -17,9 +19,12 @@ def feedback_response(session, command, splited_content, phone_number_dict):
 
         resp.set_function(feedback_step(1))
         session.next = resp
-        return resp
+
+        return (resp.get_response(), '피드백 참여', token)
     else:
-        return setting.get_init_response()
+        resp = setting.get_init_response()
+        return (resp.get_response(), '피드백 불참', token)
+
 
 
 def feedback_step(step):
