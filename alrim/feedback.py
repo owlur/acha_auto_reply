@@ -39,7 +39,7 @@ def feedback_step(step):
             else:
                 resp = Response(question[0], keyboard_buttons=question[1])
 
-            resp.set_function(feedback_list(step + 1))
+            resp.set_function(feedback_step(step + 1))
 
         return resp
     return wrapper_func
