@@ -33,7 +33,7 @@ def feedback_step(step):
             resp.message = '피드백이 완료 되었습니다!'
         else:
             #content 저장
-            question = question_list[step]
+            question = feedback_list[question_list[step]]
             if type(question) == str:
                 resp = Response(question[0])
             else:
