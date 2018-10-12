@@ -13,7 +13,7 @@ def feedback_response(session, command, splited_content, phone_number_dict):
 
         question = feedback_list[question_list[0]]
         if type(question) == str:
-            resp = Response(question[0])
+            resp = Response(question)
         else:
             resp = Response(question[0], keyboard_buttons=list(question[1]))
 
@@ -35,7 +35,7 @@ def feedback_step(step):
             #content 저장
             question = feedback_list[question_list[step]]
             if type(question) == str:
-                resp = Response(question[0])
+                resp = Response(question)
             else:
                 resp = Response(question[0], keyboard_buttons=list(question[1]))
 
