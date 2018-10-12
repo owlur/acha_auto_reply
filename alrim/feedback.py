@@ -15,7 +15,7 @@ def feedback_response(session, command, splited_content, phone_number_dict):
         if type(question) == str:
             resp = Response(question[0])
         else:
-            resp = Response(question[0], keyboard_buttons=question[1])
+            resp = Response(question[0], keyboard_buttons=list(question[1]))
 
         resp.set_function(feedback_step(1))
         session.next = resp
@@ -24,7 +24,6 @@ def feedback_response(session, command, splited_content, phone_number_dict):
     else:
         resp = setting.get_init_response()
         return (resp.get_response(), '피드백 불참', token)
-
 
 
 def feedback_step(step):
