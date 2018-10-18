@@ -92,13 +92,6 @@ def interval_alrim_process2():
             while feedback_queue and feedback_queue[0]['send_time'] < last_alrim_time:
                 feedback_queue.popleft()
 
-
-            if alrim_queue:
-                print(datetime.now(), '보낼 알림들: ', alrim_queue)
-            if feedback_queue:
-                print(datetime.now(), '보낼 피드백 요청 메시지들', feedback_queue)
-
-
         # 지금 보낼알림이 있는지 확인
         while alrim_queue and alrim_queue[0]['send_time'] < now:
             alrim_info = alrim_queue.popleft()
