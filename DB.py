@@ -22,11 +22,19 @@ API_KEY = '33233C0EB2C9CA56566FD7D503F100ABDBE012306B4EB812C3C9E83129E8495D'
 def local_initilize():
     user_name = 'acha'
     password = 'achasoma09!!'
-    global reserv_collection, store_collection
+    global feedback_collection
     conn = pymongo.MongoClient('mongodb://%s:%s@127.0.0.1:27017/acha' % (user_name, password))
     acha_db = conn.get_database('acha')
-    reserv_collection = acha_db.get_collection('Reserv')
-    store_collection = acha_db.get_collection('Store')
+    #reserv_collection = acha_db.get_collection('Reserv')
+    #store_collection = acha_db.get_collection('Store')
+    feedback_collection = acha_db.get_collection('Feedback')
+
+
+def save_feedback(token, question_list, answer_list):
+    store_id, user_id = get_store_user_id_by_token_mysql(token)
+    update_dict = {'storeID': store_id}.update({question: answer for question, answer in zip(question_list, answer_list)})
+    res = feedback_collection.update_one({'userUUID': user_id}, {'$push': update_dict}, upsert=True)
+    return res
 
 
 def mysql_initailize():
@@ -37,19 +45,19 @@ def mysql_initailize():
     cur = conn.cursor(pymysql.cursors.DictCursor)
 
 
-def get_reserv_local(start, end, status, **kwargs):
-    """
-    :param start: datetime.datetime object
-    :param end: datetime.datetime object
-    :return:
-    """
-    if kwargs:
-        res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}, 'currentStatus': status}, kwargs)
-    else:
-        res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}, 'currentStatus': status},
-                                 {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, 'reservNumber': 1, \
-                                  'reservToken': 1})
-    return res
+# def get_reserv_local(start, end, status, **kwargs):
+#     """
+#     :param start: datetime.datetime object
+#     :param end: datetime.datetime object
+#     :return:
+#     """
+#     if kwargs:
+#         res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}, 'currentStatus': status}, kwargs)
+#     else:
+#         res = reserv_collection.find({'reservTime': {'$gte': start, '$lte': end}, 'currentStatus': status},
+#                                  {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, 'reservNumber': 1, \
+#                                   'reservToken': 1})
+#     return res
 
 
 def get_store_info_mysql(store_id, columns=None):
@@ -81,12 +89,20 @@ def get_reserv_mysql(start, end, status, columns=None):
     return res
 
 
-def get_store_info(object_id, **kwargs):
-    if kwargs:
-        res = store_collection.find_one({'_id': object_id}, kwargs)
-    else:
-        res = store_collection.find_one({'_id': object_id}, {'alarmInterval': 1, 'address': 1, 'storeName': 1})
-    return res
+def get_store_user_id_by_token_mysql(token):
+    query = 'SELECT storeUUID, userUUID FROM ReservJoinStoreUser WHERE reservToken = %s' % token
+    cur.execute(query)
+    res = cur.fetchone()
+
+    return res[0]['storeUUID'], res[0]['userUUID']
+
+
+# def get_store_info(object_id, **kwargs):
+#     if kwargs:
+#         res = store_collection.find_one({'_id': object_id}, kwargs)
+#     else:
+#         res = store_collection.find_one({'_id': object_id}, {'alarmInterval': 1, 'address': 1, 'storeName': 1})
+#     return res
 
 
 def get_feedback_list(start, minute=10):
@@ -108,12 +124,11 @@ def get_feedback_list(start, minute=10):
     for reserv in reserv_list:
         # reserv['reservTime'] = datetime.strptime(reserv['reservTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         if reserv['storeUUID'] not in stores:
-            store_info = get_store_info(reserv['storeUUID'])
-            get_store_info(reserv['storeUUID'])
+            store_info = get_store_info_mysql(reserv['storeUUID'])
+            get_store_info_mysql(reserv['storeUUID'])
             stores[reserv['storeUUID']] = {'store_name': store_info['storeName']}
 
         store_info = stores[reserv['storeUUID']]
-
 
         res.append({'token': reserv['reservToken'],
                     'store_name': store_info['store_name'],

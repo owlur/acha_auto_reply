@@ -298,6 +298,8 @@ def check_regist():
 
 def run_flask():
     check_regist()
+    DB.local_initilize()
+    DB.mysql_initailize()
     app.run(host='0.0.0.0')
 
 
