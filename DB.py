@@ -36,7 +36,7 @@ def save_feedback(token, question_list, answer_list):
     update_dict = {'storeID': store_id}
     update_dict.update({question: answer for question, answer in zip(question_list, answer_list)})
     print(update_dict)
-    res = feedback_collection.update_one({'userUUID': user_id}, {'$push': update_dict}, upsert=True)
+    res = feedback_collection.update_one({'userUUID': user_id}, {'$push': {'userUUID': update_dict}}, upsert=True)
     return res
 
 
