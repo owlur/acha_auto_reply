@@ -40,10 +40,17 @@ def save_feedback(token, question_list, answer_list):
 def mysql_initailize():
     user = 'acha'
     passwd = 'acha09!!'
+    global conn
     conn = pymysql.connect(host='127.0.0.1', port=3306, user=user, password=passwd, db='acha', charset='utf8')
     global cur
     cur = conn.cursor(pymysql.cursors.DictCursor)
 
+
+def query_mysql(query):
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    res = cur.execute(query)
+    cur.close()
+    return res
 
 # def get_reserv_local(start, end, status, **kwargs):
 #     """
@@ -66,8 +73,7 @@ def get_store_info_mysql(store_id, columns=None):
 
     query = 'SELECT %s FROM StoreLJoinAlarm WHERE storeUUID = "%s"' % (','.join(columns), store_id)
     #print(query)
-    cur.execute(query)
-    res = cur.fetchall()
+    res = query_mysql(query)
     #print(res)
     return res[0]
 
@@ -82,8 +88,7 @@ def get_reserv_mysql(start, end, status, columns=None):
     query = 'SELECT %s FROM ReservJoinStoreUser WHERE (reservTime >= "%s" and reservTime <= "%s") and reservStatus = "%s"' \
                       % (','.join(columns), start, end, status)
 
-    cur.execute(query)
-    res = cur.fetchall()
+    res = query_mysql(query)
     #print(query)
     #print(res)
     return res
@@ -91,8 +96,8 @@ def get_reserv_mysql(start, end, status, columns=None):
 
 def get_store_user_id_by_token_mysql(token):
     query = 'SELECT storeUUID, userUUID FROM ReservJoinStoreUser WHERE reservToken = %s' % token
-    cur.execute(query)
-    res = cur.fetchone()
+
+    res = query_mysql(query)
 
     return res[0]['storeUUID'], res[0]['userUUID']
 
