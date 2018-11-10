@@ -74,12 +74,12 @@ def get_store_info_mysql(store_id, columns=None):
 
 def get_reserv_mysql(start, end, status, columns=None):
     if not columns:
-        columns = ['storeUUID', 'phoneNumber', 'reservTime', 'reservName', 'reservNumber', 'reservToken']
+        columns = ['storeUUID', 'userPhoneNumber', 'reservTime', 'reservName', 'reservNumber', 'reservToken']
 
     start = start.strftime('%Y-%m-%d %H:%M:%S')
     end = end.strftime('%Y-%m-%d %H:%M:%S')
 
-    query = 'SELECT %s FROM ReservLookupTable WHERE (reservTime >= "%s" and reservTime <= "%s") and reservStatus = "%s"' \
+    query = 'SELECT %s FROM ReservJoinStoreUser WHERE (reservTime >= "%s" and reservTime <= "%s") and reservStatus = "%s"' \
                       % (','.join(columns), start, end, status)
 
     cur.execute(query)
@@ -187,7 +187,7 @@ def get_alrim_list(start, minute=10):
                             'road_address': store_info['road_address'],
                             'detail_addresss': store_info['detail_address'],
                             'address': store_info['full_address'],
-                            'phone_number': reserv['phoneNumber'],
+                            'phone_number': reserv['userPhoneNumber'],
                             'send_time': send_time})# + timedelta(hours=9)})
 
     return deque(sorted(res, key=lambda x: x['send_time']))
