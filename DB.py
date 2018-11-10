@@ -117,7 +117,7 @@ def get_feedback_list(start, minute=10):
     #reserv_list = get_reserv_local(start, end, 'visit', {'storeId': 1, 'phoneNumber': 1, 'reservTime': 1, 'name': 1, \
     #                                                     'reservToken': 1})
 
-    reserv_list = get_reserv_mysql(start, end, 'visit', ['storeUUID', 'phoneNumber', 'reservTime', 'reservName', 'reservToken'])
+    reserv_list = get_reserv_mysql(start, end, 'visit', ['storeUUID', 'storePhoneNumber', 'reservTime', 'reservName', 'reservToken'])
 
     stores = {}
     res = []
