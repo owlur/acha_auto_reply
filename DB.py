@@ -102,6 +102,7 @@ def get_store_user_id_by_token_mysql(token):
     query = 'SELECT storeUUID, userUUID FROM ReservJoinStoreUser WHERE reservToken = %s' % token
 
     res = query_mysql(query)
+    print(res)
 
     return res[0]['storeUUID'], res[0]['userUUID']
 
