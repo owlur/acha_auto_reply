@@ -48,7 +48,8 @@ def mysql_initailize():
 
 def query_mysql(query):
     cur = conn.cursor(pymysql.cursors.DictCursor)
-    res = cur.execute(query)
+    cur.execute(query)
+    res = cur.fetchall()
     cur.close()
     return res
 
