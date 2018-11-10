@@ -31,9 +31,11 @@ def local_initilize():
 
 
 def save_feedback(token, question_list, answer_list):
+    print(question_list, answer_list)
     store_id, user_id = get_store_user_id_by_token_mysql(token)
     update_dict = {'storeID': store_id}
     update_dict.update({question: answer for question, answer in zip(question_list, answer_list)})
+    print(update_dict)
     res = feedback_collection.update_one({'userUUID': user_id}, {'$push': update_dict}, upsert=True)
     return res
 
