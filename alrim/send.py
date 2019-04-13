@@ -2,13 +2,14 @@ import requests
 import utils
 from datetime import datetime
 import re
+import secret_setting
 
 alrim_api_base_url = 'https://api-alimtalk.cloud.toast.com'
-alrim_api_app_key = 'OrJbsCa3geKuuqv8'
-secret = 'Ycdr64tw'
+alrim_api_app_key = secret_setting.alrim_api_app_key
+secret = secret_setting.secret
 
 sms_api_base_url = 'https://api-sms.cloud.toast.com'
-sms_api_app_key = 'm7g6BVXzT1UEulm3'
+sms_api_app_key = secret_setting.sms_api_app_key
 
 alrim_header = {'X-Secret-Key': secret, 'Content-Type': 'application/json;charset=UTF-8'}
 sms_header = {'Content-Type': 'application/json;charset=UTF-8'}
